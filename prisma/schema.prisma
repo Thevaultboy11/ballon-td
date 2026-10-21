@@ -615,7 +615,12 @@ model CoachingSession {
   coach             Staff?      @relation(fields: [coachId], references: [id], onDelete: SetNull)
   date              DateTime
   type              String // lookup: coachingType
-  durationMinutes   Int?
+  startTime         String? // HH:MM, 1-1 session start
+  endTime           String? // HH:MM, 1-1 session end
+  prepMinutes       Int? // preparation time
+  durationMinutes   Int? // the 1-1 session itself
+  reportingMinutes  Int? // writing up afterwards
+  // Total coaching effort = prep + session + reporting (calculated)
   status            String? // lookup: coachingStatus
   summary           String?
   challenges        String?

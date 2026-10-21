@@ -2,7 +2,7 @@
 
 Everything `npm run db:seed` loads. All of it can be edited in the app on **Library**. Generated from `server/seed/library.ts` and `shared/lookups.ts` by `npm run docs:library` — do not edit by hand.
 
-**Totals:** 2 frameworks · 11 categories · 69 competencies · 388 level indicators · 31 job roles · 623 role requirements · 55 courses · 27 certifications · 25 observed behaviours · 29 dropdown lists (189 values)
+**Totals:** 2 frameworks · 11 categories · 69 competencies · 388 level indicators · 31 job roles · 623 role requirements · 55 courses · 27 certifications · 25 observed behaviours · 30 dropdown lists (194 values)
 
 > Descriptions and level indicators are starter text. The 16 original leadership competencies and the 25 observed behaviours come from the client's workbooks; the technical competencies and all lists come from the Master Data Dictionary. Replace the wording with the client's framework when it is available.
 
@@ -31,6 +31,7 @@ Everything `npm run db:seed` loads. All of it can be edited in the app on **Libr
 | **Report status** `reportStatus` | Status of the individual report that goes to the client. | Not Started · In Draft · In Review · Delivered |
 | **Priority** `priority` | How important a competency is for a role. Used as weights: High 3, Medium 2, Low 1. | High · Medium · Low |
 | **Validation status** `validationStatus` | Manager validation outcome. | Pending · Approved · Rejected · Requires Further Evidence |
+| **Progress scale (1–5)** `progressScale` | Used by coaches and line managers to score progress on a behaviour or skill (Validated level on a manager validation). | 1 - Not Started / No Exposure · 2 - Limited progress or competence · 3 - On Track · 4 - Good Effort · 5 - Fully Achieved |
 | **Development action type** `idpActionType` | What kind of action is planned in the IDP. | Training · Workshop · Certification · Coaching · Mentoring · Project Assignment · Shadowing · Cross-Functional Rotation · Reading · Research · Simulation · Learning Plan Segment · Department Training Need |
 | **Development action status** `idpStatus` | "Overdue" is calculated (planned end passed and not completed), so it is not in this list. | Planned · Not Started · In Progress · Completed · On Hold · Deferred · Cancelled |
 | **Course type** `courseType` | The training categories of the catalogue. | Instructor Led · Workshop · Leadership Programme · Virtual Session · Immersive Lab · Simulation · Self Study · Certification Preparation · Cross-Functional Rotation · On The Job Training · Project Assignment · Mentoring · Coaching · Compliance & Awareness |

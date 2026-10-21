@@ -90,6 +90,7 @@ export function summarize(d: Data, emp: Data['employees'][number], today = new D
   const training = d.training.get(emp.id) ?? []
   const obsScores: number[] = []
   const obsByComp = new Map<string, number[]>()
+  const obsByName = new Map<string, number[]>()
   const dayAvgs: { date: Date | null; avg: number }[] = []
   for (const t of training) for (const day of t.days) {
     const s = day.scores.filter((x) => x.score != null)
@@ -98,6 +99,9 @@ export function summarize(d: Data, emp: Data['employees'][number], today = new D
       obsScores.push(x.score!)
       const comp = d.parameters.get(x.parameterId)?.competencyId
       if (comp) (obsByComp.get(comp) ?? obsByComp.set(comp, []).get(comp)!).push(x.score!)
+      // Also by competency name, so a behaviour counts for a same-named competency in another framework
+      const nm = comp ? d.competencies.get(comp)?.name.toLowerCase() : null
+      if (nm) (obsByName.get(nm) ?? obsByName.set(nm, []).get(nm)!).push(x.score!)
     }
   }
   dayAvgs.sort((a, b) => (a.date?.getTime() ?? 0) - (b.date?.getTime() ?? 0))
@@ -113,7 +117,7 @@ export function summarize(d: Data, emp: Data['employees'][number], today = new D
       competencyId: cid, code: c.code, name: c.name, category: c.category.name, framework: c.category.framework.name, minLevel: c.minLevel, maxLevel: c.maxLevel,
       level, selfLevel: self.get(cid) ?? null, required: req, priority, gap: level != null && req != null ? req - level : null,
       nextRequired: nextReqs.get(cid)?.requiredLevel ?? null, source: cur?.source ?? null, sourceDate: cur?.date ?? null,
-      observedAvg: avg(obsByComp.get(cid) ?? []),
+      observedAvg: avg(obsByComp.get(cid) ?? obsByName.get(c.name.toLowerCase()) ?? []),
     }
   }).sort((a, b) => (a.framework === b.framework ? a.code.localeCompare(b.code) : a.framework.localeCompare(b.framework)))
 
@@ -148,7 +152,7 @@ export function summarize(d: Data, emp: Data['employees'][number], today = new D
     enrollmentId: enrollment?.id ?? null, coachId: enrollment?.coachId ?? null, consultantId: enrollment?.consultantId ?? null,
     selfAssessment: selfA?.status ?? 'Not Started', validationInterview: interview?.status ?? 'Not Started', report: interview?.reportStatus ?? 'Not Started',
     managerValidation: validations.length ? validations[validations.length - 1].status : null,
-    competenciesRated: rated.length, competenciesRequired: roleReqs.length,
+    competenciesRated: rated.filter((c) => c.required != null).length, competenciesRequired: roleReqs.length,
     gaps: gaps.length, criticalGaps, roleReadiness, nextRole: nextRole ? d.roles.get(nextRole)?.name ?? null : null, nextRoleReadiness,
     readinessBand: roleReadiness == null ? 'Not assessed'
       : nextRoleReadiness != null && nextRoleReadiness >= 0.92 && criticalGaps === 0 ? 'Ready for next role'
@@ -162,7 +166,7 @@ export function summarize(d: Data, emp: Data['employees'][number], today = new D
     observedDays: dayAvgs.length, observedAvg: avg(obsScores), latestDayAvg: dayAvgs.length ? dayAvgs[dayAvgs.length - 1].avg : null,
     dayTrend: dayAvgs.map((x) => x.avg),
     certsTotal: certs.length, certsCompleted: certs.filter((c) => c.status === 'Completed').length, certsActive: certs.filter((c) => CERT_ACTIVE.has(c.status)).length,
-    coachingSessions: coachingDone.length, lastCoaching: lastCoaching?.date ?? null, coachingProgress: [...coaching].reverse().find((c) => c.progressPct != null)?.progressPct ?? null,
+    coachingSessions: coachingDone.length, coachingMinutes: coachingDone.reduce((t, c) => t + (c.prepMinutes ?? 0) + (c.durationMinutes ?? 0) + (c.reportingMinutes ?? 0), 0), lastCoaching: lastCoaching?.date ?? null, coachingProgress: [...coaching].reverse().find((c) => c.progressPct != null)?.progressPct ?? null,
     nextReview: lastCoaching?.nextReviewDate ?? null,
     evidenceTotal: evidence.length, evidenceVerified: evidence.filter((e) => e.verificationStatus === 'Verified').length,
     lastActivity: maxDate([emp.updatedAt, ...assessments.map((a) => a.updatedAt), ...validations.map((v) => v.updatedAt), ...idp.map((a) => a.updatedAt), ...training.map((t) => t.updatedAt), ...certs.map((c) => c.updatedAt), ...coaching.map((c) => c.updatedAt), ...evidence.map((e) => e.updatedAt)]),

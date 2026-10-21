@@ -20,7 +20,8 @@
     "db:backup": "node scripts/db-backup.mjs",
     "docs:library": "tsx scripts/library-doc.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "postinstall": "node scripts/prisma-generate.mjs"
+    "postinstall": "node scripts/prisma-generate.mjs",
+    "db:coca-cola": "tsx server/seed/cocacola.ts"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "7.10.1",

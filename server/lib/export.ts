@@ -90,7 +90,7 @@ export async function buildWorkbook(scope: Scope & { includeLog?: boolean; expor
     ['Trainings_Assigned', (x) => x.s.trainingAssigned], ['Trainings_Completed', (x) => x.s.trainingCompleted], ['Training_Completion', (x) => x.s.trainingCompletion, PCT_FMT], ['Training_Hours', (x) => x.s.trainingHours],
     ['Observed_Days', (x) => x.s.observedDays], ['Observed_Avg_Score', (x) => x.s.observedAvg, '0.00'], ['Latest_Day_Avg', (x) => x.s.latestDayAvg, '0.00'],
     ['Certifications', (x) => x.s.certsTotal], ['Certs_Completed', (x) => x.s.certsCompleted], ['Certs_In_Progress', (x) => x.s.certsActive],
-    ['Coaching_Sessions', (x) => x.s.coachingSessions], ['Last_Coaching', (x) => x.s.lastCoaching, DATE_FMT], ['Coaching_Progress', (x) => (x.s.coachingProgress == null ? null : x.s.coachingProgress / 100), PCT_FMT], ['Next_Review', (x) => x.s.nextReview, DATE_FMT],
+    ['Coaching_Sessions', (x) => x.s.coachingSessions], ['Coaching_Effort_Min', (x) => x.s.coachingMinutes], ['Last_Coaching', (x) => x.s.lastCoaching, DATE_FMT], ['Coaching_Progress', (x) => (x.s.coachingProgress == null ? null : x.s.coachingProgress / 100), PCT_FMT], ['Next_Review', (x) => x.s.nextReview, DATE_FMT],
     ['Evidence', (x) => x.s.evidenceTotal], ['Evidence_Verified', (x) => x.s.evidenceVerified], ['Last_Activity', (x) => x.s.lastActivity, DATE_FMT],
   ]
   summaryWs.addRow(S.map((c) => c[0]))
@@ -139,7 +139,7 @@ export async function buildWorkbook(scope: Scope & { includeLog?: boolean; expor
       }
     }
     for (const c of d.certs.get(e.id) ?? []) add({ Activity_ID: c.id, Activity_Type: 'Certification', Date: c.completionDate ?? c.examDate ?? c.targetDate, Activity: c.certification.name, Detail: [c.certification.track, c.result].filter(Boolean).join(' · '), Status: c.status, Score: c.score, Comments: c.comments }, c)
-    for (const c of d.coaching.get(e.id) ?? []) add({ Activity_ID: c.id, Activity_Type: 'Coaching session', Date: c.date, Activity: c.type, Detail: [c.durationMinutes && `${c.durationMinutes} min`, c.actionItems && `Actions: ${c.actionItems}`].filter(Boolean).join(' · '), Status: c.status, Score: c.progressPct, Target: 100, Staff: c.coach?.name, Comments: [c.summary, c.challenges && `Challenges: ${c.challenges}`].filter(Boolean).join(' | ') }, c)
+    for (const c of d.coaching.get(e.id) ?? []) add({ Activity_ID: c.id, Activity_Type: 'Coaching session', Date: c.date, Activity: c.type, Detail: [c.startTime && `${c.startTime}–${c.endTime ?? ''}`, (c.prepMinutes || c.durationMinutes || c.reportingMinutes) && `Total effort ${(c.prepMinutes ?? 0) + (c.durationMinutes ?? 0) + (c.reportingMinutes ?? 0)} min`, c.actionItems && `Actions: ${c.actionItems}`].filter(Boolean).join(' · '), Status: c.status, Score: c.progressPct, Target: 100, Staff: c.coach?.name, Comments: [c.summary, c.challenges && `Challenges: ${c.challenges}`].filter(Boolean).join(' | ') }, c)
     for (const v of d.evidence.get(e.id) ?? []) {
       const c = comp(v.competencyId)
       add({ Activity_ID: v.id, Activity_Type: 'Evidence', Parent_ID: v.relatedId, Date: v.date, Activity: v.title, Detail: v.evidenceType, Competency_Code: c?.code, Competency: c?.name, Status: v.verificationStatus, Staff: v.verifiedBy?.name, Comments: v.description }, v)

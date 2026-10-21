@@ -8,9 +8,11 @@ export class HttpError extends Error {
 }
 
 let lookupCache: Map<string, Set<string>> | null = null
+let lookupAt = 0
 export const invalidateLookups = () => { lookupCache = null }
 export async function lookupSets() {
-  if (!lookupCache) {
+  if (!lookupCache || Date.now() - lookupAt > 30_000) {
+    lookupAt = Date.now()
     lookupCache = new Map()
     for (const v of await prisma.lookupValue.findMany()) {
       if (!lookupCache.has(v.list)) lookupCache.set(v.list, new Set())

@@ -38,6 +38,11 @@ export const LOOKUP_LISTS: LookupList[] = [
   { key: 'validationStatus', label: 'Validation status', description: 'Manager validation outcome.',
     values: ['Pending', 'Approved', 'Rejected', 'Requires Further Evidence'] },
 
+  { key: 'progressScale', label: 'Progress scale (1–5)', description: 'Used by coaches and line managers to score progress on a behaviour or skill (Validated level on a manager validation).',
+    values: [
+      ['1 - Not Started / No Exposure', ''], ['2 - Limited progress or competence', ''], ['3 - On Track', ''], ['4 - Good Effort', ''], ['5 - Fully Achieved', ''],
+    ] },
+
   // ---------------------------------------------------------------- development plan
   { key: 'idpActionType', label: 'Development action type', description: 'What kind of action is planned in the IDP.',
     values: ['Training', 'Workshop', 'Certification', 'Coaching', 'Mentoring', 'Project Assignment', 'Shadowing', 'Cross-Functional Rotation',

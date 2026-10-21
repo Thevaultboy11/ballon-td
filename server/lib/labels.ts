@@ -32,9 +32,12 @@ export function includeFor(e: Entity) {
 
 export type Option = { id: string; label: string; sub: string; row: any }
 const cache = new Map<string, Option[]>()
-export const invalidateLabels = () => cache.clear()
+let cachedAt = Date.now()
+export const invalidateLabels = () => { cache.clear(); cachedAt = Date.now() }
 
 export async function options(key: string): Promise<Option[]> {
+  // Seed / import scripts write to the database directly, so the cache also expires on its own.
+  if (Date.now() - cachedAt > 30_000) invalidateLabels()
   const hit = cache.get(key)
   if (hit) return hit
   const e = ENTITY[key]
