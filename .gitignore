@@ -1,0 +1,10 @@
+node_modules/
+dist/
+data/*.db
+data/*.db-*
+data/*.bak
+backups/
+server/generated/
+.env
+*.log
+.DS_Store
