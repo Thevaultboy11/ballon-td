@@ -34,7 +34,9 @@ npm run db:coca-cola         # add a Coca-Cola Global Cyber Security team (36 pe
 npm run db:coca-cola -- --remove
 ```
 
-`db:coca-cola` follows the client templates: the **Lexonis** competency framework (real codes, categories and definitions, scale 1–4), a baseline survey plus validation interview, IDP segments **S1 professional cert · S2 immersive labs · S3 AI cert · S4 SAP SuccessFactors · S5 cross-functional training** and department training needs, the **coaching table** (preparation, 1-1 start/end, reporting time, segment notes), **coach validation** of each behaviour descriptor with progress 1–5 and evidence, **monthly line-manager validation** per skill, and the observed **5-day cross-functional programme** (S1 Team Collaboration … S5 Problem Solving). The company name is the only real thing in it; every person and record is made up.
+`db:coca-cola` follows the client templates: the **Lexonis** competency framework (real codes, categories and definitions, scale 1–4), a baseline survey plus validation interview, IDP segments **S1 professional cert · S2 immersive labs · S3 AI cert · S4 SAP SuccessFactors · S5 cross-functional training** and department training needs, the **coaching table** (preparation, 1-1 start/end, reporting time, segment notes), **coach validation** of each behaviour descriptor with progress 1–5 and evidence, **monthly line-manager validation** per skill, and the observed **5-day cross-functional programme** (S1 Team Collaboration … S5 Problem Solving). The company name is the only real thing in it; every person and record is made up. The full team, role profiles, sessions and what is loaded are listed in [docs/COCA_COLA_DEMO.md](docs/COCA_COLA_DEMO.md).
+
+One step on a fresh server: `npm install && npm run demo:coca-cola && npm run build && npm start`.
 
 Settings go in a `.env` file next to `package.json` (see `.env.example`):
 
@@ -100,6 +102,8 @@ npm run typecheck
 | `npm run db:seed` | Loads the library (adds what is missing) |
 | `npm run db:demo` | Adds the fictional demo client |
 | `npm run db:coca-cola` | Adds the Coca-Cola security team demo (Lexonis framework, IDP segments, coaching times, monthly validations) |
+| `npm run demo:coca-cola` | Setup + library + Coca-Cola team + its document, in one step |
+| `npm run docs:coca-cola` | Regenerates `docs/COCA_COLA_DEMO.md` from the database |
 | `npm run db:reset` | Backs up and deletes the database, then recreates it with the library |
 | `npm run db:backup` | Copies the database to `backups/` |
 | `npm run docs:library` | Regenerates `docs/LIBRARY.md` from the library |

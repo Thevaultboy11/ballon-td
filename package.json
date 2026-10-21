@@ -21,7 +21,9 @@
     "docs:library": "tsx scripts/library-doc.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "postinstall": "node scripts/prisma-generate.mjs",
-    "db:coca-cola": "tsx server/seed/cocacola.ts"
+    "db:coca-cola": "tsx server/seed/cocacola.ts",
+    "docs:coca-cola": "tsx scripts/coca-cola-doc.ts",
+    "demo:coca-cola": "npm run setup && npm run db:coca-cola && npm run docs:coca-cola"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "7.10.1",
