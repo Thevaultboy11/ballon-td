@@ -1,0 +1,146 @@
+/// One person on one day of an observed course. Entered on the session page.
+table ObservationDay
+	lineageTag: 6875d410-5b15-5b96-a10f-2415180204cf
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: 19af8c3c-8d46-583a-8d63-91f1096e0846
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of TrainingRecord.
+	column trainingRecordId
+		dataType: string
+		isHidden
+		lineageTag: f637c8e0-a6ff-5cb4-824f-9f181622b5b8
+		summarizeBy: none
+		sourceColumn: trainingRecordId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: int64
+		lineageTag: 69d0fa12-ee5d-5a36-8723-a35ddca2f875
+		summarizeBy: none
+		sourceColumn: Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: f7fada88-7243-5604-be27-0f91e32bce59
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Attendance
+		dataType: string
+		lineageTag: ad3d464f-904f-5503-b186-3143cb0b91d4
+		summarizeBy: none
+		sourceColumn: Attendance
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Staff.
+	column observerId
+		dataType: string
+		isHidden
+		lineageTag: 97aa96fe-2f79-58f0-84f5-7223d8506864
+		summarizeBy: none
+		sourceColumn: observerId
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Potential / risk'
+		dataType: string
+		lineageTag: 46d83e1d-0233-5d0d-ac90-d57c3ebe185a
+		summarizeBy: none
+		sourceColumn: Potential / risk
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Assessor notes'
+		dataType: string
+		lineageTag: 0cf22e9a-6406-5261-b7a6-3c8fe0b914ec
+		summarizeBy: none
+		sourceColumn: Assessor notes
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Where this came from. Use "Email from client" or "Excel from client" when the client sent it and you are typing it in.
+	column Source
+		dataType: string
+		lineageTag: f7f0887e-7e8d-5b91-93dc-d9ce789b4a4a
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Created
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: ce44786f-f5f0-5877-9a8f-750e7a158c94
+		summarizeBy: none
+		sourceColumn: Created
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Created by'
+		dataType: string
+		isHidden
+		lineageTag: fc032a6a-50e9-5c53-bf15-521504afe9a6
+		summarizeBy: none
+		sourceColumn: Created by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last changed'
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: 6542ce52-0bb2-5a65-8f1e-a1433f27f37e
+		summarizeBy: none
+		sourceColumn: Last changed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Changed by'
+		dataType: string
+		isHidden
+		lineageTag: e24bb4cb-4d22-5ff3-9c73-34ab02e685f9
+		summarizeBy: none
+		sourceColumn: Changed by
+
+		annotation SummarizationSetBy = Automatic
+
+	column Observer
+		dataType: string
+		lineageTag: fdcaf5a0-2b5e-5993-9872-c8ad39bf6ecd
+		summarizeBy: none
+		sourceColumn: Observer
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ObservationDay = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_ObservationDay"),
+				    Selected = Table.SelectColumns(Source, {"id", "trainingRecordId", "dayNumber", "date", "attendance", "observerId", "potentialNote", "notes", "source", "createdAt", "createdBy", "updatedAt", "updatedBy"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"trainingRecordId", ToText, type nullable text}, {"dayNumber", ToInt, Int64.Type}, {"date", ToDate, type nullable date}, {"attendance", ToText, type nullable text}, {"observerId", ToText, type nullable text}, {"potentialNote", ToText, type nullable text}, {"notes", ToText, type nullable text}, {"source", ToText, type nullable text}, {"createdAt", ToDateTime, type nullable datetime}, {"createdBy", ToText, type nullable text}, {"updatedAt", ToDateTime, type nullable datetime}, {"updatedBy", ToText, type nullable text}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    J0 = Table.NestedJoin(Rows, {"observerId"}, Table.SelectColumns(Raw("tbl_Staff"), {"id", "name"}, MissingField.UseNull), {"id"}, "_j0", JoinKind.LeftOuter),
+				    X0 = Table.ExpandTableColumn(J0, "_j0", {"name"}, {"Observer"}),
+				    Renamed = Table.RenameColumns(X0, {{"id", "ID"}, {"dayNumber", "Day"}, {"date", "Date"}, {"attendance", "Attendance"}, {"potentialNote", "Potential / risk"}, {"notes", "Assessor notes"}, {"source", "Source"}, {"createdAt", "Created"}, {"createdBy", "Created by"}, {"updatedAt", "Last changed"}, {"updatedBy", "Changed by"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

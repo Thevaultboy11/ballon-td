@@ -1,0 +1,109 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
+  "name": "82cd43df9e3412d87520",
+  "position": {
+    "x": 800,
+    "y": 524,
+    "z": 3000,
+    "height": 172,
+    "width": 456,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ManagerValidation"
+                    }
+                  },
+                  "Property": "Month"
+                }
+              },
+              "queryRef": "ManagerValidation.Month",
+              "nativeQueryRef": "Month"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Competency"
+                    }
+                  },
+                  "Property": "Name"
+                }
+              },
+              "queryRef": "Competency.Name",
+              "nativeQueryRef": "Name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ManagerValidation"
+                    }
+                  },
+                  "Property": "Validated level"
+                }
+              },
+              "queryRef": "ManagerValidation.Validated level",
+              "nativeQueryRef": "Validated level"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ManagerValidation"
+                    }
+                  },
+                  "Property": "Status"
+                }
+              },
+              "queryRef": "ManagerValidation.Status",
+              "nativeQueryRef": "Status"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Line-manager validation'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,71 @@
+/// The level a role needs in a competency, and how important it is.
+table RoleRequirement
+	lineageTag: 4a00f4cb-15d9-59ab-9001-9ab9c8c6e9a8
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: 9b32c8bf-2c5a-50df-8c31-0b6c9b0c2bb8
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of JobRole.
+	column jobRoleId
+		dataType: string
+		isHidden
+		lineageTag: 0b377cbe-72c3-579c-8b0e-3d3acbb677f1
+		summarizeBy: none
+		sourceColumn: jobRoleId
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Competency.
+	column competencyId
+		dataType: string
+		isHidden
+		lineageTag: 2aac8380-3da6-5421-b7a7-94321dba7fce
+		summarizeBy: none
+		sourceColumn: competencyId
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Required level'
+		dataType: int64
+		lineageTag: 4ac0a541-c1ef-58bb-923c-3deebf2d95f2
+		summarizeBy: none
+		sourceColumn: Required level
+
+		annotation SummarizationSetBy = Automatic
+
+	column Priority
+		dataType: string
+		lineageTag: 2a9defeb-8193-5445-a9ed-11fcbb384ae4
+		summarizeBy: none
+		sourceColumn: Priority
+
+		annotation SummarizationSetBy = Automatic
+
+	column Weight
+		dataType: int64
+		lineageTag: 4eca92e1-bb3f-5c27-b097-7338e4697bba
+		summarizeBy: none
+		sourceColumn: Weight
+
+		annotation SummarizationSetBy = Automatic
+
+	partition RoleRequirement = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_RoleRequirement"),
+				    Selected = Table.SelectColumns(Source, {"id", "jobRoleId", "competencyId", "requiredLevel", "priority"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"jobRoleId", ToText, type nullable text}, {"competencyId", ToText, type nullable text}, {"requiredLevel", ToInt, Int64.Type}, {"priority", ToText, type nullable text}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    A0 = Table.AddColumn(Rows, "Weight", each if [priority] = "High" then 3 else if [priority] = "Low" then 1 else 2, Int64.Type),
+				    Renamed = Table.RenameColumns(A0, {{"id", "ID"}, {"requiredLevel", "Required level"}, {"priority", "Priority"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

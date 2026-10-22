@@ -1,0 +1,104 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
+  "name": "709dd8c11d4312b1194d",
+  "position": {
+    "x": 24,
+    "y": 96,
+    "z": 7000,
+    "height": 600,
+    "width": 400,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "How this page works",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "fontWeight": "bold",
+                      "color": "#141E12"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "1. Select a person in the table below the instructions, or pick one inside the app.",
+                    "textStyle": {
+                      "fontSize": "11pt",
+                      "color": "#141E12"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "2. Choose what to record: coaching session, line-manager validation, development action, training, certification, evidence or observation scores.",
+                    "textStyle": {
+                      "fontSize": "11pt",
+                      "color": "#141E12"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "3. Save. The row is added to the matching table in BallonTD_Data.xlsx (SharePoint/OneDrive).",
+                    "textStyle": {
+                      "fontSize": "11pt",
+                      "color": "#141E12"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "4. The report shows it after the dataset refreshes (scheduled, or Refresh now in the service).",
+                    "textStyle": {
+                      "fontSize": "11pt",
+                      "color": "#141E12"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "",
+                    "textStyle": {
+                      "fontSize": "11pt",
+                      "color": "#141E12"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Setup (once): insert the Power Apps visual into the empty area on the right, add Employee ID and Full name as its data, then create the app from the screens in powerbi/powerapps. Full steps: powerbi/README.md.",
+                    "textStyle": {
+                      "fontSize": "11pt",
+                      "color": "#6B716A"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

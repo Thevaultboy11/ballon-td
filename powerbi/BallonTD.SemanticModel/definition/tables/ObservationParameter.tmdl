@@ -1,0 +1,92 @@
+/// The behaviours trainers score during observed courses, and the competency each one is evidence for.
+table ObservationParameter
+	lineageTag: 9c256b5e-5de8-50c8-b26f-8ffbb576ff59
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: 7397df67-6879-59e4-b4a2-f19c5909c429
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Code
+		dataType: string
+		lineageTag: 8f91be69-6b81-5b43-ac3b-a86af2f10d3a
+		summarizeBy: none
+		sourceColumn: Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Behaviour
+		dataType: string
+		lineageTag: d8556429-be13-59a6-80d3-cd0a4d343508
+		summarizeBy: none
+		sourceColumn: Behaviour
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: c9e98c2a-df6b-5e46-9fa4-199a01801106
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Competency.
+	column competencyId
+		dataType: string
+		isHidden
+		lineageTag: b1ef0d60-aad4-52f6-9363-ae68fc02464a
+		summarizeBy: none
+		sourceColumn: competencyId
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Max score'
+		dataType: int64
+		lineageTag: 2fecbe08-0459-5986-b699-195b87023abc
+		summarizeBy: none
+		sourceColumn: Max score
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'What to look for'
+		dataType: string
+		lineageTag: 37aaeb83-843a-589d-b744-1152b617878a
+		summarizeBy: none
+		sourceColumn: What to look for
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order
+		dataType: int64
+		lineageTag: 8bc0be95-f853-53cf-8c35-b5ab5eb09f3d
+		summarizeBy: none
+		sourceColumn: Order
+
+		annotation SummarizationSetBy = Automatic
+
+	column Active
+		dataType: boolean
+		lineageTag: 6adc4daa-5e3e-5ea8-a2cc-78850b7a3875
+		summarizeBy: none
+		sourceColumn: Active
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ObservationParameter = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_ObservationParameter"),
+				    Selected = Table.SelectColumns(Source, {"id", "code", "name", "category", "competencyId", "maxScore", "description", "sortOrder", "active"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"code", ToText, type nullable text}, {"name", ToText, type nullable text}, {"category", ToText, type nullable text}, {"competencyId", ToText, type nullable text}, {"maxScore", ToInt, Int64.Type}, {"description", ToText, type nullable text}, {"sortOrder", ToInt, Int64.Type}, {"active", ToBool, type nullable logical}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    Renamed = Table.RenameColumns(Rows, {{"id", "ID"}, {"code", "Code"}, {"name", "Behaviour"}, {"category", "Category"}, {"maxScore", "Max score"}, {"description", "What to look for"}, {"sortOrder", "Order"}, {"active", "Active"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

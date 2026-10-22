@@ -1,0 +1,137 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
+  "name": "37f1fd1ab77ae6754ae0",
+  "position": {
+    "x": 24,
+    "y": 524,
+    "z": 2900,
+    "height": 172,
+    "width": 760,
+    "tabOrder": 2900
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CoachingSession"
+                    }
+                  },
+                  "Property": "Date"
+                }
+              },
+              "queryRef": "CoachingSession.Date",
+              "nativeQueryRef": "Date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CoachingSession"
+                    }
+                  },
+                  "Property": "Type"
+                }
+              },
+              "queryRef": "CoachingSession.Type",
+              "nativeQueryRef": "Type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CoachingSession"
+                    }
+                  },
+                  "Property": "Coach"
+                }
+              },
+              "queryRef": "CoachingSession.Coach",
+              "nativeQueryRef": "Coach"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CoachingSession"
+                    }
+                  },
+                  "Property": "Total effort (min)"
+                }
+              },
+              "queryRef": "CoachingSession.Total effort (min)",
+              "nativeQueryRef": "Total effort (min)"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CoachingSession"
+                    }
+                  },
+                  "Property": "Progress %"
+                }
+              },
+              "queryRef": "CoachingSession.Progress %",
+              "nativeQueryRef": "Progress %"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CoachingSession"
+                    }
+                  },
+                  "Property": "Discussion summary"
+                }
+              },
+              "queryRef": "CoachingSession.Discussion summary",
+              "nativeQueryRef": "Discussion summary"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Coaching'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

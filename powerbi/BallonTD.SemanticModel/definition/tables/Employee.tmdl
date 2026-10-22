@@ -1,0 +1,246 @@
+/// One row per person in a client company.
+table Employee
+	lineageTag: d4843f16-4916-5911-bc7f-bb0c4e47dba7
+
+	column 'Employee ID'
+		dataType: string
+		isKey
+		lineageTag: c39ebadb-1247-5e90-85e1-7f758ec02875
+		summarizeBy: none
+		sourceColumn: Employee ID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Client.
+	column clientId
+		dataType: string
+		isHidden
+		lineageTag: 5ea37d24-deed-5f3b-8b71-2468caed9e62
+		summarizeBy: none
+		sourceColumn: clientId
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Full name'
+		dataType: string
+		lineageTag: 7ebcb9bd-50bd-5619-86f5-fa66ca3f0eda
+		summarizeBy: none
+		sourceColumn: Full name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Email
+		dataType: string
+		lineageTag: 7b5983c2-f883-50ed-87bc-88d8b29435d0
+		summarizeBy: none
+		sourceColumn: Email
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Employee number'
+		dataType: string
+		lineageTag: 487cd020-4165-5480-a169-974206c0728c
+		summarizeBy: none
+		sourceColumn: Employee number
+
+		annotation SummarizationSetBy = Automatic
+
+	/// As the client writes it.
+	column 'Job title'
+		dataType: string
+		lineageTag: 2e340eb4-2d7a-59e4-9f94-57c16c38edf9
+		summarizeBy: none
+		sourceColumn: Job title
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of JobRole.
+	column jobRoleId
+		dataType: string
+		isHidden
+		lineageTag: 8d4be700-66e1-56c9-abaf-04c2cbe8a1ab
+		summarizeBy: none
+		sourceColumn: jobRoleId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Grade
+		dataType: string
+		lineageTag: c397d121-8b02-54e3-aef3-af00e740405a
+		summarizeBy: none
+		sourceColumn: Grade
+
+		annotation SummarizationSetBy = Automatic
+
+	column Division
+		dataType: string
+		lineageTag: 2a49943e-e22d-5b98-ab79-95d4390e3848
+		summarizeBy: none
+		sourceColumn: Division
+
+		annotation SummarizationSetBy = Automatic
+
+	column Department
+		dataType: string
+		lineageTag: 8f24438f-314b-5854-a72a-d33cb7e6cf6d
+		summarizeBy: none
+		sourceColumn: Department
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Section / team'
+		dataType: string
+		lineageTag: 68137f6a-1a3f-5117-a5e9-f22402cfbcd2
+		summarizeBy: none
+		sourceColumn: Section / team
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Business unit'
+		dataType: string
+		lineageTag: ae813e7a-5b91-569b-93c9-e936c21efa1b
+		summarizeBy: none
+		sourceColumn: Business unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column Location
+		dataType: string
+		lineageTag: 2a19e16d-1a2c-5098-a4e5-007f227df103
+		summarizeBy: none
+		sourceColumn: Location
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Employee.
+	column lineManagerId
+		dataType: string
+		isHidden
+		lineageTag: 6b740660-44cf-5fa0-a9bb-decc89da0019
+		summarizeBy: none
+		sourceColumn: lineManagerId
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Line manager (name only)'
+		dataType: string
+		lineageTag: 37e19d68-16ab-5669-9767-d24272139bd7
+		summarizeBy: none
+		sourceColumn: Line manager (name only)
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: cf27b230-0004-5df9-9f7a-e4ab6b9c21e3
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Notes
+		dataType: string
+		lineageTag: 3683dc5b-f093-5baa-8009-65157aec4ef3
+		summarizeBy: none
+		sourceColumn: Notes
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Where this came from. Use "Email from client" or "Excel from client" when the client sent it and you are typing it in.
+	column Source
+		dataType: string
+		lineageTag: f185906c-4820-5b74-a5b0-d060788e7aa9
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Created
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: 0c6185dc-4198-55e4-8af2-466443ef25c7
+		summarizeBy: none
+		sourceColumn: Created
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Created by'
+		dataType: string
+		isHidden
+		lineageTag: 83defe3d-3ae1-5e77-836b-4b05b06d83e4
+		summarizeBy: none
+		sourceColumn: Created by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last changed'
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: 304b9188-1df4-5f37-be65-2b14a02b7f66
+		summarizeBy: none
+		sourceColumn: Last changed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Changed by'
+		dataType: string
+		isHidden
+		lineageTag: 738c3e8c-103d-5913-a4ba-5da2a3607a12
+		summarizeBy: none
+		sourceColumn: Changed by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Line manager'
+		dataType: string
+		lineageTag: 4c8d6fd4-cd2d-542c-9cd4-adfdfe1ad7c3
+		summarizeBy: none
+		sourceColumn: Line manager
+
+		annotation SummarizationSetBy = Automatic
+
+	column Client
+		dataType: string
+		lineageTag: f1a1d8ab-a2fc-5f0f-a993-52e91a1e1842
+		summarizeBy: none
+		sourceColumn: Client
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Role profile'
+		dataType: string
+		lineageTag: 53c6d9b5-f621-592c-9e9c-9a427a3be213
+		summarizeBy: none
+		sourceColumn: Role profile
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Calculated at refresh from the readiness measures, so it can be used in slicers.
+	column 'Readiness band' = [Readiness Band Label]
+		dataType: string
+		lineageTag: de6fa47a-ecfe-563b-96c0-a56956511e94
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Employee = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_Employee"),
+				    Selected = Table.SelectColumns(Source, {"id", "clientId", "name", "email", "employeeNumber", "jobTitle", "jobRoleId", "grade", "division", "department", "section", "businessUnit", "location", "lineManagerId", "lineManagerName", "status", "notes", "source", "createdAt", "createdBy", "updatedAt", "updatedBy"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"clientId", ToText, type nullable text}, {"name", ToText, type nullable text}, {"email", ToText, type nullable text}, {"employeeNumber", ToText, type nullable text}, {"jobTitle", ToText, type nullable text}, {"jobRoleId", ToText, type nullable text}, {"grade", ToText, type nullable text}, {"division", ToText, type nullable text}, {"department", ToText, type nullable text}, {"section", ToText, type nullable text}, {"businessUnit", ToText, type nullable text}, {"location", ToText, type nullable text}, {"lineManagerId", ToText, type nullable text}, {"lineManagerName", ToText, type nullable text}, {"status", ToText, type nullable text}, {"notes", ToText, type nullable text}, {"source", ToText, type nullable text}, {"createdAt", ToDateTime, type nullable datetime}, {"createdBy", ToText, type nullable text}, {"updatedAt", ToDateTime, type nullable datetime}, {"updatedBy", ToText, type nullable text}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    J0 = Table.NestedJoin(Rows, {"lineManagerId"}, Table.SelectColumns(Raw("tbl_Employee"), {"id", "name"}, MissingField.UseNull), {"id"}, "_j0", JoinKind.LeftOuter),
+				    X0 = Table.ExpandTableColumn(J0, "_j0", {"name"}, {"Line manager"}),
+				    J1 = Table.NestedJoin(X0, {"clientId"}, Table.SelectColumns(Raw("tbl_Client"), {"id", "name"}, MissingField.UseNull), {"id"}, "_j1", JoinKind.LeftOuter),
+				    X1 = Table.ExpandTableColumn(J1, "_j1", {"name"}, {"Client"}),
+				    J2 = Table.NestedJoin(X1, {"jobRoleId"}, Table.SelectColumns(Raw("tbl_JobRole"), {"id", "name"}, MissingField.UseNull), {"id"}, "_j2", JoinKind.LeftOuter),
+				    X2 = Table.ExpandTableColumn(J2, "_j2", {"name"}, {"Role profile"}),
+				    Renamed = Table.RenameColumns(X2, {{"id", "Employee ID"}, {"name", "Full name"}, {"email", "Email"}, {"employeeNumber", "Employee number"}, {"jobTitle", "Job title"}, {"grade", "Grade"}, {"division", "Division"}, {"department", "Department"}, {"section", "Section / team"}, {"businessUnit", "Business unit"}, {"location", "Location"}, {"lineManagerName", "Line manager (name only)"}, {"status", "Status"}, {"notes", "Notes"}, {"source", "Source"}, {"createdAt", "Created"}, {"createdBy", "Created by"}, {"updatedAt", "Last changed"}, {"updatedBy", "Changed by"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

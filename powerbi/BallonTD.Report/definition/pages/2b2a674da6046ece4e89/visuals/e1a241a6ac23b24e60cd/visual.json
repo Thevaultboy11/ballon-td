@@ -1,0 +1,109 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
+  "name": "e1a241a6ac23b24e60cd",
+  "position": {
+    "x": 800,
+    "y": 208,
+    "z": 2800,
+    "height": 300,
+    "width": 456,
+    "tabOrder": 2800
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "IdpAction"
+                    }
+                  },
+                  "Property": "Action"
+                }
+              },
+              "queryRef": "IdpAction.Action",
+              "nativeQueryRef": "Action"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "IdpAction"
+                    }
+                  },
+                  "Property": "Status"
+                }
+              },
+              "queryRef": "IdpAction.Status",
+              "nativeQueryRef": "Status"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "IdpAction"
+                    }
+                  },
+                  "Property": "Progress %"
+                }
+              },
+              "queryRef": "IdpAction.Progress %",
+              "nativeQueryRef": "Progress %"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "IdpAction"
+                    }
+                  },
+                  "Property": "Planned end"
+                }
+              },
+              "queryRef": "IdpAction.Planned end",
+              "nativeQueryRef": "Planned end"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Development plan'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

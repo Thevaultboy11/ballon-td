@@ -1,0 +1,257 @@
+/// One coaching conversation.
+table CoachingSession
+	lineageTag: b95e163c-e692-50a1-879d-f575c1f668d4
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: 19e09b72-14b1-5d70-aae0-7bf2299b787b
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Employee.
+	column employeeId
+		dataType: string
+		isHidden
+		lineageTag: 79394034-e9dc-52fe-9092-4f877741a0f7
+		summarizeBy: none
+		sourceColumn: employeeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: c337e066-c196-509c-8cf9-af03c54bda9b
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 1caf2583-1bfd-5ad0-bdb9-bb14549f2e93
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Staff.
+	column coachId
+		dataType: string
+		isHidden
+		lineageTag: e98d932c-06ad-5d40-b912-9cf7e7043923
+		summarizeBy: none
+		sourceColumn: coachId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 5c69e405-bb2e-56e0-82dc-3d2cd38bcca1
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	/// HH:MM
+	column 'Start time'
+		dataType: string
+		lineageTag: 14bad1c5-bec1-57ea-af6e-f59d0d3b4e95
+		summarizeBy: none
+		sourceColumn: Start time
+
+		annotation SummarizationSetBy = Automatic
+
+	/// HH:MM
+	column 'End time'
+		dataType: string
+		lineageTag: 89b9a956-2fed-5254-8c86-4a0e72d8c1a6
+		summarizeBy: none
+		sourceColumn: End time
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Preparation (min)'
+		dataType: int64
+		lineageTag: 2ea61ba2-7fdb-5704-8255-bc8aa0a3f0f3
+		summarizeBy: none
+		sourceColumn: Preparation (min)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Session (min)'
+		dataType: int64
+		lineageTag: 0c709649-2ed1-5e07-a71c-6580574c2b71
+		summarizeBy: none
+		sourceColumn: Session (min)
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Total coaching effort = preparation + session + reporting.
+	column 'Reporting (min)'
+		dataType: int64
+		lineageTag: 861ae232-cabd-534e-bcec-b64c0366404d
+		summarizeBy: none
+		sourceColumn: Reporting (min)
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Overall progress on the development plan, as judged by the coach.
+	column 'Progress %'
+		dataType: double
+		formatString: 0
+		lineageTag: d23daff2-15eb-5dfe-be5f-13ab7157a0d8
+		summarizeBy: none
+		sourceColumn: Progress %
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Discussion summary'
+		dataType: string
+		lineageTag: 7d80f82e-a205-55b7-94b6-a0a177f10000
+		summarizeBy: none
+		sourceColumn: Discussion summary
+
+		annotation SummarizationSetBy = Automatic
+
+	column Challenges
+		dataType: string
+		lineageTag: 468af645-198a-5214-bbce-c149c3229cfd
+		summarizeBy: none
+		sourceColumn: Challenges
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Action items'
+		dataType: string
+		lineageTag: e1e7e0c4-98bd-51a5-acf3-2cbb3180553b
+		summarizeBy: none
+		sourceColumn: Action items
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Next review'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 838354a7-4442-5c15-a0c0-90fcebd05a07
+		summarizeBy: none
+		sourceColumn: Next review
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Evidence submitted'
+		dataType: boolean
+		lineageTag: f387aa22-ceaf-5a27-a648-cbf5ab533891
+		summarizeBy: none
+		sourceColumn: Evidence submitted
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Enrollment.
+	column enrollmentId
+		dataType: string
+		isHidden
+		lineageTag: abfde322-ea58-5843-a974-b31217045a76
+		summarizeBy: none
+		sourceColumn: enrollmentId
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Where this came from. Use "Email from client" or "Excel from client" when the client sent it and you are typing it in.
+	column Source
+		dataType: string
+		lineageTag: a0e0ae0f-739f-536a-b01d-c5e03a82a4e8
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Created
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: ee135d89-39eb-586c-8487-93411d4f4758
+		summarizeBy: none
+		sourceColumn: Created
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Created by'
+		dataType: string
+		isHidden
+		lineageTag: 8d288e48-106a-5683-a7c4-601d04c899a9
+		summarizeBy: none
+		sourceColumn: Created by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last changed'
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: 30a1b57b-8347-5c2a-a57e-2586ff90f86b
+		summarizeBy: none
+		sourceColumn: Last changed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Changed by'
+		dataType: string
+		isHidden
+		lineageTag: 543d1464-cfb6-5548-b785-448404d97c66
+		summarizeBy: none
+		sourceColumn: Changed by
+
+		annotation SummarizationSetBy = Automatic
+
+	column Coach
+		dataType: string
+		lineageTag: 855be7f8-af0f-5617-9696-c7ce21efa844
+		summarizeBy: none
+		sourceColumn: Coach
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total effort (min)'
+		dataType: int64
+		lineageTag: 2d614108-abee-5627-b54c-390a3de41d65
+		summarizeBy: none
+		sourceColumn: Total effort (min)
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: dateTime
+		formatString: mmm yyyy
+		lineageTag: c309d104-6d99-5fbd-9779-41593e7b258c
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CoachingSession = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_CoachingSession"),
+				    Selected = Table.SelectColumns(Source, {"id", "employeeId", "date", "type", "coachId", "status", "startTime", "endTime", "prepMinutes", "durationMinutes", "reportingMinutes", "progressPct", "summary", "challenges", "actionItems", "nextReviewDate", "evidenceSubmitted", "enrollmentId", "source", "createdAt", "createdBy", "updatedAt", "updatedBy"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"employeeId", ToText, type nullable text}, {"date", ToDate, type nullable date}, {"type", ToText, type nullable text}, {"coachId", ToText, type nullable text}, {"status", ToText, type nullable text}, {"startTime", ToText, type nullable text}, {"endTime", ToText, type nullable text}, {"prepMinutes", ToInt, Int64.Type}, {"durationMinutes", ToInt, Int64.Type}, {"reportingMinutes", ToInt, Int64.Type}, {"progressPct", ToNumber, type nullable number}, {"summary", ToText, type nullable text}, {"challenges", ToText, type nullable text}, {"actionItems", ToText, type nullable text}, {"nextReviewDate", ToDate, type nullable date}, {"evidenceSubmitted", ToBool, type nullable logical}, {"enrollmentId", ToText, type nullable text}, {"source", ToText, type nullable text}, {"createdAt", ToDateTime, type nullable datetime}, {"createdBy", ToText, type nullable text}, {"updatedAt", ToDateTime, type nullable datetime}, {"updatedBy", ToText, type nullable text}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    J0 = Table.NestedJoin(Rows, {"coachId"}, Table.SelectColumns(Raw("tbl_Staff"), {"id", "name"}, MissingField.UseNull), {"id"}, "_j0", JoinKind.LeftOuter),
+				    X0 = Table.ExpandTableColumn(J0, "_j0", {"name"}, {"Coach"}),
+				    A0 = Table.AddColumn(X0, "Total effort (min)", each List.Sum(List.RemoveNulls({[prepMinutes], [durationMinutes], [reportingMinutes]})), Int64.Type),
+				    A1 = Table.AddColumn(A0, "Month", each if [date] = null then null else Date.StartOfMonth([date]), type nullable date),
+				    Renamed = Table.RenameColumns(A1, {{"id", "ID"}, {"date", "Date"}, {"type", "Type"}, {"status", "Status"}, {"startTime", "Start time"}, {"endTime", "End time"}, {"prepMinutes", "Preparation (min)"}, {"durationMinutes", "Session (min)"}, {"reportingMinutes", "Reporting (min)"}, {"progressPct", "Progress %"}, {"summary", "Discussion summary"}, {"challenges", "Challenges"}, {"actionItems", "Action items"}, {"nextReviewDate", "Next review"}, {"evidenceSubmitted", "Evidence submitted"}, {"source", "Source"}, {"createdAt", "Created"}, {"createdBy", "Created by"}, {"updatedAt", "Last changed"}, {"updatedBy", "Changed by"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,216 @@
+/// One person working towards one certification.
+table CertificationRecord
+	lineageTag: 2add0cbb-86d8-575c-be19-97ab9a16eefc
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: 65f85824-c2f9-5798-982e-b5c478e54fbc
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Employee.
+	column employeeId
+		dataType: string
+		isHidden
+		lineageTag: 7a6e2ba4-f352-5d92-b10c-c6fd07f4e20e
+		summarizeBy: none
+		sourceColumn: employeeId
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Certification.
+	column certificationId
+		dataType: string
+		isHidden
+		lineageTag: f5723233-7eb2-5081-b35a-f1f5abdabbb7
+		summarizeBy: none
+		sourceColumn: certificationId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 906ff1f3-b2a3-55e4-a6cf-b870660a405b
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Assigned
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: cb3df2be-44b8-5505-a7de-1bc7d2c96939
+		summarizeBy: none
+		sourceColumn: Assigned
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Target
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: a3cb0cab-57b2-59cb-b2a8-d80b9b1eb3ce
+		summarizeBy: none
+		sourceColumn: Target
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Exam date'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: f31d6b68-88f4-5c3a-8378-5d3666f60450
+		summarizeBy: none
+		sourceColumn: Exam date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Achieved
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: b5fa3526-ace2-5193-a0a7-d49a267dc649
+		summarizeBy: none
+		sourceColumn: Achieved
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Expires
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 2d69064c-ea1a-5a15-a507-51c336deb5ad
+		summarizeBy: none
+		sourceColumn: Expires
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Result
+		dataType: string
+		lineageTag: f910b424-a39e-5412-82e5-1db26897b95f
+		summarizeBy: none
+		sourceColumn: Result
+
+		annotation SummarizationSetBy = Automatic
+
+	column Score
+		dataType: double
+		lineageTag: 8e8412fe-b87a-5d3e-beeb-05d2dcfedd1f
+		summarizeBy: none
+		sourceColumn: Score
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Credential ID'
+		dataType: string
+		lineageTag: 34f4e0be-8d78-5b6e-b6d8-a2add2b8fd82
+		summarizeBy: none
+		sourceColumn: Credential ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Certificate link'
+		dataType: string
+		lineageTag: 38d01b86-aa38-5a17-a659-ed517daf6bbe
+		summarizeBy: none
+		sourceColumn: Certificate link
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Enrollment.
+	column enrollmentId
+		dataType: string
+		isHidden
+		lineageTag: 5972475b-dc03-5a8d-9c2e-3a505c7ace47
+		summarizeBy: none
+		sourceColumn: enrollmentId
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of IdpAction.
+	column idpActionId
+		dataType: string
+		isHidden
+		lineageTag: fef72dbd-bad0-5664-880c-61cd67f17d44
+		summarizeBy: none
+		sourceColumn: idpActionId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comments
+		dataType: string
+		lineageTag: bfbd5edd-9bc3-5ae3-bd41-56ae9fc2d7c5
+		summarizeBy: none
+		sourceColumn: Comments
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Where this came from. Use "Email from client" or "Excel from client" when the client sent it and you are typing it in.
+	column Source
+		dataType: string
+		lineageTag: 26703fcf-8330-5526-b54e-3fc52583dd27
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Created
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: 3a64e271-9729-5fb7-843f-48a7ec114142
+		summarizeBy: none
+		sourceColumn: Created
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Created by'
+		dataType: string
+		isHidden
+		lineageTag: 3708da94-71b9-5112-8ca1-eff89d5e57ea
+		summarizeBy: none
+		sourceColumn: Created by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last changed'
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: a5a91d9f-1239-5099-b1d2-3ae8584535cc
+		summarizeBy: none
+		sourceColumn: Last changed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Changed by'
+		dataType: string
+		isHidden
+		lineageTag: 8ba330c2-8924-5531-b7fc-d8fa3266a47a
+		summarizeBy: none
+		sourceColumn: Changed by
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CertificationRecord = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_CertificationRecord"),
+				    Selected = Table.SelectColumns(Source, {"id", "employeeId", "certificationId", "status", "assignedDate", "targetDate", "examDate", "completionDate", "expiryDate", "result", "score", "credentialId", "certificateUrl", "enrollmentId", "idpActionId", "comments", "source", "createdAt", "createdBy", "updatedAt", "updatedBy"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"employeeId", ToText, type nullable text}, {"certificationId", ToText, type nullable text}, {"status", ToText, type nullable text}, {"assignedDate", ToDate, type nullable date}, {"targetDate", ToDate, type nullable date}, {"examDate", ToDate, type nullable date}, {"completionDate", ToDate, type nullable date}, {"expiryDate", ToDate, type nullable date}, {"result", ToText, type nullable text}, {"score", ToNumber, type nullable number}, {"credentialId", ToText, type nullable text}, {"certificateUrl", ToText, type nullable text}, {"enrollmentId", ToText, type nullable text}, {"idpActionId", ToText, type nullable text}, {"comments", ToText, type nullable text}, {"source", ToText, type nullable text}, {"createdAt", ToDateTime, type nullable datetime}, {"createdBy", ToText, type nullable text}, {"updatedAt", ToDateTime, type nullable datetime}, {"updatedBy", ToText, type nullable text}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    Renamed = Table.RenameColumns(Rows, {{"id", "ID"}, {"status", "Status"}, {"assignedDate", "Assigned"}, {"targetDate", "Target"}, {"examDate", "Exam date"}, {"completionDate", "Achieved"}, {"expiryDate", "Expires"}, {"result", "Result"}, {"score", "Score"}, {"credentialId", "Credential ID"}, {"certificateUrl", "Certificate link"}, {"comments", "Comments"}, {"source", "Source"}, {"createdAt", "Created"}, {"createdBy", "Created by"}, {"updatedAt", "Last changed"}, {"updatedBy", "Changed by"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

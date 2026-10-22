@@ -1,0 +1,94 @@
+/// Role profiles. Required levels are set once per role and copied into each new assessment.
+table JobRole
+	lineageTag: 11a2b0e0-a8f3-52b5-9446-4e3c4546a6e9
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: d86e44c2-ac95-5013-980d-cf2abc38ac80
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Code
+		dataType: string
+		lineageTag: 635f1e70-fd61-5064-80e7-5f8b43e49269
+		summarizeBy: none
+		sourceColumn: Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: efb98ef7-545d-51da-80fd-9a806dd0ff10
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Job family'
+		dataType: string
+		lineageTag: cda8a637-d43b-5326-80ac-f3c4e3aabd34
+		summarizeBy: none
+		sourceColumn: Job family
+
+		annotation SummarizationSetBy = Automatic
+
+	column Seniority
+		dataType: string
+		lineageTag: 74521637-a739-5953-8103-616628c212fa
+		summarizeBy: none
+		sourceColumn: Seniority
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of JobRole.
+	column nextRoleId
+		dataType: string
+		isHidden
+		lineageTag: 9d121d28-8ed7-53bf-a30c-b31fcd9bc171
+		summarizeBy: none
+		sourceColumn: nextRoleId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 297c5cb5-f28a-5436-b47f-4c9203bfd49b
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Active
+		dataType: boolean
+		lineageTag: 6b226905-4fbf-540e-b106-1b1453a80ebc
+		summarizeBy: none
+		sourceColumn: Active
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Next role'
+		dataType: string
+		lineageTag: 5b521f65-d4f8-5811-b23e-6dc722f4dbb9
+		summarizeBy: none
+		sourceColumn: Next role
+
+		annotation SummarizationSetBy = Automatic
+
+	partition JobRole = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_JobRole"),
+				    Selected = Table.SelectColumns(Source, {"id", "code", "name", "family", "seniority", "nextRoleId", "description", "active"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"code", ToText, type nullable text}, {"name", ToText, type nullable text}, {"family", ToText, type nullable text}, {"seniority", ToText, type nullable text}, {"nextRoleId", ToText, type nullable text}, {"description", ToText, type nullable text}, {"active", ToBool, type nullable logical}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    J0 = Table.NestedJoin(Rows, {"nextRoleId"}, Table.SelectColumns(Raw("tbl_JobRole"), {"id", "name"}, MissingField.UseNull), {"id"}, "_j0", JoinKind.LeftOuter),
+				    X0 = Table.ExpandTableColumn(J0, "_j0", {"name"}, {"Next role"}),
+				    Renamed = Table.RenameColumns(X0, {{"id", "ID"}, {"code", "Code"}, {"name", "Name"}, {"family", "Job family"}, {"seniority", "Seniority"}, {"description", "Description"}, {"active", "Active"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

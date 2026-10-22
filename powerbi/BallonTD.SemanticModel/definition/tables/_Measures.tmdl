@@ -1,0 +1,226 @@
+/// All measures, grouped in display folders.
+table _Measures
+	lineageTag: b2c28626-d997-55cb-83e6-b40560c48dce
+
+	/// Number of people in the current filter.
+	measure People = COUNTROWS('Employee')
+		formatString: 0
+		displayFolder: People
+		lineageTag: a0677f4d-16f9-523b-9db2-0e571e317151
+
+	/// Σ weight × min(level, required) ÷ Σ weight × required over rated competencies (weights High 3, Medium 2, Low 1).
+	measure 'Role Readiness' = ```
+			VAR t = FILTER('CurrentCompetency', NOT ISBLANK('CurrentCompetency'[Level]) && 'CurrentCompetency'[Required] > 0)
+			RETURN DIVIDE(SUMX(t, 'CurrentCompetency'[Weight] * MIN('CurrentCompetency'[Level], 'CurrentCompetency'[Required])), SUMX(t, 'CurrentCompetency'[Weight] * 'CurrentCompetency'[Required]))
+			```
+		formatString: 0%
+		displayFolder: Readiness
+		lineageTag: e54fda10-dc18-5c12-8dd2-cf86285ddba4
+
+	/// Average of each person's role readiness.
+	measure 'Average Role Readiness' = AVERAGEX(VALUES('Employee'[Employee ID]), [Role Readiness])
+		formatString: 0%
+		displayFolder: Readiness
+		lineageTag: abdca9f7-74b9-5336-9ae2-69daccd629ca
+
+	/// Readiness against the requirements of the next role; unrated competencies count as 0.
+	measure 'Next Role Readiness' = ```
+			VAR t = FILTER('NextRoleGap', 'NextRoleGap'[Next required] > 0)
+			RETURN IF(COUNTROWS(t) = 0 || ISBLANK([Role Readiness]), BLANK(), DIVIDE(SUMX(t, 'NextRoleGap'[Next weight] * MIN(COALESCE('NextRoleGap'[Level now], 0), 'NextRoleGap'[Next required])), SUMX(t, 'NextRoleGap'[Next weight] * 'NextRoleGap'[Next required])))
+			```
+		formatString: 0%
+		displayFolder: Readiness
+		lineageTag: 547c60c0-9c2f-5f93-8c6a-f7c457691918
+
+	/// Competencies below the required level.
+	measure 'Open Gaps' = COUNTROWS(FILTER('CurrentCompetency', 'CurrentCompetency'[Gap] > 0))
+		formatString: 0
+		displayFolder: Readiness
+		lineageTag: 1696fb84-11cd-5ff2-a818-02ef5c034656
+
+	/// High-priority competencies below the required level.
+	measure 'Critical Gaps' = COUNTROWS(FILTER('CurrentCompetency', 'CurrentCompetency'[Gap] > 0 && 'CurrentCompetency'[Priority] = "High"))
+		formatString: 0
+		displayFolder: Readiness
+		lineageTag: 842dee56-739b-5097-aa59-b385ab51863d
+
+	/// Rated competencies that have a requirement.
+	measure 'Competencies Rated' = COUNTROWS(FILTER('CurrentCompetency', NOT ISBLANK('CurrentCompetency'[Level]) && NOT ISBLANK('CurrentCompetency'[Required])))
+		formatString: 0
+		displayFolder: Readiness
+		lineageTag: 007c3501-2be0-55d4-a538-7c0494be8e90
+
+	measure 'Average Level' = AVERAGE('CurrentCompetency'[Level])
+		formatString: 0.0
+		displayFolder: Readiness
+		lineageTag: 8692056c-7dd7-53dd-8724-43044618cb79
+
+	/// Average of required − level. Positive = below requirement.
+	measure 'Average Gap' = AVERAGE('CurrentCompetency'[Gap])
+		formatString: +0.0;-0.0;0
+		displayFolder: Readiness
+		lineageTag: 87727d98-0a50-55d2-855a-eff955e5201d
+
+	/// Same rules as the app: Ready for next role ≥ 92% next-role readiness and no critical gaps; Ready in 6–12 months ≥ 85% and ≤ 1 critical gap; Growing in role ≥ 85% role readiness; otherwise Needs support.
+	measure 'Readiness Band Label' = ```
+			VAR rr = [Role Readiness]
+			VAR nr = [Next Role Readiness]
+			VAR cg = [Critical Gaps] + 0
+			RETURN SWITCH(TRUE(), ISBLANK(rr), "Not assessed", NOT ISBLANK(nr) && nr >= 0.92 && cg = 0, "Ready for next role", NOT ISBLANK(nr) && nr >= 0.85 && cg <= 1, "Ready in 6–12 months", rr >= 0.85, "Growing in role", "Needs support")
+			```
+		displayFolder: Readiness
+		lineageTag: 697bbc69-14a7-5bdf-ae87-8a175ea0e9d1
+
+	measure 'People Ready Within 12 Months' = COUNTROWS(FILTER('Employee', 'Employee'[Readiness band] IN {"Ready for next role", "Ready in 6–12 months"}))
+		formatString: 0
+		displayFolder: Readiness
+		lineageTag: 4a44e756-4228-5c10-94c7-03a64dc6447a
+
+	/// Development actions that are not cancelled.
+	measure 'Plan Actions' = COUNTROWS(FILTER('IdpAction', 'IdpAction'[Status] <> "Cancelled"))
+		formatString: 0
+		displayFolder: Development plan
+		lineageTag: 42442560-39fd-5dd2-84fe-e1dedf2c7219
+
+	measure 'Plan Actions Completed' = COUNTROWS(FILTER('IdpAction', 'IdpAction'[Status] = "Completed"))
+		formatString: 0
+		displayFolder: Development plan
+		lineageTag: 723e7959-9e77-5601-90eb-ce89dfc30b14
+
+	/// Average progress % of actions that are not cancelled.
+	measure 'Plan Progress' = DIVIDE(AVERAGEX(FILTER('IdpAction', 'IdpAction'[Status] <> "Cancelled"), COALESCE('IdpAction'[Progress %], 0)), 100)
+		formatString: 0%
+		displayFolder: Development plan
+		lineageTag: 76361896-ba23-5c14-95e2-a4e3da060da5
+
+	/// Planned end passed and not completed or cancelled.
+	measure 'Overdue Actions' = COUNTROWS(FILTER('IdpAction', NOT ISBLANK('IdpAction'[Planned end]) && 'IdpAction'[Planned end] < TODAY() && NOT ('IdpAction'[Status] IN {"Completed", "Cancelled"})))
+		formatString: 0
+		displayFolder: Development plan
+		lineageTag: 69010e7a-f62f-5ad6-b256-bdb4198cc3d5
+
+	measure 'Trainings Assigned' = COUNTROWS('TrainingRecord')
+		formatString: 0
+		displayFolder: Training
+		lineageTag: 6bdeab48-951b-5927-9d8a-fac2819c20d6
+
+	measure 'Trainings Completed' = COUNTROWS(FILTER('TrainingRecord', 'TrainingRecord'[Status] = "Completed"))
+		formatString: 0
+		displayFolder: Training
+		lineageTag: 988aac5d-3f7a-559d-bed1-3504e8c563b2
+
+	/// Completed ÷ all trainings except cancelled, deferred and expired.
+	measure 'Training Completion' = DIVIDE([Trainings Completed], COUNTROWS(FILTER('TrainingRecord', NOT ('TrainingRecord'[Status] IN {"Cancelled", "Deferred", "Expired"}))))
+		formatString: 0%
+		displayFolder: Training
+		lineageTag: b3716be1-c101-5586-ba13-ff7ce3cd5ff6
+
+	/// Hours of completed trainings (record hours, else course hours).
+	measure 'Training Hours' = SUMX(FILTER('TrainingRecord', 'TrainingRecord'[Status] = "Completed"), COALESCE('TrainingRecord'[Hours], RELATED('Course'[Hours])))
+		formatString: 0
+		displayFolder: Training
+		lineageTag: a64c6e82-02bd-5984-9dcb-f7a0c7b5f97c
+
+	/// People on a session.
+	measure Participants = DISTINCTCOUNT('TrainingRecord'[employeeId])
+		formatString: 0
+		displayFolder: Training
+		lineageTag: e470cc25-f9f8-584a-9e02-493ba6f6290a
+
+	/// Average trainer score (1–5) of observed behaviours.
+	measure 'Observed Average' = AVERAGE('ObservationScore'[Score])
+		formatString: 0.00
+		displayFolder: Observations
+		lineageTag: 7a3d5ade-30dd-51ee-8589-81ce50249efb
+
+	/// Observation days attended.
+	measure 'Observed Days' = COUNTROWS(FILTER('ObservationDay', 'ObservationDay'[Attendance] <> "Absent"))
+		formatString: 0
+		displayFolder: Observations
+		lineageTag: de8f5daf-da52-5143-918e-2f3f1c8ffd25
+
+	measure Certifications = COUNTROWS('CertificationRecord')
+		formatString: 0
+		displayFolder: Certifications
+		lineageTag: 50b6fdac-d51a-56d9-9055-d16ed179f6ad
+
+	measure 'Certifications Achieved' = COUNTROWS(FILTER('CertificationRecord', 'CertificationRecord'[Status] = "Completed"))
+		formatString: 0
+		displayFolder: Certifications
+		lineageTag: 1d766506-5a78-5100-a236-60ac96455630
+
+	/// Registered, in progress or exam scheduled.
+	measure 'Certifications In Progress' = COUNTROWS(FILTER('CertificationRecord', 'CertificationRecord'[Status] IN {"Registered", "In Progress", "Exam Scheduled"}))
+		formatString: 0
+		displayFolder: Certifications
+		lineageTag: 528cd9fc-9fbe-5997-b1e4-9ad5cf7c4c5f
+
+	/// Completed coaching sessions.
+	measure 'Coaching Sessions' = COUNTROWS(FILTER('CoachingSession', 'CoachingSession'[Status] = "Completed"))
+		formatString: 0
+		displayFolder: Coaching
+		lineageTag: b54c8d4e-2b34-585e-bd6d-f5976506a422
+
+	/// Preparation + session + reporting time of completed sessions, in hours.
+	measure 'Coaching Effort Hours' = DIVIDE(SUMX(FILTER('CoachingSession', 'CoachingSession'[Status] = "Completed"), 'CoachingSession'[Total effort (min)]), 60)
+		formatString: 0.0
+		displayFolder: Coaching
+		lineageTag: 23ec6c17-0aec-5468-a547-e487be8d9640
+
+	measure 'Last Coaching' = MAXX(FILTER('CoachingSession', 'CoachingSession'[Status] = "Completed"), 'CoachingSession'[Date])
+		formatString: yyyy-mm-dd
+		displayFolder: Coaching
+		lineageTag: 776f2b25-d3d8-54e3-a524-d328450204b5
+
+	/// Progress % recorded at the most recent completed session.
+	measure 'Latest Coaching Progress' = ```
+			VAR d = [Last Coaching]
+			RETURN DIVIDE(MAXX(FILTER('CoachingSession', 'CoachingSession'[Date] = d && 'CoachingSession'[Status] = "Completed"), 'CoachingSession'[Progress %]), 100)
+			```
+		formatString: 0%
+		displayFolder: Coaching
+		lineageTag: ee628c73-2bcd-5186-9d46-da579462ce27
+
+	measure Validations = COUNTROWS('ManagerValidation')
+		formatString: 0
+		displayFolder: Validation
+		lineageTag: e0cbd554-56a0-5d7c-90c9-bb1f7ebac6fd
+
+	measure 'Validations Pending' = COUNTROWS(FILTER('ManagerValidation', 'ManagerValidation'[Status] IN {"Pending", "Requires Further Evidence"}))
+		formatString: 0
+		displayFolder: Validation
+		lineageTag: 7c13fbeb-c126-5e86-a492-fca9e4696718
+
+	/// Average progress (1–5) given by line managers.
+	measure 'Average Validated Progress' = AVERAGE('ManagerValidation'[Validated level])
+		formatString: 0.0
+		displayFolder: Validation
+		lineageTag: 84a16f63-677f-5711-8132-e841f82481ed
+
+	measure 'Evidence Items' = COUNTROWS('Evidence')
+		formatString: 0
+		displayFolder: Validation
+		lineageTag: 22f2e927-9fae-5263-abae-8d22214d167b
+
+	measure 'Evidence Verified' = COUNTROWS(FILTER('Evidence', 'Evidence'[Verification] = "Verified"))
+		formatString: 0
+		displayFolder: Validation
+		lineageTag: 079cb9d0-86dd-5699-87f7-274173988670
+
+	column Value
+		isHidden
+		formatString: 0
+		lineageTag: 534e5aec-3016-5a4f-a884-87cdcf7273e1
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = calculated
+		mode: import
+		source = ```
+				{0}
+				```
+
+	annotation PBI_Id = 5c2964199b975213be3ba9c36b9f4e68

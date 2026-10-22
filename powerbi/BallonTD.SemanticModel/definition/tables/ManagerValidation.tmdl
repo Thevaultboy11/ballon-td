@@ -1,0 +1,186 @@
+/// A line manager confirming an assessment or a single competency level. Usually arrives by email: set Source accordingly.
+table ManagerValidation
+	lineageTag: 817782a4-cccb-516d-b4cb-ae9626b26acf
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: 1347d233-41f3-554e-a527-50bee9649832
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Employee.
+	column employeeId
+		dataType: string
+		isHidden
+		lineageTag: 25831500-d16b-57a9-b927-9b33fee2a162
+		summarizeBy: none
+		sourceColumn: employeeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 406b89e3-24ea-5998-977b-ab3e27eb4f74
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: da79e080-b27b-57b7-973f-d3ea92c92d97
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Assessment.
+	column assessmentId
+		dataType: string
+		isHidden
+		lineageTag: 9444a1d5-ee95-5da8-9478-41088e0aef13
+		summarizeBy: none
+		sourceColumn: assessmentId
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Competency.
+	column competencyId
+		dataType: string
+		isHidden
+		lineageTag: a9081161-2e77-5a1c-8465-1ca7a227c03b
+		summarizeBy: none
+		sourceColumn: competencyId
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Validated level'
+		dataType: int64
+		lineageTag: 99cba088-98ca-5681-9c9d-c170d92f0c38
+		summarizeBy: none
+		sourceColumn: Validated level
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Employee.
+	column managerId
+		dataType: string
+		isHidden
+		lineageTag: 58a546f3-0c24-5e80-aa38-691518ca20ac
+		summarizeBy: none
+		sourceColumn: managerId
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Manager (name only)'
+		dataType: string
+		lineageTag: b89c5170-7703-59fc-8cd9-f064716e913b
+		summarizeBy: none
+		sourceColumn: Manager (name only)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Evidence reviewed'
+		dataType: string
+		lineageTag: ace3ec07-882c-51ab-a6df-26fcc8a32221
+		summarizeBy: none
+		sourceColumn: Evidence reviewed
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comments
+		dataType: string
+		lineageTag: 6d92b117-2612-5634-88fe-231f42abe4c8
+		summarizeBy: none
+		sourceColumn: Comments
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Where this came from. Use "Email from client" or "Excel from client" when the client sent it and you are typing it in.
+	column Source
+		dataType: string
+		lineageTag: 5859509c-a146-5d93-8dbd-9830a1808cd2
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Created
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: b408312f-a181-53bd-be61-628deb4959f1
+		summarizeBy: none
+		sourceColumn: Created
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Created by'
+		dataType: string
+		isHidden
+		lineageTag: 4dbd182f-d93f-5024-ad5f-4c95a43bf9d7
+		summarizeBy: none
+		sourceColumn: Created by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last changed'
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: 5cd0a180-6ab1-5a0a-a6b8-b2f3a0cf78bf
+		summarizeBy: none
+		sourceColumn: Last changed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Changed by'
+		dataType: string
+		isHidden
+		lineageTag: 157ba088-afc0-59af-bce1-ea678421fc0c
+		summarizeBy: none
+		sourceColumn: Changed by
+
+		annotation SummarizationSetBy = Automatic
+
+	column Manager
+		dataType: string
+		lineageTag: 5f5c25bb-727c-53fd-b7fd-6d70fafef7a8
+		summarizeBy: none
+		sourceColumn: Manager
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: dateTime
+		formatString: mmm yyyy
+		lineageTag: 41edc484-3d6d-573c-8f1d-a41635686652
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ManagerValidation = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_ManagerValidation"),
+				    Selected = Table.SelectColumns(Source, {"id", "employeeId", "status", "date", "assessmentId", "competencyId", "validatedLevel", "managerId", "managerName", "evidenceReviewed", "comments", "source", "createdAt", "createdBy", "updatedAt", "updatedBy"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"employeeId", ToText, type nullable text}, {"status", ToText, type nullable text}, {"date", ToDate, type nullable date}, {"assessmentId", ToText, type nullable text}, {"competencyId", ToText, type nullable text}, {"validatedLevel", ToInt, Int64.Type}, {"managerId", ToText, type nullable text}, {"managerName", ToText, type nullable text}, {"evidenceReviewed", ToText, type nullable text}, {"comments", ToText, type nullable text}, {"source", ToText, type nullable text}, {"createdAt", ToDateTime, type nullable datetime}, {"createdBy", ToText, type nullable text}, {"updatedAt", ToDateTime, type nullable datetime}, {"updatedBy", ToText, type nullable text}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    J0 = Table.NestedJoin(Rows, {"managerId"}, Table.SelectColumns(Raw("tbl_Employee"), {"id", "name"}, MissingField.UseNull), {"id"}, "_j0", JoinKind.LeftOuter),
+				    X0 = Table.ExpandTableColumn(J0, "_j0", {"name"}, {"Manager"}),
+				    A0 = Table.AddColumn(X0, "Month", each if [date] = null then null else Date.StartOfMonth([date]), type nullable date),
+				    Renamed = Table.RenameColumns(A0, {{"id", "ID"}, {"status", "Status"}, {"date", "Date"}, {"validatedLevel", "Validated level"}, {"managerName", "Manager (name only)"}, {"evidenceReviewed", "Evidence reviewed"}, {"comments", "Comments"}, {"source", "Source"}, {"createdAt", "Created"}, {"createdBy", "Created by"}, {"updatedAt", "Last changed"}, {"updatedBy", "Changed by"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

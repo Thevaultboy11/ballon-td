@@ -1,0 +1,137 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
+  "name": "8b7d83885b8aff1d9865",
+  "position": {
+    "x": 24,
+    "y": 464,
+    "z": 6800,
+    "height": 232,
+    "width": 1232,
+    "tabOrder": 6800
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Employee"
+                    }
+                  },
+                  "Property": "Full name"
+                }
+              },
+              "queryRef": "Employee.Full name",
+              "nativeQueryRef": "Full name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Evidence"
+                    }
+                  },
+                  "Property": "Title"
+                }
+              },
+              "queryRef": "Evidence.Title",
+              "nativeQueryRef": "Title"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Evidence"
+                    }
+                  },
+                  "Property": "Type"
+                }
+              },
+              "queryRef": "Evidence.Type",
+              "nativeQueryRef": "Type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Evidence"
+                    }
+                  },
+                  "Property": "Verification"
+                }
+              },
+              "queryRef": "Evidence.Verification",
+              "nativeQueryRef": "Verification"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Evidence"
+                    }
+                  },
+                  "Property": "Verified by"
+                }
+              },
+              "queryRef": "Evidence.Verified by",
+              "nativeQueryRef": "Verified by"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Evidence"
+                    }
+                  },
+                  "Property": "Date"
+                }
+              },
+              "queryRef": "Evidence.Date",
+              "nativeQueryRef": "Date"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Coach validation evidence'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

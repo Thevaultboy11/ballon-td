@@ -1,0 +1,109 @@
+/// A programme / IDP cycle run for a client. People are enrolled into programmes.
+table Program
+	lineageTag: 02ba9f72-9119-51bd-985d-1da52ed4e379
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: 9b34d3db-be05-51b2-9537-b837d00f4053
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Client.
+	column clientId
+		dataType: string
+		isHidden
+		lineageTag: ad021d9c-a39b-5477-9570-f45c67c50061
+		summarizeBy: none
+		sourceColumn: clientId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: e39e87ae-83bc-56a0-97f6-7e996065da1c
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	/// e.g. 2026 H2
+	column Cycle
+		dataType: string
+		lineageTag: 005fcfe6-21f2-5465-9a51-c77073cd69d1
+		summarizeBy: none
+		sourceColumn: Cycle
+
+		annotation SummarizationSetBy = Automatic
+
+	column Start
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: cc97aa95-fbe6-5c23-9e05-e7816e192690
+		summarizeBy: none
+		sourceColumn: Start
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column End
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 3c56e191-a02f-5fe7-8093-26812ae43f79
+		summarizeBy: none
+		sourceColumn: End
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 33546b54-8793-5c19-bd22-d44707162301
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: b632df9c-5e7a-581c-81da-05bf3837e23a
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Notes
+		dataType: string
+		lineageTag: c4d54abd-c2a7-5dfc-b7e9-8456836727eb
+		summarizeBy: none
+		sourceColumn: Notes
+
+		annotation SummarizationSetBy = Automatic
+
+	column Client
+		dataType: string
+		lineageTag: 8c89f9d8-8db7-5a91-a1cd-2fb65a45b6a7
+		summarizeBy: none
+		sourceColumn: Client
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Program = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_Program"),
+				    Selected = Table.SelectColumns(Source, {"id", "clientId", "name", "cycle", "startDate", "endDate", "status", "description", "notes"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"clientId", ToText, type nullable text}, {"name", ToText, type nullable text}, {"cycle", ToText, type nullable text}, {"startDate", ToDate, type nullable date}, {"endDate", ToDate, type nullable date}, {"status", ToText, type nullable text}, {"description", ToText, type nullable text}, {"notes", ToText, type nullable text}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    J0 = Table.NestedJoin(Rows, {"clientId"}, Table.SelectColumns(Raw("tbl_Client"), {"id", "name"}, MissingField.UseNull), {"id"}, "_j0", JoinKind.LeftOuter),
+				    X0 = Table.ExpandTableColumn(J0, "_j0", {"name"}, {"Client"}),
+				    Renamed = Table.RenameColumns(X0, {{"id", "ID"}, {"name", "Name"}, {"cycle", "Cycle"}, {"startDate", "Start"}, {"endDate", "End"}, {"status", "Status"}, {"description", "Description"}, {"notes", "Notes"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

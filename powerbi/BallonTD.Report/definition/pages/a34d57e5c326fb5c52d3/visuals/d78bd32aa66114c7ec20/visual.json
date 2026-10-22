@@ -1,0 +1,49 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
+  "name": "d78bd32aa66114c7ec20",
+  "position": {
+    "x": 24,
+    "y": 16,
+    "z": 5800,
+    "height": 64,
+    "width": 900,
+    "tabOrder": 5800
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Coaching and validation",
+                    "textStyle": {
+                      "fontSize": "20pt",
+                      "fontWeight": "bold",
+                      "color": "#141E12"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Coaching effort from the coaching table, monthly line-manager progress (1–5) and coach evidence.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#6B716A"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,165 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
+  "name": "02c5739ee85e0610714f",
+  "position": {
+    "x": 24,
+    "y": 208,
+    "z": 2700,
+    "height": 300,
+    "width": 760,
+    "tabOrder": 2700
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Competency"
+                    }
+                  },
+                  "Property": "Name"
+                }
+              },
+              "queryRef": "Competency.Name",
+              "nativeQueryRef": "Name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Competency"
+                    }
+                  },
+                  "Property": "Framework"
+                }
+              },
+              "queryRef": "Competency.Framework",
+              "nativeQueryRef": "Framework"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CurrentCompetency"
+                    }
+                  },
+                  "Property": "Priority"
+                }
+              },
+              "queryRef": "CurrentCompetency.Priority",
+              "nativeQueryRef": "Priority"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CurrentCompetency"
+                    }
+                  },
+                  "Property": "Level"
+                }
+              },
+              "queryRef": "CurrentCompetency.Level",
+              "nativeQueryRef": "Level"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CurrentCompetency"
+                    }
+                  },
+                  "Property": "Required"
+                }
+              },
+              "queryRef": "CurrentCompetency.Required",
+              "nativeQueryRef": "Required"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CurrentCompetency"
+                    }
+                  },
+                  "Property": "Gap"
+                }
+              },
+              "queryRef": "CurrentCompetency.Gap",
+              "nativeQueryRef": "Gap"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CurrentCompetency"
+                    }
+                  },
+                  "Property": "Self level"
+                }
+              },
+              "queryRef": "CurrentCompetency.Self level",
+              "nativeQueryRef": "Self level"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Observed Average"
+                }
+              },
+              "queryRef": "_Measures.Observed Average",
+              "nativeQueryRef": "Observed Average"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Competencies: level against requirement'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

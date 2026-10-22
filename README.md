@@ -12,6 +12,15 @@ React · Express · Prisma · SQLite. It works offline: no web fonts and no CDNs
 
 ![People](docs/screenshots/people.png)
 
+## Power BI version
+
+The [`powerbi/`](powerbi/README.md) folder holds the same model as a Power BI project:
+- **Semantic model and report:** `.SemanticModel` and `.Report`, with 8 report pages.
+- **Data workbook:** an Excel file preloaded with the Coca-Cola team.
+- **Input screens:** Power Apps screens that add rows to that workbook from inside the report.
+
+Rebuild it with `npm run powerbi:data -- --client "Coca-Cola"` and `npm run powerbi:build`. [powerbi/README.md](powerbi/README.md) has the step-by-step setup.
+
 ## Install on the server
 
 Needs **Node.js 20.19 or newer** (22 LTS recommended). Run `npm install` once while the machine has internet access (or copy a `node_modules` folder made on the same OS). After that it runs fully offline.

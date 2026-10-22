@@ -1,0 +1,62 @@
+/// The score for one behaviour on one observation day.
+table ObservationScore
+	lineageTag: 95e1cedf-eda0-512d-8abf-9a97cbbdf9de
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: dbd3dd4f-bcd6-5667-9762-f4de05cbb857
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of ObservationDay.
+	column observationDayId
+		dataType: string
+		isHidden
+		lineageTag: 07892c45-e53b-5bf7-bd89-4d3994d64173
+		summarizeBy: none
+		sourceColumn: observationDayId
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of ObservationParameter.
+	column parameterId
+		dataType: string
+		isHidden
+		lineageTag: 7d04d091-3c7a-556f-9c77-27543e889487
+		summarizeBy: none
+		sourceColumn: parameterId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Score
+		dataType: int64
+		lineageTag: bc4e94c0-68fe-5cee-814f-ef148996b991
+		summarizeBy: none
+		sourceColumn: Score
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comment
+		dataType: string
+		lineageTag: 277113b1-c461-5480-b639-b5f89a4a8c8d
+		summarizeBy: none
+		sourceColumn: Comment
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ObservationScore = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_ObservationScore"),
+				    Selected = Table.SelectColumns(Source, {"id", "observationDayId", "parameterId", "score", "comment"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"observationDayId", ToText, type nullable text}, {"parameterId", ToText, type nullable text}, {"score", ToInt, Int64.Type}, {"comment", ToText, type nullable text}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    Renamed = Table.RenameColumns(Rows, {{"id", "ID"}, {"score", "Score"}, {"comment", "Comment"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

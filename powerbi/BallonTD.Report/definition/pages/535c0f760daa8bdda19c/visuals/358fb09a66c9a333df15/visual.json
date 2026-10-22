@@ -1,0 +1,123 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
+  "name": "358fb09a66c9a333df15",
+  "position": {
+    "x": 640,
+    "y": 208,
+    "z": 4500,
+    "height": 488,
+    "width": 616,
+    "tabOrder": 4500
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Employee"
+                    }
+                  },
+                  "Property": "Full name"
+                }
+              },
+              "queryRef": "Employee.Full name",
+              "nativeQueryRef": "Full name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "IdpAction"
+                    }
+                  },
+                  "Property": "Action"
+                }
+              },
+              "queryRef": "IdpAction.Action",
+              "nativeQueryRef": "Action"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "IdpAction"
+                    }
+                  },
+                  "Property": "Status"
+                }
+              },
+              "queryRef": "IdpAction.Status",
+              "nativeQueryRef": "Status"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "IdpAction"
+                    }
+                  },
+                  "Property": "Progress %"
+                }
+              },
+              "queryRef": "IdpAction.Progress %",
+              "nativeQueryRef": "Progress %"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "IdpAction"
+                    }
+                  },
+                  "Property": "Planned end"
+                }
+              },
+              "queryRef": "IdpAction.Planned end",
+              "nativeQueryRef": "Planned end"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'All actions'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

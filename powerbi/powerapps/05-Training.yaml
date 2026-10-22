@@ -1,0 +1,322 @@
+- conTraining:
+    Control: GroupContainer
+    Variant: ManualLayout
+    Properties:
+      X: =0
+      Y: =0
+      Width: =Parent.Width
+      Height: =Parent.Height
+      Fill: =RGBA(255, 255, 251, 1)
+    Children:
+      - lblTrainingTitle:
+          Control: Label
+          Properties:
+            Text: ="Training record"
+            X: =24
+            Y: =16
+            Width: =900
+            Height: =40
+            Size: =20
+            FontWeight: =FontWeight.Semibold
+            Color: =RGBA(20, 30, 18, 1)
+      - lblTrainingSub:
+          Control: Label
+          Properties:
+            Text: ="One person on one course (pick the session for scheduled courses)."
+            X: =24
+            Y: =56
+            Width: =900
+            Height: =30
+            Size: =11
+            Color: =RGBA(107, 113, 106, 1)
+      - lblCbTrainingPerson:
+          Control: Label
+          Properties:
+            Text: ="Person *"
+            X: =24
+            Y: =96
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - cbTrainingPerson:
+          Control: Classic/ComboBox
+          Properties:
+            X: =24
+            Y: =120
+            Width: =440
+            Height: =40
+            Items: =SortByColumns(tbl_Employee, "name")
+            DisplayFields: =["name"]
+            SearchFields: =["name", "jobTitle", "id"]
+            SelectMultiple: =false
+            DefaultSelectedItems: =Filter(tbl_Employee, id = First(PowerBIIntegration.Data).'Employee ID')
+      - lblCbTrainingCourse:
+          Control: Label
+          Properties:
+            Text: ="Course *"
+            X: =488
+            Y: =96
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - cbTrainingCourse:
+          Control: Classic/ComboBox
+          Properties:
+            X: =488
+            Y: =120
+            Width: =440
+            Height: =40
+            Items: =SortByColumns(tbl_Course, "name")
+            DisplayFields: =["name"]
+            SearchFields: =["name"]
+            SelectMultiple: =false
+      - lblCbTrainingSession:
+          Control: Label
+          Properties:
+            Text: ="Session (start date)"
+            X: =24
+            Y: =170
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - cbTrainingSession:
+          Control: Classic/ComboBox
+          Properties:
+            X: =24
+            Y: =194
+            Width: =440
+            Height: =40
+            Items: =SortByColumns(Filter(tbl_CourseSession, courseId = cbTrainingCourse.Selected.id), "startDate")
+            DisplayFields: =["startDate"]
+            SearchFields: =["startDate"]
+            SelectMultiple: =false
+      - lblCbTrainingStatus:
+          Control: Label
+          Properties:
+            Text: ="Status *"
+            X: =488
+            Y: =170
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - cbTrainingStatus:
+          Control: Classic/ComboBox
+          Properties:
+            X: =488
+            Y: =194
+            Width: =440
+            Height: =40
+            Items: =Sort(Filter(tbl_LookupValue, list = "trainingStatus" && active), sortOrder)
+            DisplayFields: =["value"]
+            SearchFields: =["value"]
+            SelectMultiple: =false
+            DefaultSelectedItems: =Filter(tbl_LookupValue, list = "trainingStatus" && value = "Assigned")
+      - lblTxtTrainingAttendancePct:
+          Control: Label
+          Properties:
+            Text: ="Attendance %"
+            X: =24
+            Y: =244
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - txtTrainingAttendancePct:
+          Control: Classic/TextInput
+          Properties:
+            X: =24
+            Y: =268
+            Width: =440
+            Height: =40
+            Default: =""
+            Format: =TextFormat.Number
+      - lblTxtTrainingScore:
+          Control: Label
+          Properties:
+            Text: ="Score"
+            X: =488
+            Y: =244
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - txtTrainingScore:
+          Control: Classic/TextInput
+          Properties:
+            X: =488
+            Y: =268
+            Width: =440
+            Height: =40
+            Default: =""
+            Format: =TextFormat.Number
+      - lblTxtTrainingHours:
+          Control: Label
+          Properties:
+            Text: ="Hours"
+            X: =24
+            Y: =318
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - txtTrainingHours:
+          Control: Classic/TextInput
+          Properties:
+            X: =24
+            Y: =342
+            Width: =440
+            Height: =40
+            Default: =""
+            Format: =TextFormat.Number
+      - lblDpTrainingAssignedDate:
+          Control: Label
+          Properties:
+            Text: ="Assigned"
+            X: =488
+            Y: =318
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - dpTrainingAssignedDate:
+          Control: Classic/DatePicker
+          Properties:
+            X: =488
+            Y: =342
+            Width: =440
+            Height: =40
+            DefaultDate: =Today()
+            Format: ="yyyy-mm-dd"
+      - lblDpTrainingCompletionDate:
+          Control: Label
+          Properties:
+            Text: ="Completed"
+            X: =24
+            Y: =392
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - dpTrainingCompletionDate:
+          Control: Classic/DatePicker
+          Properties:
+            X: =24
+            Y: =416
+            Width: =440
+            Height: =40
+            DefaultDate: =Blank()
+            Format: ="yyyy-mm-dd"
+      - lblTxtTrainingComments:
+          Control: Label
+          Properties:
+            Text: ="Comments"
+            X: =24
+            Y: =466
+            Width: =904
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - txtTrainingComments:
+          Control: Classic/TextInput
+          Properties:
+            X: =24
+            Y: =490
+            Width: =904
+            Height: =72
+            Default: =""
+            Mode: =TextMode.MultiLine
+            HintText: =""
+      - lblCbTrainingSource:
+          Control: Label
+          Properties:
+            Text: ="Source"
+            X: =24
+            Y: =540
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - cbTrainingSource:
+          Control: Classic/ComboBox
+          Properties:
+            X: =24
+            Y: =564
+            Width: =440
+            Height: =40
+            Items: =Sort(Filter(tbl_LookupValue, list = "source" && active), sortOrder)
+            DisplayFields: =["value"]
+            SearchFields: =["value"]
+            SelectMultiple: =false
+            DefaultSelectedItems: =Filter(tbl_LookupValue, list = "source" && value = "Trainer sheet")
+      - btnTrainingSave:
+          Control: Classic/Button
+          Properties:
+            Text: ="Save"
+            X: =24
+            Y: =622
+            Width: =160
+            Height: =44
+            Fill: =RGBA(147, 201, 38, 1)
+            Color: =RGBA(20, 30, 18, 1)
+            HoverFill: =RGBA(125, 176, 26, 1)
+            RadiusTopLeft: =22
+            RadiusTopRight: =22
+            RadiusBottomLeft: =22
+            RadiusBottomRight: =22
+            DisplayMode: =If(IsBlank(cbTrainingPerson.Selected.id) || IsBlank(cbTrainingCourse.Selected) || IsBlank(cbTrainingStatus.Selected.value), DisplayMode.Disabled, DisplayMode.Edit)
+            OnSelect: |-
+              =Patch(tbl_TrainingRecord, Defaults(tbl_TrainingRecord), {
+                  id: "TRN-PA" & Text(Now(), "yymmddhhmmss"),
+                  employeeId: cbTrainingPerson.Selected.id,
+                  courseId: cbTrainingCourse.Selected.id,
+                  sessionId: cbTrainingSession.Selected.id,
+                  status: cbTrainingStatus.Selected.value,
+                  attendancePct: If(IsBlank(txtTrainingAttendancePct.Text), Blank(), Value(txtTrainingAttendancePct.Text)),
+                  score: If(IsBlank(txtTrainingScore.Text), Blank(), Value(txtTrainingScore.Text)),
+                  hours: If(IsBlank(txtTrainingHours.Text), Blank(), Value(txtTrainingHours.Text)),
+                  assignedDate: If(IsBlank(dpTrainingAssignedDate.SelectedDate), Blank(), Text(dpTrainingAssignedDate.SelectedDate, "yyyy-mm-dd")),
+                  completionDate: If(IsBlank(dpTrainingCompletionDate.SelectedDate), Blank(), Text(dpTrainingCompletionDate.SelectedDate, "yyyy-mm-dd")),
+                  comments: If(IsBlank(txtTrainingComments.Text), Blank(), txtTrainingComments.Text),
+                  source: cbTrainingSource.Selected.value,
+                  createdAt: Text(Now(), "yyyy-mm-dd hh:mm:ss"),
+                  createdBy: User().FullName,
+                  updatedAt: Text(Now(), "yyyy-mm-dd hh:mm:ss"),
+                  updatedBy: User().FullName
+              });
+              Notify("Training record saved. It appears in the report after the next refresh.", NotificationType.Success);
+              Reset(cbTrainingCourse); Reset(cbTrainingSession); Reset(cbTrainingStatus); Reset(txtTrainingAttendancePct); Reset(txtTrainingScore); Reset(txtTrainingHours); Reset(dpTrainingAssignedDate); Reset(dpTrainingCompletionDate); Reset(txtTrainingComments); Reset(cbTrainingSource)
+      - btnTrainingClear:
+          Control: Classic/Button
+          Properties:
+            Text: ="Clear"
+            X: =200
+            Y: =622
+            Width: =120
+            Height: =44
+            Fill: =RGBA(255, 255, 255, 1)
+            Color: =RGBA(20, 30, 18, 1)
+            BorderColor: =RGBA(0, 26, 0, 0.15)
+            BorderThickness: =1
+            HoverFill: =RGBA(0, 39, 0, 0.05)
+            RadiusTopLeft: =22
+            RadiusTopRight: =22
+            RadiusBottomLeft: =22
+            RadiusBottomRight: =22
+            OnSelect: =Reset(cbTrainingPerson); Reset(cbTrainingCourse); Reset(cbTrainingSession); Reset(cbTrainingStatus); Reset(txtTrainingAttendancePct); Reset(txtTrainingScore); Reset(txtTrainingHours); Reset(dpTrainingAssignedDate); Reset(dpTrainingCompletionDate); Reset(txtTrainingComments); Reset(cbTrainingSource)
+      - btnTrainingBack:
+          Control: Classic/Button
+          Properties:
+            Text: ="← Menu"
+            X: =Parent.Width - 144
+            Y: =20
+            Width: =120
+            Height: =36
+            Fill: =RGBA(255, 255, 255, 1)
+            Color: =RGBA(20, 30, 18, 1)
+            BorderColor: =RGBA(0, 26, 0, 0.15)
+            BorderThickness: =1
+            OnSelect: =Navigate(scrMenu, ScreenTransition.None)

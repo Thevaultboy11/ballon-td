@@ -1,0 +1,115 @@
+/// Training catalogue: instructor-led courses, workshops, labs, programmes and rotations.
+table Course
+	lineageTag: 3ff204dd-0ea6-59c6-b48a-d7779e738dc3
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: 71d1214a-207d-5e40-8a4c-a7b48fd038ef
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Code
+		dataType: string
+		lineageTag: c780ed35-5366-5c99-8b70-8fc5c8fbbe40
+		summarizeBy: none
+		sourceColumn: Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: c0094fbb-bd6a-57b3-b102-8401b9847f1f
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: b41de422-6f5a-561b-b4c8-c5305c3d6850
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Provider
+		dataType: string
+		lineageTag: e711389e-1408-5a7a-87da-5e36b99c8d6b
+		summarizeBy: none
+		sourceColumn: Provider
+
+		annotation SummarizationSetBy = Automatic
+
+	column Delivery
+		dataType: string
+		lineageTag: b0528b49-aa7e-5b19-a88e-086566395b24
+		summarizeBy: none
+		sourceColumn: Delivery
+
+		annotation SummarizationSetBy = Automatic
+
+	column Hours
+		dataType: double
+		lineageTag: 21db4ecd-e551-591f-86fc-2526adc41887
+		summarizeBy: none
+		sourceColumn: Hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column Days
+		dataType: int64
+		lineageTag: 74ee8bb6-c32b-5d23-bdcd-c8b0b9942a3a
+		summarizeBy: none
+		sourceColumn: Days
+
+		annotation SummarizationSetBy = Automatic
+
+	column Difficulty
+		dataType: string
+		lineageTag: fac174ee-3e4e-55bd-ac61-56717f4598ab
+		summarizeBy: none
+		sourceColumn: Difficulty
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Trainers score the 25 behaviours on every day of this course.
+	column 'Behaviours observed'
+		dataType: boolean
+		lineageTag: 4d640456-e91c-5d91-8b69-aff4801194bc
+		summarizeBy: none
+		sourceColumn: Behaviours observed
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 1af63a93-9afb-52dc-b9fc-1a8f27bda5af
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Active
+		dataType: boolean
+		lineageTag: a6a33941-917a-5ee8-aa4e-6e6e251f0157
+		summarizeBy: none
+		sourceColumn: Active
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Course = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_Course"),
+				    Selected = Table.SelectColumns(Source, {"id", "code", "name", "type", "provider", "deliveryMode", "durationHours", "days", "difficulty", "observed", "description", "active"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"code", ToText, type nullable text}, {"name", ToText, type nullable text}, {"type", ToText, type nullable text}, {"provider", ToText, type nullable text}, {"deliveryMode", ToText, type nullable text}, {"durationHours", ToNumber, type nullable number}, {"days", ToInt, Int64.Type}, {"difficulty", ToText, type nullable text}, {"observed", ToBool, type nullable logical}, {"description", ToText, type nullable text}, {"active", ToBool, type nullable logical}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    Renamed = Table.RenameColumns(Rows, {{"id", "ID"}, {"code", "Code"}, {"name", "Name"}, {"type", "Type"}, {"provider", "Provider"}, {"deliveryMode", "Delivery"}, {"durationHours", "Hours"}, {"days", "Days"}, {"difficulty", "Difficulty"}, {"observed", "Behaviours observed"}, {"description", "Description"}, {"active", "Active"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

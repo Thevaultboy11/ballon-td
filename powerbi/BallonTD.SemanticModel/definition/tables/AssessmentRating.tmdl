@@ -1,0 +1,78 @@
+/// The level for one competency in one assessment. Gap = required level − level.
+table AssessmentRating
+	lineageTag: 7f224429-3b72-55c6-a977-1de30f6299ea
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: 960326e8-1bf2-5602-a4a0-33f9e291fd69
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Assessment.
+	column assessmentId
+		dataType: string
+		isHidden
+		lineageTag: 389d348c-3b25-56e2-abcd-65533a5a1c09
+		summarizeBy: none
+		sourceColumn: assessmentId
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Competency.
+	column competencyId
+		dataType: string
+		isHidden
+		lineageTag: 94598ea2-9f8e-53fc-bf6b-7d365011a5d7
+		summarizeBy: none
+		sourceColumn: competencyId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Level
+		dataType: int64
+		lineageTag: 2ff8da3b-bcdf-550c-bac0-0b9945ec6e52
+		summarizeBy: none
+		sourceColumn: Level
+
+		annotation SummarizationSetBy = Automatic
+
+	column Required
+		dataType: int64
+		lineageTag: 408dcf93-dfd2-5156-86d5-5bdaa127481e
+		summarizeBy: none
+		sourceColumn: Required
+
+		annotation SummarizationSetBy = Automatic
+
+	column Priority
+		dataType: string
+		lineageTag: 0ec0546c-571a-5178-8ae3-2921786e5d95
+		summarizeBy: none
+		sourceColumn: Priority
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comment
+		dataType: string
+		lineageTag: 9ce05fb8-61cb-5d9c-a90c-8d7deb91aa5f
+		summarizeBy: none
+		sourceColumn: Comment
+
+		annotation SummarizationSetBy = Automatic
+
+	partition AssessmentRating = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_AssessmentRating"),
+				    Selected = Table.SelectColumns(Source, {"id", "assessmentId", "competencyId", "level", "requiredLevel", "priority", "comment"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"assessmentId", ToText, type nullable text}, {"competencyId", ToText, type nullable text}, {"level", ToInt, Int64.Type}, {"requiredLevel", ToInt, Int64.Type}, {"priority", ToText, type nullable text}, {"comment", ToText, type nullable text}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    Renamed = Table.RenameColumns(Rows, {{"id", "ID"}, {"level", "Level"}, {"requiredLevel", "Required"}, {"priority", "Priority"}, {"comment", "Comment"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

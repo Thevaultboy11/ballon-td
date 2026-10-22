@@ -1,0 +1,82 @@
+/// Companies we run the programme for. Every employee belongs to one client.
+table Client
+	lineageTag: 3865d918-f6a2-5eed-8bde-43f6b7a50cd7
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: 446d9656-1180-5321-8fef-dffafcd8cbd6
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: cdf6c2b6-079f-5716-ac56-4b81ef769761
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Industry
+		dataType: string
+		lineageTag: 0c5a1440-f718-5838-b1f6-f1b6b69dceb0
+		summarizeBy: none
+		sourceColumn: Industry
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 4168a56a-643a-53f1-aa74-9eba4cbe8535
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Contact person'
+		dataType: string
+		lineageTag: 5f58a44f-8a29-51bb-a407-e1cc9f36eeff
+		summarizeBy: none
+		sourceColumn: Contact person
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Contact email'
+		dataType: string
+		lineageTag: 07ac78a2-de60-5b93-b079-d47d79068ffa
+		summarizeBy: none
+		sourceColumn: Contact email
+
+		annotation SummarizationSetBy = Automatic
+
+	column Notes
+		dataType: string
+		lineageTag: a4e15c29-2f4f-508b-8148-a9aae2867f81
+		summarizeBy: none
+		sourceColumn: Notes
+
+		annotation SummarizationSetBy = Automatic
+
+	column Active
+		dataType: boolean
+		lineageTag: dd368432-7a74-54ca-a6f9-9e67af63544a
+		summarizeBy: none
+		sourceColumn: Active
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Client = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_Client"),
+				    Selected = Table.SelectColumns(Source, {"id", "name", "industry", "country", "contactName", "contactEmail", "notes", "active"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"name", ToText, type nullable text}, {"industry", ToText, type nullable text}, {"country", ToText, type nullable text}, {"contactName", ToText, type nullable text}, {"contactEmail", ToText, type nullable text}, {"notes", ToText, type nullable text}, {"active", ToBool, type nullable logical}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    Renamed = Table.RenameColumns(Rows, {{"id", "ID"}, {"name", "Name"}, {"industry", "Industry"}, {"country", "Country"}, {"contactName", "Contact person"}, {"contactEmail", "Contact email"}, {"notes", "Notes"}, {"active", "Active"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

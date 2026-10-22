@@ -1,0 +1,90 @@
+/// Certification catalogue.
+table Certification
+	lineageTag: fe916c46-ded6-5903-b992-ec4e2ac427be
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: fc1cc346-8ae5-56c9-8286-e4f40b7ae71f
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Code
+		dataType: string
+		lineageTag: 5c74c352-6dcd-547e-ac18-c9c16935e5fa
+		summarizeBy: none
+		sourceColumn: Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: e68e080a-f124-5235-a1aa-66823d83bf18
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Provider
+		dataType: string
+		lineageTag: 81b9ef1d-43fa-5baf-8b91-310a441961cb
+		summarizeBy: none
+		sourceColumn: Provider
+
+		annotation SummarizationSetBy = Automatic
+
+	column Track
+		dataType: string
+		lineageTag: fae943dd-643b-5b81-8798-9bd9379ad279
+		summarizeBy: none
+		sourceColumn: Track
+
+		annotation SummarizationSetBy = Automatic
+
+	column Difficulty
+		dataType: string
+		lineageTag: 7efcc0e5-8f8b-5772-a2ac-08c9a4c8a8f0
+		summarizeBy: none
+		sourceColumn: Difficulty
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valid for (months)'
+		dataType: int64
+		lineageTag: 05eafee1-1f43-5bb6-b550-ceef7c7fe88d
+		summarizeBy: none
+		sourceColumn: Valid for (months)
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 9284dc1d-5bc3-5e74-a2c5-8e8b963e6c29
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Active
+		dataType: boolean
+		lineageTag: 88febd0a-1daa-5c6e-8114-200e3a654320
+		summarizeBy: none
+		sourceColumn: Active
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Certification = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_Certification"),
+				    Selected = Table.SelectColumns(Source, {"id", "code", "name", "provider", "track", "difficulty", "validityMonths", "description", "active"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"code", ToText, type nullable text}, {"name", ToText, type nullable text}, {"provider", ToText, type nullable text}, {"track", ToText, type nullable text}, {"difficulty", ToText, type nullable text}, {"validityMonths", ToInt, Int64.Type}, {"description", ToText, type nullable text}, {"active", ToBool, type nullable logical}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    Renamed = Table.RenameColumns(Rows, {{"id", "ID"}, {"code", "Code"}, {"name", "Name"}, {"provider", "Provider"}, {"track", "Track"}, {"difficulty", "Difficulty"}, {"validityMonths", "Valid for (months)"}, {"description", "Description"}, {"active", "Active"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,328 @@
+- conEvidence:
+    Control: GroupContainer
+    Variant: ManualLayout
+    Properties:
+      X: =0
+      Y: =0
+      Width: =Parent.Width
+      Height: =Parent.Height
+      Fill: =RGBA(255, 255, 251, 1)
+    Children:
+      - lblEvidenceTitle:
+          Control: Label
+          Properties:
+            Text: ="Coach validation (behaviour descriptor)"
+            X: =24
+            Y: =16
+            Width: =900
+            Height: =40
+            Size: =20
+            FontWeight: =FontWeight.Semibold
+            Color: =RGBA(20, 30, 18, 1)
+      - lblEvidenceSub:
+          Control: Label
+          Properties:
+            Text: |-
+              ="One row per behaviour descriptor: progress 1–5 and the evidence (artefact or line-manager confirmation)."
+            X: =24
+            Y: =56
+            Width: =900
+            Height: =30
+            Size: =11
+            Color: =RGBA(107, 113, 106, 1)
+      - lblCbEvidencePerson:
+          Control: Label
+          Properties:
+            Text: ="Person *"
+            X: =24
+            Y: =96
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - cbEvidencePerson:
+          Control: Classic/ComboBox
+          Properties:
+            X: =24
+            Y: =120
+            Width: =440
+            Height: =40
+            Items: =SortByColumns(tbl_Employee, "name")
+            DisplayFields: =["name"]
+            SearchFields: =["name", "jobTitle", "id"]
+            SelectMultiple: =false
+            DefaultSelectedItems: =Filter(tbl_Employee, id = First(PowerBIIntegration.Data).'Employee ID')
+      - lblCbEvidenceSkill:
+          Control: Label
+          Properties:
+            Text: ="Skill *"
+            X: =488
+            Y: =96
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - cbEvidenceSkill:
+          Control: Classic/ComboBox
+          Properties:
+            X: =488
+            Y: =120
+            Width: =440
+            Height: =40
+            Items: =SortByColumns(tbl_Competency, "name")
+            DisplayFields: =["name"]
+            SearchFields: =["name"]
+            SelectMultiple: =false
+      - lblCbEvidenceTitle:
+          Control: Label
+          Properties:
+            Text: ="Behaviour descriptor *"
+            X: =24
+            Y: =170
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - cbEvidenceTitle:
+          Control: Classic/ComboBox
+          Properties:
+            X: =24
+            Y: =194
+            Width: =440
+            Height: =40
+            Items: =SortByColumns(Filter(tbl_CompetencyBehavior, competencyId = cbEvidenceSkill.Selected.id), "description")
+            DisplayFields: =["description"]
+            SearchFields: =["description"]
+            SelectMultiple: =false
+      - lblDdEvidenceProgress:
+          Control: Label
+          Properties:
+            Text: ="Progress (1–5)"
+            X: =488
+            Y: =170
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - ddEvidenceProgress:
+          Control: Classic/DropDown
+          Properties:
+            X: =488
+            Y: =194
+            Width: =440
+            Height: =40
+            Items: =[1, 2, 3, 4, 5]
+            Default: =3
+      - lblCbEvidenceEvidenceType:
+          Control: Label
+          Properties:
+            Text: ="Evidence type *"
+            X: =24
+            Y: =244
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - cbEvidenceEvidenceType:
+          Control: Classic/ComboBox
+          Properties:
+            X: =24
+            Y: =268
+            Width: =440
+            Height: =40
+            Items: =Sort(Filter(tbl_LookupValue, list = "evidenceType" && active), sortOrder)
+            DisplayFields: =["value"]
+            SearchFields: =["value"]
+            SelectMultiple: =false
+            DefaultSelectedItems: =Filter(tbl_LookupValue, list = "evidenceType" && value = "Manager Validation")
+      - lblDpEvidenceDate:
+          Control: Label
+          Properties:
+            Text: ="Date"
+            X: =488
+            Y: =244
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - dpEvidenceDate:
+          Control: Classic/DatePicker
+          Properties:
+            X: =488
+            Y: =268
+            Width: =440
+            Height: =40
+            DefaultDate: =Today()
+            Format: ="yyyy-mm-dd"
+      - lblTxtEvidenceDescription:
+          Control: Label
+          Properties:
+            Text: ="Evidence (artefact or line-manager confirmation)"
+            X: =24
+            Y: =318
+            Width: =904
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - txtEvidenceDescription:
+          Control: Classic/TextInput
+          Properties:
+            X: =24
+            Y: =342
+            Width: =904
+            Height: =72
+            Default: =""
+            Mode: =TextMode.MultiLine
+            HintText: =""
+      - lblCbEvidenceVerificationStatus:
+          Control: Label
+          Properties:
+            Text: ="Verification"
+            X: =24
+            Y: =392
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - cbEvidenceVerificationStatus:
+          Control: Classic/ComboBox
+          Properties:
+            X: =24
+            Y: =416
+            Width: =440
+            Height: =40
+            Items: =Sort(Filter(tbl_LookupValue, list = "verificationStatus" && active), sortOrder)
+            DisplayFields: =["value"]
+            SearchFields: =["value"]
+            SelectMultiple: =false
+            DefaultSelectedItems: =Filter(tbl_LookupValue, list = "verificationStatus" && value = "Verified")
+      - lblCbEvidenceVerifiedBy:
+          Control: Label
+          Properties:
+            Text: ="Verified by (coach)"
+            X: =488
+            Y: =392
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - cbEvidenceVerifiedBy:
+          Control: Classic/ComboBox
+          Properties:
+            X: =488
+            Y: =416
+            Width: =440
+            Height: =40
+            Items: =SortByColumns(tbl_Staff, "name")
+            DisplayFields: =["name"]
+            SearchFields: =["name"]
+            SelectMultiple: =false
+      - lblTxtEvidenceFileLink:
+          Control: Label
+          Properties:
+            Text: ="File link"
+            X: =24
+            Y: =466
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - txtEvidenceFileLink:
+          Control: Classic/TextInput
+          Properties:
+            X: =24
+            Y: =490
+            Width: =440
+            Height: =40
+            Default: =""
+            HintText: =""
+      - lblCbEvidenceSource:
+          Control: Label
+          Properties:
+            Text: ="Source"
+            X: =488
+            Y: =466
+            Width: =440
+            Height: =22
+            Size: =10
+            Color: =RGBA(96, 103, 96, 1)
+      - cbEvidenceSource:
+          Control: Classic/ComboBox
+          Properties:
+            X: =488
+            Y: =490
+            Width: =440
+            Height: =40
+            Items: =Sort(Filter(tbl_LookupValue, list = "source" && active), sortOrder)
+            DisplayFields: =["value"]
+            SearchFields: =["value"]
+            SelectMultiple: =false
+            DefaultSelectedItems: =Filter(tbl_LookupValue, list = "source" && value = "Direct entry")
+      - btnEvidenceSave:
+          Control: Classic/Button
+          Properties:
+            Text: ="Save"
+            X: =24
+            Y: =548
+            Width: =160
+            Height: =44
+            Fill: =RGBA(147, 201, 38, 1)
+            Color: =RGBA(20, 30, 18, 1)
+            HoverFill: =RGBA(125, 176, 26, 1)
+            RadiusTopLeft: =22
+            RadiusTopRight: =22
+            RadiusBottomLeft: =22
+            RadiusBottomRight: =22
+            DisplayMode: =If(IsBlank(cbEvidencePerson.Selected.id) || IsBlank(cbEvidenceSkill.Selected) || IsBlank(cbEvidenceTitle.Selected) || IsBlank(cbEvidenceEvidenceType.Selected.value), DisplayMode.Disabled, DisplayMode.Edit)
+            OnSelect: |-
+              =Patch(tbl_Evidence, Defaults(tbl_Evidence), {
+                  id: "EVD-PA" & Text(Now(), "yymmddhhmmss"),
+                  employeeId: cbEvidencePerson.Selected.id,
+                  competencyId: cbEvidenceSkill.Selected.id,
+                  title: cbEvidenceTitle.Selected.code & ": " & cbEvidenceTitle.Selected.description,
+                  evidenceType: cbEvidenceEvidenceType.Selected.value,
+                  date: If(IsBlank(dpEvidenceDate.SelectedDate), Blank(), Text(dpEvidenceDate.SelectedDate, "yyyy-mm-dd")),
+                  description: "Progress " & ddEvidenceProgress.Selected.Value & "/5. " & txtEvidenceDescription.Text,
+                  verificationStatus: cbEvidenceVerificationStatus.Selected.value,
+                  verifiedById: cbEvidenceVerifiedBy.Selected.id,
+                  fileLink: If(IsBlank(txtEvidenceFileLink.Text), Blank(), txtEvidenceFileLink.Text),
+                  source: cbEvidenceSource.Selected.value,
+                  submittedBy: "Coach",
+                  createdAt: Text(Now(), "yyyy-mm-dd hh:mm:ss"),
+                  createdBy: User().FullName,
+                  updatedAt: Text(Now(), "yyyy-mm-dd hh:mm:ss"),
+                  updatedBy: User().FullName
+              });
+              Notify("Coach validation (behaviour descriptor) saved. It appears in the report after the next refresh.", NotificationType.Success);
+              Reset(cbEvidenceSkill); Reset(cbEvidenceTitle); Reset(ddEvidenceProgress); Reset(cbEvidenceEvidenceType); Reset(dpEvidenceDate); Reset(txtEvidenceDescription); Reset(cbEvidenceVerificationStatus); Reset(cbEvidenceVerifiedBy); Reset(txtEvidenceFileLink); Reset(cbEvidenceSource)
+      - btnEvidenceClear:
+          Control: Classic/Button
+          Properties:
+            Text: ="Clear"
+            X: =200
+            Y: =548
+            Width: =120
+            Height: =44
+            Fill: =RGBA(255, 255, 255, 1)
+            Color: =RGBA(20, 30, 18, 1)
+            BorderColor: =RGBA(0, 26, 0, 0.15)
+            BorderThickness: =1
+            HoverFill: =RGBA(0, 39, 0, 0.05)
+            RadiusTopLeft: =22
+            RadiusTopRight: =22
+            RadiusBottomLeft: =22
+            RadiusBottomRight: =22
+            OnSelect: =Reset(cbEvidencePerson); Reset(cbEvidenceSkill); Reset(cbEvidenceTitle); Reset(ddEvidenceProgress); Reset(cbEvidenceEvidenceType); Reset(dpEvidenceDate); Reset(txtEvidenceDescription); Reset(cbEvidenceVerificationStatus); Reset(cbEvidenceVerifiedBy); Reset(txtEvidenceFileLink); Reset(cbEvidenceSource)
+      - btnEvidenceBack:
+          Control: Classic/Button
+          Properties:
+            Text: ="← Menu"
+            X: =Parent.Width - 144
+            Y: =20
+            Width: =120
+            Height: =36
+            Fill: =RGBA(255, 255, 255, 1)
+            Color: =RGBA(20, 30, 18, 1)
+            BorderColor: =RGBA(0, 26, 0, 0.15)
+            BorderThickness: =1
+            OnSelect: =Navigate(scrMenu, ScreenTransition.None)

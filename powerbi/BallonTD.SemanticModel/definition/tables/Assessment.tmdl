@@ -1,0 +1,176 @@
+/// One assessment event. The level per competency is entered on the assessment's ratings grid.
+table Assessment
+	lineageTag: 6de84be8-85ca-5967-9321-66ad00e8a9bf
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: 5f30bac9-ca64-56cf-a8b2-1953e4234a4f
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Employee.
+	column employeeId
+		dataType: string
+		isHidden
+		lineageTag: 752245b6-2330-59e3-939b-8db49d57e895
+		summarizeBy: none
+		sourceColumn: employeeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 1d70deef-bd30-5e7b-8486-f5569f8eb6e3
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 36f22d6d-7211-5029-b1e2-e1e47bc24db6
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: cd417070-edeb-5be0-8890-b0f4ef6029d7
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of JobRole.
+	column jobRoleId
+		dataType: string
+		isHidden
+		lineageTag: 67dc5d96-b3bc-5849-a9ab-8757295245fb
+		summarizeBy: none
+		sourceColumn: jobRoleId
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Staff.
+	column assessorId
+		dataType: string
+		isHidden
+		lineageTag: 36e4fef2-9a0f-5e34-ad0b-18817807dd13
+		summarizeBy: none
+		sourceColumn: assessorId
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Enrollment.
+	column enrollmentId
+		dataType: string
+		isHidden
+		lineageTag: c6bfbc37-60ab-5afe-b7c8-2a6c4f7409d5
+		summarizeBy: none
+		sourceColumn: enrollmentId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Report
+		dataType: string
+		lineageTag: e2966362-443b-54a8-b843-88b1553a0aa7
+		summarizeBy: none
+		sourceColumn: Report
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Summary / notes'
+		dataType: string
+		lineageTag: 62f4d393-2cd4-5551-bc25-f03177d63250
+		summarizeBy: none
+		sourceColumn: Summary / notes
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Where this came from. Use "Email from client" or "Excel from client" when the client sent it and you are typing it in.
+	column Source
+		dataType: string
+		lineageTag: 456e629a-c3bf-5b9a-9388-f60189b56b96
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Created
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: 6b5cd6d6-e6ac-5ffc-b134-71fa57f9f8a2
+		summarizeBy: none
+		sourceColumn: Created
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Created by'
+		dataType: string
+		isHidden
+		lineageTag: 997f638b-5c75-5de4-a499-2678d6f0b436
+		summarizeBy: none
+		sourceColumn: Created by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last changed'
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: 250193ca-b12f-5678-b100-848981e91900
+		summarizeBy: none
+		sourceColumn: Last changed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Changed by'
+		dataType: string
+		isHidden
+		lineageTag: de50d34e-e04c-5d2d-bf90-93ba67cc158f
+		summarizeBy: none
+		sourceColumn: Changed by
+
+		annotation SummarizationSetBy = Automatic
+
+	column Assessor
+		dataType: string
+		lineageTag: 46341237-5f4c-55d7-8566-2dc0aae00d67
+		summarizeBy: none
+		sourceColumn: Assessor
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Role assessed against'
+		dataType: string
+		lineageTag: 2e6c847c-8ee6-5670-b5fb-2d37dd479b95
+		summarizeBy: none
+		sourceColumn: Role assessed against
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Assessment = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_Assessment"),
+				    Selected = Table.SelectColumns(Source, {"id", "employeeId", "type", "date", "status", "jobRoleId", "assessorId", "enrollmentId", "reportStatus", "summary", "source", "createdAt", "createdBy", "updatedAt", "updatedBy"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"employeeId", ToText, type nullable text}, {"type", ToText, type nullable text}, {"date", ToDate, type nullable date}, {"status", ToText, type nullable text}, {"jobRoleId", ToText, type nullable text}, {"assessorId", ToText, type nullable text}, {"enrollmentId", ToText, type nullable text}, {"reportStatus", ToText, type nullable text}, {"summary", ToText, type nullable text}, {"source", ToText, type nullable text}, {"createdAt", ToDateTime, type nullable datetime}, {"createdBy", ToText, type nullable text}, {"updatedAt", ToDateTime, type nullable datetime}, {"updatedBy", ToText, type nullable text}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    J0 = Table.NestedJoin(Rows, {"assessorId"}, Table.SelectColumns(Raw("tbl_Staff"), {"id", "name"}, MissingField.UseNull), {"id"}, "_j0", JoinKind.LeftOuter),
+				    X0 = Table.ExpandTableColumn(J0, "_j0", {"name"}, {"Assessor"}),
+				    J1 = Table.NestedJoin(X0, {"jobRoleId"}, Table.SelectColumns(Raw("tbl_JobRole"), {"id", "name"}, MissingField.UseNull), {"id"}, "_j1", JoinKind.LeftOuter),
+				    X1 = Table.ExpandTableColumn(J1, "_j1", {"name"}, {"Role assessed against"}),
+				    Renamed = Table.RenameColumns(X1, {{"id", "ID"}, {"type", "Type"}, {"date", "Date"}, {"status", "Status"}, {"reportStatus", "Report"}, {"summary", "Summary / notes"}, {"source", "Source"}, {"createdAt", "Created"}, {"createdBy", "Created by"}, {"updatedAt", "Last changed"}, {"updatedBy", "Changed by"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,60 @@
+/// What each competency looks like at each level.
+table CompetencyBehavior
+	lineageTag: f4a2c7fe-523e-5b87-8c6c-b67203150894
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: 7a2b0a10-b5f8-563d-8521-3a002c8acae1
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Competency.
+	column competencyId
+		dataType: string
+		isHidden
+		lineageTag: 1c806268-7b75-563e-b265-911e77264d2a
+		summarizeBy: none
+		sourceColumn: competencyId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Level
+		dataType: int64
+		lineageTag: 3e7a716e-3a11-5d25-89d2-b2dc33ded2d1
+		summarizeBy: none
+		sourceColumn: Level
+
+		annotation SummarizationSetBy = Automatic
+
+	column Code
+		dataType: string
+		lineageTag: 04bf8d58-20d3-5933-bc4c-e6c8c77e41c0
+		summarizeBy: none
+		sourceColumn: Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'What it looks like'
+		dataType: string
+		lineageTag: 383c4e93-3c3a-58cf-ab2f-84920742746c
+		summarizeBy: none
+		sourceColumn: What it looks like
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CompetencyBehavior = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_CompetencyBehavior"),
+				    Selected = Table.SelectColumns(Source, {"id", "competencyId", "level", "code", "description"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"competencyId", ToText, type nullable text}, {"level", ToInt, Int64.Type}, {"code", ToText, type nullable text}, {"description", ToText, type nullable text}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    Renamed = Table.RenameColumns(Rows, {{"id", "ID"}, {"level", "Level"}, {"code", "Code"}, {"description", "What it looks like"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

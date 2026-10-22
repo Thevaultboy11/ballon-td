@@ -17,6 +17,6 @@
     "types": ["node"],
     "paths": { "@shared/*": ["./shared/*"] }
   },
-  "include": ["client/src", "server", "shared", "scripts/*.ts"],
+  "include": ["client/src", "server", "shared", "scripts/**/*.ts"],
   "exclude": ["server/generated"]
 }

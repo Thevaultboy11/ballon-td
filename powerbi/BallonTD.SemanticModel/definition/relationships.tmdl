@@ -1,0 +1,119 @@
+relationship 630351a9-26fd-5379-9d92-bc2b30943a19
+	fromColumn: Employee.clientId
+	toColumn: Client.ID
+
+relationship 58de30ab-3e63-514a-af7b-ec4198020ead
+	fromColumn: Employee.jobRoleId
+	toColumn: JobRole.ID
+
+relationship a96ab9c5-2276-5f70-a726-5a161bafba2f
+	fromColumn: RoleRequirement.jobRoleId
+	toColumn: JobRole.ID
+
+relationship 66006edb-d9f6-5da7-a200-4c94fdb48566
+	fromColumn: RoleRequirement.competencyId
+	toColumn: Competency.'Competency ID'
+
+relationship 9972c407-f1c8-5638-89db-7011f3ff1110
+	fromColumn: CompetencyBehavior.competencyId
+	toColumn: Competency.'Competency ID'
+
+relationship b782b6e5-9e68-5b43-b312-829fe5060817
+	fromColumn: Enrollment.employeeId
+	toColumn: Employee.'Employee ID'
+
+relationship c8d31339-259d-515b-ae85-8629cf31734e
+	fromColumn: Enrollment.programId
+	toColumn: Program.ID
+
+relationship a1a5d672-16e6-5ef2-9812-124e5d8d5242
+	fromColumn: Assessment.employeeId
+	toColumn: Employee.'Employee ID'
+
+relationship 723eadf0-e0ab-5bfe-a5e5-8fd96f61e155
+	fromColumn: AssessmentRating.assessmentId
+	toColumn: Assessment.ID
+
+relationship ee9ce977-9441-5be6-b64c-ac59b0c35c0f
+	fromColumn: AssessmentRating.competencyId
+	toColumn: Competency.'Competency ID'
+
+relationship 7ace5d2a-2a03-59ac-8be0-945c9c85dd11
+	fromColumn: ManagerValidation.employeeId
+	toColumn: Employee.'Employee ID'
+
+relationship ef1dac7c-1bbf-5d32-ad0f-7f6091273811
+	fromColumn: ManagerValidation.competencyId
+	toColumn: Competency.'Competency ID'
+
+relationship ef680ad4-1df7-587d-a4ea-bd6ec1a86afd
+	fromColumn: IdpAction.employeeId
+	toColumn: Employee.'Employee ID'
+
+relationship d0e3c7e4-da45-5700-ab20-2309ed6cbcff
+	fromColumn: IdpAction.competencyId
+	toColumn: Competency.'Competency ID'
+
+relationship 04154b13-d007-547b-bd78-7c8e6dfc7d8d
+	fromColumn: TrainingRecord.employeeId
+	toColumn: Employee.'Employee ID'
+
+relationship 737c5b0b-4a17-55b9-904a-3dfad11b8e65
+	fromColumn: TrainingRecord.courseId
+	toColumn: Course.ID
+
+relationship db7ae33a-7da2-58e7-b491-46cff5d4d1b4
+	fromColumn: TrainingRecord.sessionId
+	toColumn: CourseSession.ID
+
+relationship 5e3c8150-f992-5134-850f-1d494c5101e6
+	fromColumn: ObservationDay.trainingRecordId
+	toColumn: TrainingRecord.ID
+
+relationship 39b17f16-1d0b-5747-af0c-bc3ff9905fe6
+	fromColumn: ObservationScore.observationDayId
+	toColumn: ObservationDay.ID
+
+relationship d8b848e7-8e85-53d8-b921-d673790b3e2a
+	fromColumn: ObservationScore.parameterId
+	toColumn: ObservationParameter.ID
+
+relationship 225ab69f-e91f-5f95-af95-c598dfca697d
+	fromColumn: ObservationParameter.competencyId
+	toColumn: Competency.'Competency ID'
+
+relationship 319c75aa-9081-5318-8438-865731d40619
+	fromColumn: CertificationRecord.employeeId
+	toColumn: Employee.'Employee ID'
+
+relationship c8a33af4-5e0b-5e59-9630-62868d538998
+	fromColumn: CertificationRecord.certificationId
+	toColumn: Certification.ID
+
+relationship a9eba6de-f703-56f3-a45c-db6e913e4040
+	fromColumn: CoachingSession.employeeId
+	toColumn: Employee.'Employee ID'
+
+relationship 3bc5e6ef-5ea6-5fbd-aed9-183b8142a6c4
+	fromColumn: Evidence.employeeId
+	toColumn: Employee.'Employee ID'
+
+relationship d8a99586-f44e-5539-9137-6d8f04a63aa5
+	fromColumn: Evidence.competencyId
+	toColumn: Competency.'Competency ID'
+
+relationship 227ca73f-b9b2-543a-9ef3-30bb1b37df93
+	fromColumn: CurrentCompetency.employeeId
+	toColumn: Employee.'Employee ID'
+
+relationship 62f5ee77-22b9-5ec2-ae17-f8cb266901d2
+	fromColumn: CurrentCompetency.competencyId
+	toColumn: Competency.'Competency ID'
+
+relationship e7fbcb88-6088-50e0-9c1e-5aeb5519320c
+	fromColumn: NextRoleGap.employeeId
+	toColumn: Employee.'Employee ID'
+
+relationship 3c0ab433-e587-590c-9beb-f6cc973f2fa4
+	fromColumn: NextRoleGap.competencyId
+	toColumn: Competency.'Competency ID'

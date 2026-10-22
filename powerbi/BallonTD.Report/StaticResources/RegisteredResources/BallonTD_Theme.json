@@ -1,0 +1,25 @@
+{
+  "name": "Ballon TD",
+  "dataColors": [
+    "#93C926",
+    "#141E12",
+    "#F0B54A",
+    "#D4383E",
+    "#0973DC",
+    "#5D770D",
+    "#C8E68A",
+    "#6B716A",
+    "#E4F7C7",
+    "#C98A12"
+  ],
+  "background": "#FFFFFB",
+  "foreground": "#141E12",
+  "tableAccent": "#93C926",
+  "good": "#5D770D",
+  "neutral": "#F0B54A",
+  "bad": "#D4383E",
+  "maximum": "#93C926",
+  "center": "#F8DFA4",
+  "minimum": "#F4B4B0",
+  "null": "#F3F3F3"
+}

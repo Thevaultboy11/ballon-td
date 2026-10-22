@@ -1,0 +1,92 @@
+/// Requirements of each person's next role (from the role profile's "Usual next role"), with the person's current level.
+table NextRoleGap
+	lineageTag: a64a0c30-a7f7-5e36-9b97-ef9f28765786
+
+	column employeeId
+		dataType: string
+		isHidden
+		lineageTag: 3a0f9cf5-18e0-5c0c-8707-363482b895ae
+		summarizeBy: none
+		sourceColumn: employeeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column competencyId
+		dataType: string
+		isHidden
+		lineageTag: cba1028d-15a3-51ec-8207-690c7c677c34
+		summarizeBy: none
+		sourceColumn: competencyId
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Next role'
+		dataType: string
+		lineageTag: 179bbba0-8d8a-5087-8100-f539a236076c
+		summarizeBy: none
+		sourceColumn: Next role
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Next required'
+		dataType: double
+		lineageTag: cafdd171-ba21-5b20-af1f-e1c9d5b130ad
+		summarizeBy: average
+		sourceColumn: Next required
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Next priority'
+		dataType: string
+		lineageTag: 47a800ca-0626-517a-aa5b-8e87f6af5608
+		summarizeBy: none
+		sourceColumn: Next priority
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Next weight'
+		dataType: int64
+		isHidden
+		lineageTag: ecedb7c7-2894-547f-b9d1-8bbbc2584654
+		summarizeBy: sum
+		sourceColumn: Next weight
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Level now'
+		dataType: double
+		lineageTag: 28d34977-459e-59dd-8487-e1742287a7d7
+		summarizeBy: average
+		sourceColumn: Level now
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Gap to next role'
+		dataType: double
+		lineageTag: d7158542-8823-546c-bbf0-2e973c1f2e72
+		summarizeBy: sum
+		sourceColumn: Gap to next role
+
+		annotation SummarizationSetBy = Automatic
+
+	partition NextRoleGap = m
+		mode: import
+		source =
+				let
+				    E = Table.TransformColumns(Table.SelectColumns(Raw("tbl_Employee"), {"id", "jobRoleId"}, MissingField.UseNull), {{"id", ToText, type nullable text}, {"jobRoleId", ToText, type nullable text}}),
+				    R = Table.TransformColumns(Table.SelectColumns(Raw("tbl_JobRole"), {"id", "nextRoleId", "name"}, MissingField.UseNull), {{"id", ToText, type nullable text}, {"nextRoleId", ToText, type nullable text}, {"name", ToText, type nullable text}}),
+				    Names = Table.RenameColumns(Table.SelectColumns(R, {"id", "name"}), {{"id", "roleId"}, {"name", "Next role"}}),
+				    EN = Table.ExpandTableColumn(Table.NestedJoin(E, {"jobRoleId"}, R, {"id"}, "r", JoinKind.Inner), "r", {"nextRoleId"}),
+				    HasNext = Table.SelectRows(EN, each [nextRoleId] <> null),
+				    WithName = Table.ExpandTableColumn(Table.NestedJoin(HasNext, {"nextRoleId"}, Names, {"roleId"}, "n", JoinKind.LeftOuter), "n", {"Next role"}),
+				    Q = Table.TransformColumns(Table.SelectColumns(Raw("tbl_RoleRequirement"), {"jobRoleId", "competencyId", "requiredLevel", "priority"}, MissingField.UseNull), {{"jobRoleId", ToText, type nullable text}, {"competencyId", ToText, type nullable text}, {"requiredLevel", ToNumber, type nullable number}, {"priority", ToText, type nullable text}}),
+				    J = Table.ExpandTableColumn(Table.NestedJoin(WithName, {"nextRoleId"}, Q, {"jobRoleId"}, "q", JoinKind.Inner), "q", {"competencyId", "requiredLevel", "priority"}, {"competencyId", "Next required", "Next priority"}),
+				    Base = Table.RenameColumns(Table.SelectColumns(J, {"id", "competencyId", "Next role", "Next required", "Next priority"}), {{"id", "employeeId"}}),
+				    L = Table.ExpandTableColumn(Table.NestedJoin(Base, {"employeeId", "competencyId"}, CurrentLevels, {"employeeId", "competencyId"}, "c", JoinKind.LeftOuter), "c", {"Level"}, {"Level now"}),
+				    W = Table.AddColumn(L, "Next weight", each if [Next priority] = "High" then 3 else if [Next priority] = "Low" then 1 else 2, Int64.Type),
+				    G = Table.AddColumn(W, "Gap to next role", each if [Next required] = null then null else [Next required] - (if [Level now] = null then 0 else [Level now]), type nullable number),
+				    Typed = Table.TransformColumnTypes(G, {{"employeeId", type text}, {"competencyId", type text}, {"Next role", type text}, {"Next required", type number}, {"Next priority", type text}, {"Level now", type number}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

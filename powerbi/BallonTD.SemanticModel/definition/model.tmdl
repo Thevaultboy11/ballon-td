@@ -1,0 +1,41 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["DataFile","Workbook","Raw","ToText","ToNumber","ToInt","ToBool","ToDate","ToDateTime","CurrentLevels","Client","Program","Staff","Competency","CompetencyBehavior","JobRole","RoleRequirement","Course","Certification","ObservationParameter","Employee","Enrollment","Assessment","AssessmentRating","ManagerValidation","IdpAction","CourseSession","TrainingRecord","ObservationDay","ObservationScore","CertificationRecord","CoachingSession","Evidence","CurrentCompetency","NextRoleGap"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Client
+ref table Program
+ref table Staff
+ref table Competency
+ref table CompetencyBehavior
+ref table JobRole
+ref table RoleRequirement
+ref table Course
+ref table Certification
+ref table ObservationParameter
+ref table Employee
+ref table Enrollment
+ref table Assessment
+ref table AssessmentRating
+ref table ManagerValidation
+ref table IdpAction
+ref table CourseSession
+ref table TrainingRecord
+ref table ObservationDay
+ref table ObservationScore
+ref table CertificationRecord
+ref table CoachingSession
+ref table Evidence
+ref table CurrentCompetency
+ref table NextRoleGap
+ref table _Measures

@@ -1,0 +1,189 @@
+/// A person taking part in a programme, with their coach and consultant.
+table Enrollment
+	lineageTag: 8ff5633f-dc56-5bec-8c2b-b1032a5a5b5b
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: f828e2fd-bd0e-5b2e-a407-e2eee95c317c
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Employee.
+	column employeeId
+		dataType: string
+		isHidden
+		lineageTag: a9aad843-bd6e-5781-acdc-7ddd0bb9cfac
+		summarizeBy: none
+		sourceColumn: employeeId
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Program.
+	column programId
+		dataType: string
+		isHidden
+		lineageTag: 64e652d5-c581-5102-b101-bc070e310811
+		summarizeBy: none
+		sourceColumn: programId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Batch
+		dataType: string
+		lineageTag: 76db0f63-7055-5007-86b5-399aef0e3b9a
+		summarizeBy: none
+		sourceColumn: Batch
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Staff.
+	column coachId
+		dataType: string
+		isHidden
+		lineageTag: 1a7a68db-403f-5e91-a679-da2c0b231a14
+		summarizeBy: none
+		sourceColumn: coachId
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Staff.
+	column consultantId
+		dataType: string
+		isHidden
+		lineageTag: 0955ae60-ed25-51b2-ae25-88c4f61648b5
+		summarizeBy: none
+		sourceColumn: consultantId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Start
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: aa768b5e-75c3-5ea1-a64c-8e6e8db34bb7
+		summarizeBy: none
+		sourceColumn: Start
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column End
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: bda1b778-a0c9-5d30-b4fd-83900ca175df
+		summarizeBy: none
+		sourceColumn: End
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 998002f2-c1a0-5421-b632-e8b0ee17d8d1
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Notes
+		dataType: string
+		lineageTag: 20b7b561-c78f-5c0c-80df-523308c7e6fb
+		summarizeBy: none
+		sourceColumn: Notes
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Where this came from. Use "Email from client" or "Excel from client" when the client sent it and you are typing it in.
+	column Source
+		dataType: string
+		lineageTag: 595b5e6e-3726-54d9-a84f-1d4fa6625489
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Created
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: 42a865c4-2006-5059-a1f3-74a123701da5
+		summarizeBy: none
+		sourceColumn: Created
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Created by'
+		dataType: string
+		isHidden
+		lineageTag: 8f2411fb-e666-5a05-a7a3-880a898a8940
+		summarizeBy: none
+		sourceColumn: Created by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last changed'
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: 1447bae5-84e9-5143-b07b-0f384603e325
+		summarizeBy: none
+		sourceColumn: Last changed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Changed by'
+		dataType: string
+		isHidden
+		lineageTag: 0cf8bc07-5903-5963-858b-e5c0159b712a
+		summarizeBy: none
+		sourceColumn: Changed by
+
+		annotation SummarizationSetBy = Automatic
+
+	column Programme
+		dataType: string
+		lineageTag: d90a2cf6-5e89-5c57-8e84-fff61ab6bd48
+		summarizeBy: none
+		sourceColumn: Programme
+
+		annotation SummarizationSetBy = Automatic
+
+	column Coach
+		dataType: string
+		lineageTag: 02121b3a-b2a1-50a3-801a-31262f5e39e2
+		summarizeBy: none
+		sourceColumn: Coach
+
+		annotation SummarizationSetBy = Automatic
+
+	column Consultant
+		dataType: string
+		lineageTag: 6e5f10d5-7de8-5ef3-a5fc-1adb7a025bb2
+		summarizeBy: none
+		sourceColumn: Consultant
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Enrollment = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_Enrollment"),
+				    Selected = Table.SelectColumns(Source, {"id", "employeeId", "programId", "batch", "coachId", "consultantId", "startDate", "endDate", "status", "notes", "source", "createdAt", "createdBy", "updatedAt", "updatedBy"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"employeeId", ToText, type nullable text}, {"programId", ToText, type nullable text}, {"batch", ToText, type nullable text}, {"coachId", ToText, type nullable text}, {"consultantId", ToText, type nullable text}, {"startDate", ToDate, type nullable date}, {"endDate", ToDate, type nullable date}, {"status", ToText, type nullable text}, {"notes", ToText, type nullable text}, {"source", ToText, type nullable text}, {"createdAt", ToDateTime, type nullable datetime}, {"createdBy", ToText, type nullable text}, {"updatedAt", ToDateTime, type nullable datetime}, {"updatedBy", ToText, type nullable text}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    J0 = Table.NestedJoin(Rows, {"programId"}, Table.SelectColumns(Raw("tbl_Program"), {"id", "name"}, MissingField.UseNull), {"id"}, "_j0", JoinKind.LeftOuter),
+				    X0 = Table.ExpandTableColumn(J0, "_j0", {"name"}, {"Programme"}),
+				    J1 = Table.NestedJoin(X0, {"coachId"}, Table.SelectColumns(Raw("tbl_Staff"), {"id", "name"}, MissingField.UseNull), {"id"}, "_j1", JoinKind.LeftOuter),
+				    X1 = Table.ExpandTableColumn(J1, "_j1", {"name"}, {"Coach"}),
+				    J2 = Table.NestedJoin(X1, {"consultantId"}, Table.SelectColumns(Raw("tbl_Staff"), {"id", "name"}, MissingField.UseNull), {"id"}, "_j2", JoinKind.LeftOuter),
+				    X2 = Table.ExpandTableColumn(J2, "_j2", {"name"}, {"Consultant"}),
+				    Renamed = Table.RenameColumns(X2, {{"id", "ID"}, {"batch", "Batch"}, {"startDate", "Start"}, {"endDate", "End"}, {"status", "Status"}, {"notes", "Notes"}, {"source", "Source"}, {"createdAt", "Created"}, {"createdBy", "Created by"}, {"updatedAt", "Last changed"}, {"updatedBy", "Changed by"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

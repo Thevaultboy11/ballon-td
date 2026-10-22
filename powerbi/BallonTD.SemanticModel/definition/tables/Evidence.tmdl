@@ -1,0 +1,181 @@
+/// Proof that a competency was shown.
+table Evidence
+	lineageTag: 6e7176db-a1ee-5fdd-8f8a-e4a986517f18
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: f441a1a1-1aca-5d27-b60a-ef99b0981ef2
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Employee.
+	column employeeId
+		dataType: string
+		isHidden
+		lineageTag: 50e08412-4d96-5a41-a159-fca57890c33c
+		summarizeBy: none
+		sourceColumn: employeeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Title
+		dataType: string
+		lineageTag: bdba1dbb-6041-517c-b42b-c3b9b3dfd3d5
+		summarizeBy: none
+		sourceColumn: Title
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 669e08b5-4687-5748-af5e-d5658449d726
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 7066b1d9-986c-5884-96cb-54ef73764e0e
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Competency.
+	column competencyId
+		dataType: string
+		isHidden
+		lineageTag: bf9d94c0-57e7-59b7-8840-c1d73c2a2102
+		summarizeBy: none
+		sourceColumn: competencyId
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Any ID from this system, e.g. TRN-000123 or CER-0004.
+	column 'Related record ID'
+		dataType: string
+		lineageTag: 8b9fba92-f652-58db-b010-21de30c11a2b
+		summarizeBy: none
+		sourceColumn: Related record ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 2c0e04d2-790e-5699-b0db-9d54a22969ca
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Submitted by'
+		dataType: string
+		lineageTag: 9d8db836-1bff-5264-aba9-6cfe570994f2
+		summarizeBy: none
+		sourceColumn: Submitted by
+
+		annotation SummarizationSetBy = Automatic
+
+	column Verification
+		dataType: string
+		lineageTag: e558c51c-7838-598e-8e40-6ac8e0982fd1
+		summarizeBy: none
+		sourceColumn: Verification
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Staff.
+	column verifiedById
+		dataType: string
+		isHidden
+		lineageTag: 04cd049f-2938-5d7a-a768-ca96d385e256
+		summarizeBy: none
+		sourceColumn: verifiedById
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'File link'
+		dataType: string
+		lineageTag: 15814c41-8cd3-5ca6-9aa7-4e43c9e4f5c3
+		summarizeBy: none
+		sourceColumn: File link
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Where this came from. Use "Email from client" or "Excel from client" when the client sent it and you are typing it in.
+	column Source
+		dataType: string
+		lineageTag: ab3582d8-39e4-5673-9c4e-e2352a7ed555
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Created
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: 95898787-62b9-549d-b078-06cb9b4c371e
+		summarizeBy: none
+		sourceColumn: Created
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Created by'
+		dataType: string
+		isHidden
+		lineageTag: 888abd01-9248-5b71-8950-6d3f45074568
+		summarizeBy: none
+		sourceColumn: Created by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last changed'
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: eabefc69-347d-5315-bae7-78f8d10f1f20
+		summarizeBy: none
+		sourceColumn: Last changed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Changed by'
+		dataType: string
+		isHidden
+		lineageTag: 1be30a9a-126c-58a8-9895-10f72304ca26
+		summarizeBy: none
+		sourceColumn: Changed by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Verified by'
+		dataType: string
+		lineageTag: e5944ada-9cbb-5938-ab10-33c845846c36
+		summarizeBy: none
+		sourceColumn: Verified by
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Evidence = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_Evidence"),
+				    Selected = Table.SelectColumns(Source, {"id", "employeeId", "title", "evidenceType", "date", "competencyId", "relatedId", "description", "submittedBy", "verificationStatus", "verifiedById", "fileLink", "source", "createdAt", "createdBy", "updatedAt", "updatedBy"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"employeeId", ToText, type nullable text}, {"title", ToText, type nullable text}, {"evidenceType", ToText, type nullable text}, {"date", ToDate, type nullable date}, {"competencyId", ToText, type nullable text}, {"relatedId", ToText, type nullable text}, {"description", ToText, type nullable text}, {"submittedBy", ToText, type nullable text}, {"verificationStatus", ToText, type nullable text}, {"verifiedById", ToText, type nullable text}, {"fileLink", ToText, type nullable text}, {"source", ToText, type nullable text}, {"createdAt", ToDateTime, type nullable datetime}, {"createdBy", ToText, type nullable text}, {"updatedAt", ToDateTime, type nullable datetime}, {"updatedBy", ToText, type nullable text}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    J0 = Table.NestedJoin(Rows, {"verifiedById"}, Table.SelectColumns(Raw("tbl_Staff"), {"id", "name"}, MissingField.UseNull), {"id"}, "_j0", JoinKind.LeftOuter),
+				    X0 = Table.ExpandTableColumn(J0, "_j0", {"name"}, {"Verified by"}),
+				    Renamed = Table.RenameColumns(X0, {{"id", "ID"}, {"title", "Title"}, {"evidenceType", "Type"}, {"date", "Date"}, {"relatedId", "Related record ID"}, {"description", "Description"}, {"submittedBy", "Submitted by"}, {"verificationStatus", "Verification"}, {"fileLink", "File link"}, {"source", "Source"}, {"createdAt", "Created"}, {"createdBy", "Created by"}, {"updatedAt", "Last changed"}, {"updatedBy", "Changed by"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

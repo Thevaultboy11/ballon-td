@@ -1,0 +1,8 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/1.3.0/schema.json",
+  "name": "9e51f8bd02bc70d1e082",
+  "displayName": "Competency gaps",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280
+}

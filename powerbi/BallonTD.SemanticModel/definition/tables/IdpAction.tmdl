@@ -1,0 +1,241 @@
+/// The individual development plan: one row per planned action, usually tied to a competency gap.
+table IdpAction
+	lineageTag: 0db5dc83-83fe-5f8f-965e-66231daaf7cd
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: cbcf3e81-935e-560f-a938-50d793bc7ee0
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Employee.
+	column employeeId
+		dataType: string
+		isHidden
+		lineageTag: 9711496e-3ddf-50c3-b67c-d41753ba3a37
+		summarizeBy: none
+		sourceColumn: employeeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Action
+		dataType: string
+		lineageTag: 0004328f-a51d-5c7e-ac8a-a2de1e61c37c
+		summarizeBy: none
+		sourceColumn: Action
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: c8243206-c8f3-55d3-870d-44d3f67e67cd
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Competency.
+	column competencyId
+		dataType: string
+		isHidden
+		lineageTag: 10298051-fee1-5e89-90c8-c4a9e3bc0c50
+		summarizeBy: none
+		sourceColumn: competencyId
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Course.
+	column courseId
+		dataType: string
+		isHidden
+		lineageTag: d4bb3a2f-f84f-571a-b339-bb9adbd1606d
+		summarizeBy: none
+		sourceColumn: courseId
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Certification.
+	column certificationId
+		dataType: string
+		isHidden
+		lineageTag: d426e500-f559-534f-a4b8-cd97a31a2f8e
+		summarizeBy: none
+		sourceColumn: certificationId
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Enrollment.
+	column enrollmentId
+		dataType: string
+		isHidden
+		lineageTag: 1588f46c-ab5d-5ff6-bcc8-1cc91256c8dd
+		summarizeBy: none
+		sourceColumn: enrollmentId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Owner
+		dataType: string
+		lineageTag: fe9e0a42-b6d2-5fa5-9353-f85b09bde389
+		summarizeBy: none
+		sourceColumn: Owner
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Est. hours'
+		dataType: double
+		lineageTag: 2e389077-e014-5cb6-a6a0-cda93a26763b
+		summarizeBy: none
+		sourceColumn: Est. hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Planned start'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: da11555e-55d2-5861-a85b-f96d69e7cf4d
+		summarizeBy: none
+		sourceColumn: Planned start
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Planned end'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 88eebb66-fa3e-5f6f-ab6f-8a283f47aca7
+		summarizeBy: none
+		sourceColumn: Planned end
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Actual start'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 1b33e8e2-bcaa-5b9f-8d43-962746579d33
+		summarizeBy: none
+		sourceColumn: Actual start
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Actual end'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: fa9576af-da21-501e-8517-03c65b664706
+		summarizeBy: none
+		sourceColumn: Actual end
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: bec5b927-a0a9-513e-98d5-ce165ea28643
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Progress %'
+		dataType: double
+		formatString: 0
+		lineageTag: 3474b55f-db1a-578c-a6c8-1265c3242fd2
+		summarizeBy: none
+		sourceColumn: Progress %
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comments
+		dataType: string
+		lineageTag: dc21c204-2b02-5a24-a0d1-43c699a7a898
+		summarizeBy: none
+		sourceColumn: Comments
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Where this came from. Use "Email from client" or "Excel from client" when the client sent it and you are typing it in.
+	column Source
+		dataType: string
+		lineageTag: 6378f1a5-3e80-5aa5-bd57-cd352c89f5b5
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Created
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: d56c259f-384f-5cdb-93ba-2335ce3d3c26
+		summarizeBy: none
+		sourceColumn: Created
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Created by'
+		dataType: string
+		isHidden
+		lineageTag: 26da4554-078b-5fc8-a2c5-708165826321
+		summarizeBy: none
+		sourceColumn: Created by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last changed'
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: af1a09b1-eaf0-5f81-a64f-5564051703ff
+		summarizeBy: none
+		sourceColumn: Last changed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Changed by'
+		dataType: string
+		isHidden
+		lineageTag: 908e3538-fd6a-5c87-9972-4ab7394024f5
+		summarizeBy: none
+		sourceColumn: Changed by
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: fb5671e2-d0f9-586d-a542-b3fa7dc3f847
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	partition IdpAction = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_IdpAction"),
+				    Selected = Table.SelectColumns(Source, {"id", "employeeId", "title", "actionType", "competencyId", "courseId", "certificationId", "enrollmentId", "owner", "estimatedHours", "plannedStart", "plannedEnd", "actualStart", "actualEnd", "status", "progressPct", "comments", "source", "createdAt", "createdBy", "updatedAt", "updatedBy"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"employeeId", ToText, type nullable text}, {"title", ToText, type nullable text}, {"actionType", ToText, type nullable text}, {"competencyId", ToText, type nullable text}, {"courseId", ToText, type nullable text}, {"certificationId", ToText, type nullable text}, {"enrollmentId", ToText, type nullable text}, {"owner", ToText, type nullable text}, {"estimatedHours", ToNumber, type nullable number}, {"plannedStart", ToDate, type nullable date}, {"plannedEnd", ToDate, type nullable date}, {"actualStart", ToDate, type nullable date}, {"actualEnd", ToDate, type nullable date}, {"status", ToText, type nullable text}, {"progressPct", ToNumber, type nullable number}, {"comments", ToText, type nullable text}, {"source", ToText, type nullable text}, {"createdAt", ToDateTime, type nullable datetime}, {"createdBy", ToText, type nullable text}, {"updatedAt", ToDateTime, type nullable datetime}, {"updatedBy", ToText, type nullable text}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    A0 = Table.AddColumn(Rows, "Segment", each let t = if [title] = null then "" else [title] in
+				            if Text.StartsWith(t, "S1") then "S1 · Professional certification"
+				            else if Text.StartsWith(t, "S2") then "S2 · Immersive labs"
+				            else if Text.StartsWith(t, "S3") then "S3 · AI certification"
+				            else if Text.StartsWith(t, "S4") then "S4 · SAP SuccessFactors"
+				            else if Text.StartsWith(t, "S5") then "S5 · Cross-functional training"
+				            else if [actionType] = "Department Training Need" then "Department training need"
+				            else if [actionType] = "Project Assignment" then "Workplace assignment"
+				            else [actionType], type nullable text),
+				    Renamed = Table.RenameColumns(A0, {{"id", "ID"}, {"title", "Action"}, {"actionType", "Type"}, {"owner", "Owner"}, {"estimatedHours", "Est. hours"}, {"plannedStart", "Planned start"}, {"plannedEnd", "Planned end"}, {"actualStart", "Actual start"}, {"actualEnd", "Actual end"}, {"status", "Status"}, {"progressPct", "Progress %"}, {"comments", "Comments"}, {"source", "Source"}, {"createdAt", "Created"}, {"createdBy", "Created by"}, {"updatedAt", "Last changed"}, {"updatedBy", "Changed by"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

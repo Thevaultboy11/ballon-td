@@ -1,0 +1,114 @@
+/// One row per person and competency in their role profile or rated for them: current level, required level, priority, gap. Built from the latest completed ratings.
+table CurrentCompetency
+	lineageTag: 88bd8670-de1b-513e-b86c-1fcf5f88d778
+
+	column employeeId
+		dataType: string
+		isHidden
+		lineageTag: cb078e75-4833-5cdb-9d1e-17f403135f74
+		summarizeBy: none
+		sourceColumn: employeeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column competencyId
+		dataType: string
+		isHidden
+		lineageTag: a9fd72b7-fcfd-569f-9fb6-d2d0b7c9c4f7
+		summarizeBy: none
+		sourceColumn: competencyId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Level
+		dataType: double
+		lineageTag: f3a98d89-e2b6-5dd0-82ba-d1866caf1dd6
+		summarizeBy: average
+		sourceColumn: Level
+
+		annotation SummarizationSetBy = Automatic
+
+	column Required
+		dataType: double
+		lineageTag: eed17552-3b0e-581a-8e95-8c196a901fe2
+		summarizeBy: average
+		sourceColumn: Required
+
+		annotation SummarizationSetBy = Automatic
+
+	column Priority
+		dataType: string
+		lineageTag: 31e31370-ea10-59d8-af4b-06f9f9e50ac5
+		summarizeBy: none
+		sourceColumn: Priority
+
+		annotation SummarizationSetBy = Automatic
+
+	column Weight
+		dataType: int64
+		isHidden
+		lineageTag: 7344cec8-f340-5a96-95e2-28d8c2cee243
+		summarizeBy: sum
+		sourceColumn: Weight
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Required − level. Positive = below the requirement.
+	column Gap
+		dataType: double
+		lineageTag: 363a906b-10ad-51a3-af99-6549142d6b8b
+		summarizeBy: sum
+		sourceColumn: Gap
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Self level'
+		dataType: double
+		lineageTag: e132734e-3af1-573e-8782-d7d565c71706
+		summarizeBy: average
+		sourceColumn: Self level
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Which assessment type the level comes from.
+	column Source
+		dataType: string
+		lineageTag: 5a1447a5-1d62-5cfe-a196-f3e5a7f0578a
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Source date'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: a1adc134-9a79-5d04-a7d6-045cf015906a
+		summarizeBy: none
+		sourceColumn: Source date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CurrentCompetency = m
+		mode: import
+		source =
+				let
+				    Rated = CurrentLevels,
+				    E = Table.TransformColumns(Table.SelectColumns(Raw("tbl_Employee"), {"id", "jobRoleId"}, MissingField.UseNull), {{"id", ToText, type nullable text}, {"jobRoleId", ToText, type nullable text}}),
+				    Q = Table.TransformColumns(Table.SelectColumns(Raw("tbl_RoleRequirement"), {"jobRoleId", "competencyId", "requiredLevel", "priority"}, MissingField.UseNull), {{"jobRoleId", ToText, type nullable text}, {"competencyId", ToText, type nullable text}, {"requiredLevel", ToNumber, type nullable number}, {"priority", ToText, type nullable text}}),
+				    EQ = Table.ExpandTableColumn(Table.NestedJoin(E, {"jobRoleId"}, Q, {"jobRoleId"}, "q", JoinKind.Inner), "q", {"competencyId", "requiredLevel", "priority"}, {"competencyId", "RoleRequired", "RolePriority"}),
+				    Req = Table.RenameColumns(Table.SelectColumns(EQ, {"id", "competencyId", "RoleRequired", "RolePriority"}), {{"id", "employeeId"}}),
+				    Keys = Table.Distinct(Table.Combine({Table.SelectColumns(Rated, {"employeeId", "competencyId"}), Table.SelectColumns(Req, {"employeeId", "competencyId"})})),
+				    K1 = Table.ExpandTableColumn(Table.NestedJoin(Keys, {"employeeId", "competencyId"}, Rated, {"employeeId", "competencyId"}, "x", JoinKind.LeftOuter), "x", {"Level", "RatingRequired", "RatingPriority", "Source", "Source date", "Self level"}),
+				    K2 = Table.ExpandTableColumn(Table.NestedJoin(K1, {"employeeId", "competencyId"}, Req, {"employeeId", "competencyId"}, "y", JoinKind.LeftOuter), "y", {"RoleRequired", "RolePriority"}),
+				    Required = Table.AddColumn(K2, "Required", each if [RatingRequired] <> null then [RatingRequired] else [RoleRequired], type nullable number),
+				    Priority = Table.AddColumn(Required, "Priority", each if [RatingPriority] <> null then [RatingPriority] else [RolePriority], type nullable text),
+				    Weight = Table.AddColumn(Priority, "Weight", each if [Priority] = "High" then 3 else if [Priority] = "Low" then 1 else 2, Int64.Type),
+				    Gap = Table.AddColumn(Weight, "Gap", each if [Level] = null or [Required] = null then null else [Required] - [Level], type nullable number),
+				    Out = Table.SelectColumns(Gap, {"employeeId", "competencyId", "Level", "Required", "Priority", "Weight", "Gap", "Self level", "Source", "Source date"}),
+				    Typed = Table.TransformColumnTypes(Out, {{"employeeId", type text}, {"competencyId", type text}, {"Level", type number}, {"Required", type number}, {"Self level", type number}, {"Source", type text}, {"Source date", type date}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

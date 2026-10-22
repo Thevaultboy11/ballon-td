@@ -1,0 +1,74 @@
+/// Our own consultants, coaches, trainers and assessors. Client managers are employees, not staff.
+table Staff
+	lineageTag: 331abaa1-917a-54fa-95e5-81dfb05b2c0a
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: c1e752bf-0205-5c04-9cc4-29ee5842be55
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: ca3793be-2854-5340-b022-39fa89730ae7
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Email
+		dataType: string
+		lineageTag: 0063a65c-af55-5753-a7e0-44f50aff9d7c
+		summarizeBy: none
+		sourceColumn: Email
+
+		annotation SummarizationSetBy = Automatic
+
+	column Roles
+		dataType: string
+		lineageTag: f8934890-64a4-5471-b5de-d11ada7c3558
+		summarizeBy: none
+		sourceColumn: Roles
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phone
+		dataType: string
+		lineageTag: d84027f8-86f7-5368-a18b-0cb1590fcb5f
+		summarizeBy: none
+		sourceColumn: Phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column Active
+		dataType: boolean
+		lineageTag: eb190c3d-fe7a-560a-9c3e-72b7fa67e0d5
+		summarizeBy: none
+		sourceColumn: Active
+
+		annotation SummarizationSetBy = Automatic
+
+	column Notes
+		dataType: string
+		lineageTag: 6b7b34e3-00c5-596c-a6c3-9116bfdf5345
+		summarizeBy: none
+		sourceColumn: Notes
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Staff = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_Staff"),
+				    Selected = Table.SelectColumns(Source, {"id", "name", "email", "roles", "phone", "active", "notes"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"name", ToText, type nullable text}, {"email", ToText, type nullable text}, {"roles", ToText, type nullable text}, {"phone", ToText, type nullable text}, {"active", ToBool, type nullable logical}, {"notes", ToText, type nullable text}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    Renamed = Table.RenameColumns(Rows, {{"id", "ID"}, {"name", "Name"}, {"email", "Email"}, {"roles", "Roles"}, {"phone", "Phone"}, {"active", "Active"}, {"notes", "Notes"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

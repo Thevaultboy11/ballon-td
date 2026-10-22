@@ -1,0 +1,194 @@
+/// One run of a course (dates, trainer, batch). Participants, attendance and observation scores are entered on the session page.
+table CourseSession
+	lineageTag: 27b4666f-1552-5ef5-add8-ea2771387ca2
+
+	column ID
+		dataType: string
+		isKey
+		lineageTag: 34f7eae1-71c3-52af-bf63-551c9ce10b03
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Course.
+	column courseId
+		dataType: string
+		isHidden
+		lineageTag: 9fea8885-d6d9-5e05-8f16-9f98e9ee9cae
+		summarizeBy: none
+		sourceColumn: courseId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Start
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 53ccc6dd-867e-5615-b3c5-298097bf83ed
+		summarizeBy: none
+		sourceColumn: Start
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column End
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: cd368cb5-a52d-56ed-964a-e0589bfa57be
+		summarizeBy: none
+		sourceColumn: End
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Staff.
+	column trainerId
+		dataType: string
+		isHidden
+		lineageTag: b6e1b841-fee8-5e80-8f3b-3f26cc9ef814
+		summarizeBy: none
+		sourceColumn: trainerId
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of Program.
+	column programId
+		dataType: string
+		isHidden
+		lineageTag: 4038ad56-c2ed-5eec-a8ea-c75a3f38862b
+		summarizeBy: none
+		sourceColumn: programId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Batch
+		dataType: string
+		lineageTag: 711eaf2b-52a9-542d-afb9-d8880d5eb137
+		summarizeBy: none
+		sourceColumn: Batch
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The training record code the client uses, if any.
+	column 'Client code'
+		dataType: string
+		lineageTag: 03f23aac-29bc-54b1-8022-db7c09564526
+		summarizeBy: none
+		sourceColumn: Client code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Location
+		dataType: string
+		lineageTag: e332c2d1-12dc-52b2-8b9b-133e8b5f8ef6
+		summarizeBy: none
+		sourceColumn: Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column Delivery
+		dataType: string
+		lineageTag: 09a2bdf4-aa01-5598-8086-436c5a5ace94
+		summarizeBy: none
+		sourceColumn: Delivery
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: fcd78d1c-a64e-5d3f-bb1e-3052066181b3
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Notes
+		dataType: string
+		lineageTag: ca2844df-a813-554c-8baa-2b9d5046879d
+		summarizeBy: none
+		sourceColumn: Notes
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Where this came from. Use "Email from client" or "Excel from client" when the client sent it and you are typing it in.
+	column Source
+		dataType: string
+		lineageTag: 31aea48a-d0be-52e1-9cfb-05ce279006f9
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Created
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: 2e344ecf-c057-5330-a97a-dd360693369d
+		summarizeBy: none
+		sourceColumn: Created
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Created by'
+		dataType: string
+		isHidden
+		lineageTag: f1c2e168-279c-55fe-8f6a-c75e6cf73fa7
+		summarizeBy: none
+		sourceColumn: Created by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last changed'
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd hh:mm
+		lineageTag: ef0d42dd-8697-5fd0-ab82-7b9fc1a3c8a3
+		summarizeBy: none
+		sourceColumn: Last changed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Changed by'
+		dataType: string
+		isHidden
+		lineageTag: a4ed1f19-a872-597c-b6e6-16cce67b3a61
+		summarizeBy: none
+		sourceColumn: Changed by
+
+		annotation SummarizationSetBy = Automatic
+
+	column Course
+		dataType: string
+		lineageTag: 19d9df7b-095b-581f-9c49-10efaf752ce6
+		summarizeBy: none
+		sourceColumn: Course
+
+		annotation SummarizationSetBy = Automatic
+
+	column Trainer
+		dataType: string
+		lineageTag: ce7d965d-16b3-5668-8916-490996620d07
+		summarizeBy: none
+		sourceColumn: Trainer
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CourseSession = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_CourseSession"),
+				    Selected = Table.SelectColumns(Source, {"id", "courseId", "startDate", "endDate", "trainerId", "programId", "batch", "code", "location", "mode", "status", "notes", "source", "createdAt", "createdBy", "updatedAt", "updatedBy"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"courseId", ToText, type nullable text}, {"startDate", ToDate, type nullable date}, {"endDate", ToDate, type nullable date}, {"trainerId", ToText, type nullable text}, {"programId", ToText, type nullable text}, {"batch", ToText, type nullable text}, {"code", ToText, type nullable text}, {"location", ToText, type nullable text}, {"mode", ToText, type nullable text}, {"status", ToText, type nullable text}, {"notes", ToText, type nullable text}, {"source", ToText, type nullable text}, {"createdAt", ToDateTime, type nullable datetime}, {"createdBy", ToText, type nullable text}, {"updatedAt", ToDateTime, type nullable datetime}, {"updatedBy", ToText, type nullable text}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    J0 = Table.NestedJoin(Rows, {"courseId"}, Table.SelectColumns(Raw("tbl_Course"), {"id", "name"}, MissingField.UseNull), {"id"}, "_j0", JoinKind.LeftOuter),
+				    X0 = Table.ExpandTableColumn(J0, "_j0", {"name"}, {"Course"}),
+				    J1 = Table.NestedJoin(X0, {"trainerId"}, Table.SelectColumns(Raw("tbl_Staff"), {"id", "name"}, MissingField.UseNull), {"id"}, "_j1", JoinKind.LeftOuter),
+				    X1 = Table.ExpandTableColumn(J1, "_j1", {"name"}, {"Trainer"}),
+				    Renamed = Table.RenameColumns(X1, {{"id", "ID"}, {"startDate", "Start"}, {"endDate", "End"}, {"batch", "Batch"}, {"code", "Client code"}, {"location", "Location"}, {"mode", "Delivery"}, {"status", "Status"}, {"notes", "Notes"}, {"source", "Source"}, {"createdAt", "Created"}, {"createdBy", "Created by"}, {"updatedAt", "Last changed"}, {"updatedBy", "Changed by"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table

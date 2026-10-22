@@ -1,0 +1,127 @@
+/// Full path of BallonTD_Data.xlsx. For SharePoint/OneDrive see the Workbook query.
+expression DataFile = "C:\BallonTD\BallonTD_Data.xlsx" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: a1708c0e-bfda-581c-91e6-30b712c4fbff
+
+	annotation PBI_ResultType = Text
+
+/// The data workbook. Local file by default; switch to the SharePoint line when the file lives in SharePoint or OneDrive for Business.
+expression Workbook = ```
+		let
+		    // Local file (Power BI Desktop, or the service through a gateway):
+		    Source = Excel.Workbook(File.Contents(DataFile), null, true)
+		    // SharePoint / OneDrive for Business (no gateway needed) - paste the file URL into DataFile and use instead:
+		    // Source = Excel.Workbook(Web.Contents(DataFile), null, true)
+		in
+		    Source
+		```
+	lineageTag: a891bb0c-fb24-5197-abd9-f596bcd361f5
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+/// Returns one Excel table of the workbook by name.
+expression Raw = ```
+		(tableName as text) as table =>
+		    Workbook{[Item = tableName, Kind = "Table"]}[Data]
+		```
+	lineageTag: 84305399-cdd0-58b2-a591-14eae81f5511
+
+	annotation PBI_ResultType = Function
+
+/// Any value to trimmed text; empty becomes null.
+expression ToText = ```
+		(v as any) as nullable text =>
+		    if v = null then null
+		    else
+		        let t = Text.Trim(Text.From(v))
+		        in if t = "" then null else t
+		```
+	lineageTag: 1233d269-6984-51fe-b559-60bb77754280
+
+	annotation PBI_ResultType = Function
+
+/// Any value to number; text uses en-US; failures become null.
+expression ToNumber = ```
+		(v as any) as nullable number =>
+		    if v = null or v = "" then null
+		    else if v is number then v
+		    else try Number.From(Text.Replace(Text.From(v), "%", ""), "en-US") otherwise null
+		```
+	lineageTag: 4803cd4f-a91a-51c0-a345-af1228fdb937
+
+	annotation PBI_ResultType = Function
+
+/// Any value to a whole number.
+expression ToInt = ```
+		(v as any) as nullable number =>
+		    let n = ToNumber(v)
+		    in if n = null then null else Number.Round(n, 0)
+		```
+	lineageTag: 13b0ddb7-6631-56b8-b9bd-38205b7350ab
+
+	annotation PBI_ResultType = Function
+
+/// TRUE/FALSE, Yes/No, 1/0 to logical.
+expression ToBool = ```
+		(v as any) as nullable logical =>
+		    if v = null or v = "" then null
+		    else if v is logical then v
+		    else List.Contains({"true", "yes", "1"}, Text.Lower(Text.Trim(Text.From(v))))
+		```
+	lineageTag: b53d81b0-fc56-5c2d-be4c-797b9895207d
+
+	annotation PBI_ResultType = Function
+
+/// ISO text (2026-10-22, also with a time part), Excel serial numbers and real dates to date.
+expression ToDate = ```
+		(v as any) as nullable date =>
+		    if v = null or v = "" then null
+		    else if v is date then v
+		    else if v is datetime then Date.From(v)
+		    else if v is datetimezone then Date.From(DateTimeZone.RemoveZone(v))
+		    else if v is number then Date.From(v)
+		    else try Date.FromText(Text.Start(Text.Trim(Text.From(v)), 10), [Format = "yyyy-MM-dd"]) otherwise null
+		```
+	lineageTag: 3fe624a6-43c1-5f37-9c15-72dbe2fe98c9
+
+	annotation PBI_ResultType = Function
+
+/// ISO text (2026-10-22 15:56:16) and real date-times to datetime.
+expression ToDateTime = ```
+		(v as any) as nullable datetime =>
+		    if v = null or v = "" then null
+		    else if v is datetime then v
+		    else if v is date then DateTime.From(v)
+		    else if v is datetimezone then DateTimeZone.RemoveZone(v)
+		    else if v is number then DateTime.From(v)
+		    else
+		        let t = Text.Replace(Text.Start(Text.Trim(Text.From(v)), 19), "T", " ")
+		        in try DateTime.FromText(t, [Format = "yyyy-MM-dd HH:mm:ss"]) otherwise ToDate(v)
+		```
+	lineageTag: 403bac13-150b-593e-98da-d7edd87046b1
+
+	annotation PBI_ResultType = Function
+
+/// Latest completed rating per person and competency: a validation/consultant assessment wins over a self-assessment, newest first. Not loaded; used by CurrentCompetency and NextRoleGap.
+expression CurrentLevels = ```
+		let
+		    R = Table.SelectColumns(Raw("tbl_AssessmentRating"), {"assessmentId", "competencyId", "level", "requiredLevel", "priority"}, MissingField.UseNull),
+		    A = Table.SelectColumns(Raw("tbl_Assessment"), {"id", "employeeId", "type", "date", "status"}, MissingField.UseNull),
+		    J = Table.ExpandTableColumn(Table.NestedJoin(R, {"assessmentId"}, A, {"id"}, "a", JoinKind.Inner), "a", {"employeeId", "type", "date", "status"}),
+		    T = Table.TransformColumns(J, {{"level", ToNumber, type nullable number}, {"requiredLevel", ToNumber, type nullable number}, {"date", ToDate, type nullable date}, {"employeeId", ToText, type nullable text}, {"competencyId", ToText, type nullable text}, {"priority", ToText, type nullable text}, {"type", ToText, type nullable text}, {"status", ToText, type nullable text}}),
+		    Done = Table.SelectRows(T, each ([status] = null or [status] = "Completed") and [level] <> null and [employeeId] <> null),
+		    Flag = Table.AddColumn(Done, "isSelf", each if [type] = "Self-Assessment" then 1 else 0, Int64.Type),
+		    G = Table.Group(Flag, {"employeeId", "competencyId"}, {
+		        {"best", each Table.First(Table.Sort(_, {{"isSelf", Order.Ascending}, {"date", Order.Descending}})), type record},
+		        {"Self level", each let s = Table.Sort(Table.SelectRows(_, each [isSelf] = 1), {{"date", Order.Descending}}) in if Table.IsEmpty(s) then null else s{0}[level], type nullable number}
+		    }),
+		    X = Table.ExpandRecordColumn(G, "best", {"level", "requiredLevel", "priority", "type", "date"}, {"Level", "RatingRequired", "RatingPriority", "Source", "Source date"})
+		in
+		    X
+		```
+	lineageTag: 193997ab-f090-559c-a7e3-d64829c5a0f2
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation

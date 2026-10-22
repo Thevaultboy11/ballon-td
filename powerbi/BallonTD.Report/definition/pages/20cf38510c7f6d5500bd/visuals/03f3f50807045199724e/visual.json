@@ -1,0 +1,137 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
+  "name": "03f3f50807045199724e",
+  "position": {
+    "x": 24,
+    "y": 208,
+    "z": 5400,
+    "height": 240,
+    "width": 600,
+    "tabOrder": 5400
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CourseSession"
+                    }
+                  },
+                  "Property": "Course"
+                }
+              },
+              "queryRef": "CourseSession.Course",
+              "nativeQueryRef": "Course"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CourseSession"
+                    }
+                  },
+                  "Property": "Start"
+                }
+              },
+              "queryRef": "CourseSession.Start",
+              "nativeQueryRef": "Start"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CourseSession"
+                    }
+                  },
+                  "Property": "Trainer"
+                }
+              },
+              "queryRef": "CourseSession.Trainer",
+              "nativeQueryRef": "Trainer"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CourseSession"
+                    }
+                  },
+                  "Property": "Status"
+                }
+              },
+              "queryRef": "CourseSession.Status",
+              "nativeQueryRef": "Status"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Participants"
+                }
+              },
+              "queryRef": "_Measures.Participants",
+              "nativeQueryRef": "Participants"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Observed Average"
+                }
+              },
+              "queryRef": "_Measures.Observed Average",
+              "nativeQueryRef": "Observed Average"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Sessions'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

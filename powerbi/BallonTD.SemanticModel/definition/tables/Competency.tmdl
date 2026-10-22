@@ -1,0 +1,130 @@
+/// The competency library, with category and framework names merged in.
+table Competency
+	lineageTag: f33d3ab3-e38b-51d8-a425-0b9d4475883e
+
+	column 'Competency ID'
+		dataType: string
+		isKey
+		lineageTag: 739a4a86-a749-55a8-b0ab-3d422b1f774c
+		summarizeBy: none
+		sourceColumn: Competency ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Code
+		dataType: string
+		lineageTag: e915a3e7-aac2-5f81-bd54-d3eabf084a1b
+		summarizeBy: none
+		sourceColumn: Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: 4180369a-f0c5-577f-8a25-c55cf7ebf3e8
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Key of CompetencyCategory.
+	column categoryId
+		dataType: string
+		isHidden
+		lineageTag: b3023345-d1e9-5024-9005-305a865f1d98
+		summarizeBy: none
+		sourceColumn: categoryId
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lowest level'
+		dataType: int64
+		lineageTag: fbd9d0f6-a101-5ccd-9d5a-641832ba1097
+		summarizeBy: none
+		sourceColumn: Lowest level
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Highest level'
+		dataType: int64
+		lineageTag: fecee797-9586-5337-a926-89d7abbae937
+		summarizeBy: none
+		sourceColumn: Highest level
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 762c8bb0-39ce-54a0-a50a-633b585f111c
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'How it is assessed'
+		dataType: string
+		lineageTag: 90817e38-459b-53fc-9eb6-4f0514b6e41d
+		summarizeBy: none
+		sourceColumn: How it is assessed
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order
+		dataType: int64
+		lineageTag: 795dfad4-891f-5b50-8f3f-fb5976996ff3
+		summarizeBy: none
+		sourceColumn: Order
+
+		annotation SummarizationSetBy = Automatic
+
+	column Active
+		dataType: boolean
+		lineageTag: f49b4f5a-3051-5222-be00-39707af53b11
+		summarizeBy: none
+		sourceColumn: Active
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 8675afce-bb93-53a6-a11b-fb4da281aaf0
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column frameworkKey
+		dataType: string
+		isHidden
+		lineageTag: aa6cb0ee-03a2-53e1-ba31-9c47d8ee292e
+		summarizeBy: none
+		sourceColumn: frameworkKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Framework
+		dataType: string
+		lineageTag: b4951140-cb13-546d-b79a-61a8d26f6cfa
+		summarizeBy: none
+		sourceColumn: Framework
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Competency = m
+		mode: import
+		source =
+				let
+				    Source = Raw("tbl_Competency"),
+				    Selected = Table.SelectColumns(Source, {"id", "code", "name", "categoryId", "minLevel", "maxLevel", "description", "supportingText", "sortOrder", "active"}, MissingField.UseNull),
+				    Typed = Table.TransformColumns(Selected, {{"id", ToText, type nullable text}, {"code", ToText, type nullable text}, {"name", ToText, type nullable text}, {"categoryId", ToText, type nullable text}, {"minLevel", ToInt, Int64.Type}, {"maxLevel", ToInt, Int64.Type}, {"description", ToText, type nullable text}, {"supportingText", ToText, type nullable text}, {"sortOrder", ToInt, Int64.Type}, {"active", ToBool, type nullable logical}}),
+				    Rows = Table.SelectRows(Typed, each [id] <> null),
+				    J0 = Table.NestedJoin(Rows, {"categoryId"}, Table.SelectColumns(Raw("tbl_CompetencyCategory"), {"id", "name"}, MissingField.UseNull), {"id"}, "_j0", JoinKind.LeftOuter),
+				    X0 = Table.ExpandTableColumn(J0, "_j0", {"name"}, {"Category"}),
+				    J1 = Table.NestedJoin(X0, {"categoryId"}, Table.SelectColumns(Raw("tbl_CompetencyCategory"), {"id", "frameworkId"}, MissingField.UseNull), {"id"}, "_j1", JoinKind.LeftOuter),
+				    X1 = Table.ExpandTableColumn(J1, "_j1", {"frameworkId"}, {"frameworkKey"}),
+				    F0 = Table.ExpandTableColumn(Table.NestedJoin(X1, {"frameworkKey"}, Table.SelectColumns(Raw("tbl_Framework"), {"id", "name"}, MissingField.UseNull), {"id"}, "_f", JoinKind.LeftOuter), "_f", {"name"}, {"Framework"}),
+				    Renamed = Table.RenameColumns(F0, {{"id", "Competency ID"}, {"code", "Code"}, {"name", "Name"}, {"minLevel", "Lowest level"}, {"maxLevel", "Highest level"}, {"description", "Description"}, {"supportingText", "How it is assessed"}, {"sortOrder", "Order"}, {"active", "Active"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
