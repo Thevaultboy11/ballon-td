@@ -2,19 +2,20 @@ import { useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { ENTITY } from '@shared/entities'
 import { useApi, pct, dec, fmtDate, getUser } from '../api'
-import { Avatar, Icon, Kpi, Pline, Spark } from '../components/ui'
+import { Avatar, Icon, Kpi, Pline, Severity, Spark, Status } from '../components/ui'
 import { EntityForm, EntityList } from '../components/entity'
 import { RatingsGrid } from '../components/ratings'
 
 const TABS: { key: string; label: string; entity?: string; hint?: string }[] = [
   { key: 'overview', label: 'Overview' },
+  { key: 'baseline', label: 'Baseline', entity: 'baseline', hint: 'Short survey before day 1 of the observed programme: years of experience, six self-ratings (1–5) and personality type. The average of the six ratings is the self-assessed level in the observation summary.' },
   { key: 'assessments', label: 'Assessments', entity: 'assessments', hint: 'Each assessment keeps its own ratings, so progress over time is visible. Open "Ratings" to enter the level per competency.' },
   { key: 'idp', label: 'Development plan', entity: 'idp', hint: 'One row per planned action. Link it to the competency it should close, and to the course or certification when there is one.' },
-  { key: 'training', label: 'Training', entity: 'training', hint: 'Scheduled courses are easier to record from the session page (whole class at once). Use this for self-paced courses or single corrections.' },
+  { key: 'training', label: 'Training', entity: 'training', hint: 'Scheduled courses are easier to record from the session page (whole class at once). Use this for self-paced courses, lab collections (labs completed of total) or single corrections.' },
   { key: 'certs', label: 'Certifications', entity: 'certs' },
-  { key: 'coaching', label: 'Coaching', entity: 'coaching' },
+  { key: 'coaching', label: 'Coaching', entity: 'coaching', hint: 'The coaching tracker: besides the session notes, record the progress per IDP segment (S1–S5 and the department training need) as it stands on the day.' },
   { key: 'validations', label: 'Validations', entity: 'validations', hint: 'Manager validations usually arrive by email — set Source to "Email from client".' },
-  { key: 'evidence', label: 'Evidence', entity: 'evidence' },
+  { key: 'evidence', label: 'Evidence', entity: 'evidence', hint: 'Coach validation of a single level indicator: pick the competency, then the behaviour descriptor, and record its progress (1–5).' },
   { key: 'enrollments', label: 'Programmes', entity: 'enrollments' },
   { key: 'history', label: 'History' },
 ]
@@ -28,7 +29,7 @@ export default function Person() {
   const [ratings, setRatings] = useState<string | null>(null)
   const [quick, setQuick] = useState<string | null>(null)
 
-  if (error && !data) return <div className="container page"><div className="hero compact"><h1>Person not found</h1><p className="sub">{error} <Link to="/" className="lime-text">Back to people</Link></p></div></div>
+  if (error && !data) return <div className="container page"><div className="hero compact"><h1>Person not found</h1><p className="sub">{error} <Link to="/" className="accent-text">Back to people</Link></p></div></div>
   if (!data) return <div className="loading">Loading…</div>
   const e = data.employee, s = data.summary
   const go = (k: string) => setParams(k === 'overview' ? {} : { tab: k }, { replace: true })
@@ -61,6 +62,7 @@ export default function Person() {
         </div>
         <div className="toolbar mt16">
           <span className="muted" style={{ fontSize: 13 }}>Quick add:</span>
+          <button className="chip-btn" onClick={() => setQuick('baseline')}>Baseline survey</button>
           <button className="chip-btn" onClick={() => setQuick('assessments')}>Assessment</button>
           <button className="chip-btn" onClick={() => setQuick('idp')}>Plan action</button>
           <button className="chip-btn" onClick={() => setQuick('training')}>Training</button>
@@ -116,6 +118,8 @@ function quickDefaults(kind: string, e: any, s: any) {
   const today = new Date().toISOString().slice(0, 10)
   const d: Record<string, any> = { employeeId: e.id }
   if (s.enrollmentId && ['assessments', 'idp', 'certs', 'coaching'].includes(kind)) d.enrollmentId = s.enrollmentId
+  if (s.enrollmentId && kind === 'baseline') d.enrollmentId = s.enrollmentId
+  if (kind === 'baseline') d.date = today
   if (kind === 'assessments') Object.assign(d, { jobRoleId: e.jobRoleId, date: today, assessorId: s.consultantId })
   if (kind === 'coaching') Object.assign(d, { date: today, coachId: s.coachId })
   if (kind === 'validations') Object.assign(d, { date: today, managerId: e.lineManagerId, managerName: e.lineManagerId ? null : e.lineManagerName })
@@ -128,11 +132,16 @@ function Overview({ data }: { data: any }) {
   const s = data.summary
   const comps: any[] = s.competencies
   const [open, setOpen] = useState<string | null>(null)
-  if (!comps.length) return <div className="notice">No competencies yet. Give {data.employee.name} a role profile (Edit details), then add an assessment and enter the ratings.</div>
   const byFw = new Map<string, any[]>()
   for (const c of comps) (byFw.get(c.framework) ?? byFw.set(c.framework, []).get(c.framework)!).push(c)
   return (
     <div className="stack">
+      <div className="grid g-2-1">
+        <RisksCard risks={s.risks} />
+        <ProgressCard s={s} />
+      </div>
+      {s.observation && <ObservationCard o={s.observation} />}
+      {!comps.length && <div className="notice">No competencies yet. Give {data.employee.name} a role profile (Edit details), then add an assessment and enter the ratings.</div>}
       <div className="row wrap" style={{ gap: 8 }}>
         <span className="tag">Self-assessment: {s.selfAssessment}</span>
         <span className="tag">Validation interview: {s.validationInterview}</span>
@@ -165,7 +174,7 @@ function Overview({ data }: { data: any }) {
                         </div>
                       </td>
                       <td className="num">{c.level ?? '–'} / {c.required ?? '–'}{c.nextRequired != null && <span className="muted"> · {c.nextRequired}</span>}</td>
-                      <td className="num">{c.gap == null ? <span className="muted">–</span> : c.gap > 0 ? <span className="tag tag-bad">−{c.gap}</span> : c.gap < 0 ? <span className="tag tag-lime">+{-c.gap}</span> : <span className="muted">0</span>}</td>
+                      <td className="num">{c.gap == null ? <span className="muted">–</span> : c.gap > 0 ? <span className="tag tag-bad">−{c.gap}</span> : c.gap < 0 ? <span className="tag tag-good">+{-c.gap}</span> : <span className="muted">0</span>}</td>
                       <td className="num muted">{c.selfLevel ?? '–'}</td>
                       <td className="num">{c.observedAvg != null ? dec(c.observedAvg) : <span className="muted">–</span>}</td>
                       <td className="muted" style={{ fontSize: 12.5 }}>{c.source ?? 'Not rated'}</td>
@@ -177,7 +186,117 @@ function Overview({ data }: { data: any }) {
           </div>
         </div>
       ))}
-      <p className="note"><b>Bar</b>: current level (latest completed assessment that is not a self-assessment). <b>Dark tick</b>: required for the role. <b>Amber tick</b>: required in the next role. Click a row to see the level indicators. <b>Observed</b>: average trainer score of the behaviours linked to the competency.</p>
+      {comps.length > 0 && <p className="note"><b>Bar</b>: current level (latest completed assessment that is not a self-assessment). <b>Dark tick</b>: required for the role. <b>Amber tick</b>: required in the next role. Click a row to see the level indicators. <b>Observed</b>: average trainer score of the behaviours linked to the competency.</p>}
+    </div>
+  )
+}
+
+function RisksCard({ risks }: { risks: any[] }) {
+  const [all, setAll] = useState(false)
+  const n = (sev: string) => risks.filter((r) => r.severity === sev).length
+  const shown = all ? risks : risks.slice(0, 6)
+  return (
+    <div className="card">
+      <div className="card-head">
+        <div><h3>Risks &amp; opportunities</h3><div className="card-sub">Rules from Library → Risk rules, checked against this person's records</div></div>
+        <div className="row wrap" style={{ gap: 6, justifyContent: 'flex-end' }}>
+          {n('High') > 0 && <span className="tag tag-bad">{n('High')} high</span>}
+          {n('Medium') > 0 && <span className="tag tag-warn">{n('Medium')} medium</span>}
+          {n('Low') > 0 && <span className="tag">{n('Low')} low</span>}
+          {n('Opportunity') > 0 && <span className="tag tag-good">{n('Opportunity')} opportunity</span>}
+        </div>
+      </div>
+      {!risks.length ? <div className="muted" style={{ fontSize: 13.5 }}>No rule fires for this person.</div> : (
+        <div className="flag-list">
+          {shown.map((r) => (
+            <div key={r.code} className="flag">
+              <span className="mono muted">{r.code}</span>
+              <div>
+                <div className="row wrap" style={{ gap: 8 }}><b>{r.name}</b><Severity v={r.severity} /></div>
+                <div className="muted">{r.detail}</div>
+                {r.action && <div className="flag-action">{r.action}{r.owner && <span className="muted"> · {r.owner}</span>}</div>}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      {risks.length > 6 && <button className="btn btn-secondary btn-sm mt16" onClick={() => setAll(!all)}>{all ? 'Show fewer' : `Show all ${risks.length}`}</button>}
+    </div>
+  )
+}
+
+const SEGMENTS: [string, string][] = [['S1', 'Professional certification'], ['S2', 'Hands-on labs'], ['S3', 'AI certification'], ['S4', 'LMS learning'], ['S5', 'Cross-functional'], ['DTN', 'Department training need']]
+
+function ProgressCard({ s }: { s: any }) {
+  const anySeg = SEGMENTS.some(([k]) => s.segmentProgress?.[k] != null)
+  return (
+    <div className="card">
+      <div className="card-head"><div><h3>Programme progress</h3><div className="card-sub">Baseline, labs and the IDP segments from the coaching tracker</div></div></div>
+      <div className="kv">
+        <span>Baseline self-rating</span><b>{s.baselineScore != null ? `${dec(s.baselineScore, 2)} / 5` : '—'}{s.baselineDate && <span className="muted"> · {fmtDate(s.baselineDate)}</span>}</b>
+        <span>Hands-on labs</span><b>{s.labsTotal ? `${s.labsCompleted} of ${s.labsTotal}` : '—'}{s.labsShare != null && <span className="muted"> · {pct(s.labsShare)}</span>}</b>
+      </div>
+      <div className="seg-list mt16">
+        {SEGMENTS.map(([k, label]) => {
+          const v = s.segmentProgress?.[k]
+          return (
+            <div key={k} className="seg">
+              <span className="mono">{k}</span><span className="seg-label">{label}</span>
+              <Pline value={v == null ? null : v / 100} tone={v == null ? 'muted' : v >= 75 ? '' : v >= 40 ? 'warn' : 'bad'} />
+              <span className="num">{v == null ? '–' : `${v}%`}</span>
+            </div>
+          )
+        })}
+      </div>
+      {!anySeg && <p className="note">No segment progress yet: add it on a coaching session.</p>}
+    </div>
+  )
+}
+
+function ObservationCard({ o }: { o: any }) {
+  const tone = (v: number | null) => (v == null ? 'muted' : v >= 3.5 ? '' : v >= 2.5 ? 'warn' : 'bad')
+  return (
+    <div className="card">
+      <div className="card-head">
+        <div><h3>Observation summary</h3><div className="card-sub">Observed programme days, scored 1–5 by the trainer · {o.sessionsAssessed} of {Math.max(5, o.daysRecorded)} sessions assessed{o.absentDays ? ` · ${o.absentDays} absent` : ''}</div></div>
+        <div className="row wrap" style={{ gap: 6, justifyContent: 'flex-end' }}>
+          <Status v={o.leadershipPotential} /><Status v={o.classification} />
+        </div>
+      </div>
+      <div className="grid g-2-1">
+        <div>
+          <div className="kv">
+            <span>Evidence strength</span><b>{o.evidenceStrength}</b>
+            <span>Overall average</span><b>{dec(o.overallAvg, 2)} / 5</b>
+            <span>Improvement (last − first day)</span><b>{o.improvementDelta == null ? '–' : `${o.improvementDelta >= 0 ? '+' : ''}${dec(o.improvementDelta, 2)}`}</b>
+            <span>Readiness timeframe</span><b>{o.timeframe}</b>
+            <span>Self-assessed · validated · target</span><b>{dec(o.selfAssessedLevel, 2)} · {o.validatedLevel ?? '–'} · {o.targetLevel ?? '–'}</b>
+            {o.alignmentStatus && <><span>Against target</span><b>{o.alignmentStatus}</b></>}
+          </div>
+          <p className="note"><b>Key findings.</b> {o.keyFindings}</p>
+          <p className="note" style={{ marginTop: 6 }}><b>Recommended action.</b> {o.recommendedAction}</p>
+        </div>
+        <div className="seg-list">
+          {Object.entries(o.domains as Record<string, number | null>).map(([k, v]) => (
+            <div key={k} className="seg">
+              <span className="seg-label">{k}{k === o.strongestDomain ? ' ★' : ''}</span>
+              <Pline value={v == null ? null : v / 5} tone={tone(v)} />
+              <span className="num">{dec(v, 2)}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      {o.parameters?.length > 0 && (
+        <details className="mt16">
+          <summary className="muted" style={{ cursor: 'pointer', fontSize: 13 }}>Per behaviour ({o.parameters.length})</summary>
+          <div className="table-wrap mt16">
+            <table className="table">
+              <thead><tr><th>Behaviour</th><th>Domain</th><th className="num">Average</th><th>Finding</th><th>Action cue</th></tr></thead>
+              <tbody>{o.parameters.map((p: any) => <tr key={p.name}><td>{p.name}</td><td className="muted">{p.category}</td><td className="num">{dec(p.avg, 2)}</td><td><span className={`tag ${p.avg >= 3.5 ? 'tag-good' : p.avg >= 2.5 ? 'tag-warn' : 'tag-bad'}`}>{p.finding}</span></td><td className="muted">{p.actionCue}</td></tr>)}</tbody>
+            </table>
+          </div>
+        </details>
+      )}
     </div>
   )
 }

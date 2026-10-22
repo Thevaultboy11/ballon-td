@@ -1,0 +1,72 @@
+# Design
+
+The app keeps its original layout and components (header, hero, KPI cards, filter chips, tables, tabs, drawers, the ratings and observation grids). What changed is the visual layer: a corporate blue palette, one plain typeface, capitalised titles and thin keylines. Everything lives in [`client/src/styles.css`](../client/src/styles.css): colour tokens at the top, component styles in the middle, the brand layer at the end.
+
+![Person page](screenshots/person.png)
+
+## Colour
+
+Blue dominates. Navy carries titles and the header, royal blue is the action and accent colour, and steel gray is the body text. The secondary colours appear only as status (warning, error, success) and in charts, never as decoration.
+
+| Token | Hex | Used for |
+| --- | --- | --- |
+| `--navy` | `#1E3B6B` | Header bar, titles, figures, table header text |
+| `--royal` | `#1859A9` | Primary buttons, accent, keylines, progress bars, active chips |
+| `--cool-blue` | `#0075C9` | Info |
+| `--sky-blue` | `#0773D7` | Active navigation marker |
+| `--steel` | `#4D5156` | Body text |
+| `--cool-gray` | `#9D9FA0` | — (reserved for charts) |
+| `--sky-gray` | `#D4D2CF` | Quiet rules (action notes) |
+
+Secondary colours, sparingly:
+
+| Hex | Role |
+| --- | --- |
+| `#A9343A` red | Errors, *High* risks, critical gaps |
+| `#EE7623` orange | Warnings, *Medium* risks, "needs support" band |
+| `#FAA22C` bright orange | Warnings in the dark theme |
+| `#00754A` green | The "online" dot |
+| `#E32726` bright red | Error tint in the dark theme |
+
+Positive statuses (Completed, Approved, Opportunity, High potential) use a pale-blue tag with royal-blue text rather than green, so the screen stays mostly blue.
+
+**Dark theme.** A navy-black base (`#0C1729`, cards `#12223B`) with a lighter royal (`#2F7FD6`) for accents so it keeps contrast. Toggle with the sun/moon button; the choice is remembered per browser.
+
+No gradients, glows or coloured shadows.
+
+## Type
+
+* **Arial** everywhere (Helvetica / Liberation Sans as fall-backs). No web fonts are loaded, so the app looks the same offline and inside the VPN.
+* **Body leading = font size + 50 %** (`line-height: 1.5`).
+* **Titles in capitals, extra bold** (`font-weight: 800`): page titles, card titles, drawer and modal titles, table headers, navigation.
+* Labels in small capitals with letter spacing (KPI labels, filter labels, eyebrows).
+
+## Keylines and frame
+
+| Element | Rule |
+| --- | --- |
+| Vertical keyline | Royal-blue rule to the left of page titles, 4 % of the title size (minimum 2 px), and a 2 px rule beside card titles |
+| Horizontal keyline | Royal-blue rule above the business name in the footer, 10 % of its text size |
+| Frame | A 6 px white border around the whole window (navy-black in the dark theme) |
+| Table header | 2 px royal-blue rule under the header row |
+
+## Components that were added
+
+| Component | Where | Class names |
+| --- | --- | --- |
+| Risks & opportunities card | Person → Overview | `.flag-list`, `.flag`, `.flag-action` |
+| Programme progress card | Person → Overview | `.kv`, `.seg-list`, `.seg` |
+| Observation summary card | Person → Overview | `.kv`, `.seg-list`, `details` |
+| Risks page | Top navigation | existing `.table`, `.filters`, `.kpi` |
+| Severity tag | Everywhere a rule is shown | `Severity` in `components/ui.tsx` |
+| Suggest input | Grade, division, department, section | `SuggestInput` in `components/entity.tsx` (`<datalist>`) |
+
+They reuse the existing card, tag, progress-line and table styles.
+
+## Excel export
+
+The workbook uses the same palette: navy header rows on the reading sheets, pale-blue header fill on table sheets, royal-blue sheet tabs, steel-gray secondary text. Colours are set at the top of [`server/lib/export.ts`](../server/lib/export.ts).
+
+## Changing the palette
+
+Change the tokens at the top of `styles.css` (both the light `:root` block and the dark `:root[data-theme='dark']` block) and the four constants at the top of `export.ts`. Component styles only use tokens.

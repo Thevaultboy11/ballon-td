@@ -1,0 +1,4761 @@
+{
+ "_about": "Role profiles (section 5.5) and the role requirements matrix (section 5.6). Source priority 2 = High, 3 = Medium. requirementsMissingLevel: 3 rows with no required level in the source (not loaded; confirm with the client).",
+ "roles": [
+  {
+   "code": "ROLE-01",
+   "name": "Section Head, Cyber Threat Intelligence",
+   "sourceFamily": "DBC and CTI Department",
+   "family": "Threat Intelligence",
+   "seniority": "Lead",
+   "next": null,
+   "requirements": 11,
+   "technical": 0,
+   "crossFunctional": 11
+  },
+  {
+   "code": "ROLE-02",
+   "name": "Section Head, Digital Business Continuity",
+   "sourceFamily": "DBC and CTI Department",
+   "family": "Business Continuity & Resilience",
+   "seniority": "Lead",
+   "next": null,
+   "requirements": 13,
+   "technical": 0,
+   "crossFunctional": 13
+  },
+  {
+   "code": "ROLE-03",
+   "name": "Senior Analyst, Cyber Threat Intelligence",
+   "sourceFamily": "DBC and CTI Department",
+   "family": "Threat Intelligence",
+   "seniority": "Senior",
+   "next": "Section Head, Cyber Threat Intelligence",
+   "requirements": 22,
+   "technical": 15,
+   "crossFunctional": 7
+  },
+  {
+   "code": "ROLE-04",
+   "name": "Senior Analyst, Digital Business Continuity",
+   "sourceFamily": "DBC and CTI Department",
+   "family": "Business Continuity & Resilience",
+   "seniority": "Senior",
+   "next": "Section Head, Digital Business Continuity",
+   "requirements": 20,
+   "technical": 12,
+   "crossFunctional": 8
+  },
+  {
+   "code": "ROLE-05",
+   "name": "Senior Analyst, Digital Identity & Access Management",
+   "sourceFamily": "DI&AM Department",
+   "family": "Identity & Access",
+   "seniority": "Senior",
+   "next": null,
+   "requirements": 20,
+   "technical": 9,
+   "crossFunctional": 11
+  },
+  {
+   "code": "ROLE-06",
+   "name": "Analyst, Digital Vulnerability Management",
+   "sourceFamily": "Digital Cybersecurity Engineering Department",
+   "family": "Infrastructure & Cloud Security",
+   "seniority": "Entry",
+   "next": null,
+   "requirements": 16,
+   "technical": 7,
+   "crossFunctional": 9
+  },
+  {
+   "code": "ROLE-07",
+   "name": "Engineer, Digital Clouds & Application Security",
+   "sourceFamily": "Digital Cybersecurity Engineering Department",
+   "family": "Infrastructure & Cloud Security",
+   "seniority": "Mid",
+   "next": "Senior Engineer, Digital Clouds & Application Security",
+   "requirements": 27,
+   "technical": 19,
+   "crossFunctional": 8
+  },
+  {
+   "code": "ROLE-08",
+   "name": "Engineer, Digital Infrastructure Security",
+   "sourceFamily": "Digital Cybersecurity Engineering Department",
+   "family": "Infrastructure & Cloud Security",
+   "seniority": "Mid",
+   "next": "Senior Engineer, Digital Infrastructure Security",
+   "requirements": 24,
+   "technical": 17,
+   "crossFunctional": 7
+  },
+  {
+   "code": "ROLE-09",
+   "name": "Section Head, Digital Infrastructure Security Operations",
+   "sourceFamily": "Digital Cybersecurity Engineering Department",
+   "family": "Infrastructure & Cloud Security",
+   "seniority": "Lead",
+   "next": null,
+   "requirements": 13,
+   "technical": 0,
+   "crossFunctional": 13
+  },
+  {
+   "code": "ROLE-10",
+   "name": "Section Head, Digital Vulnerability Management",
+   "sourceFamily": "Digital Cybersecurity Engineering Department",
+   "family": "Infrastructure & Cloud Security",
+   "seniority": "Lead",
+   "next": null,
+   "requirements": 10,
+   "technical": 0,
+   "crossFunctional": 10
+  },
+  {
+   "code": "ROLE-11",
+   "name": "Senior Engineer, Digital Clouds & Application Security",
+   "sourceFamily": "Digital Cybersecurity Engineering Department",
+   "family": "Infrastructure & Cloud Security",
+   "seniority": "Senior",
+   "next": null,
+   "requirements": 27,
+   "technical": 19,
+   "crossFunctional": 8
+  },
+  {
+   "code": "ROLE-12",
+   "name": "Senior Engineer, Digital Infrastructure Security",
+   "sourceFamily": "Digital Cybersecurity Engineering Department",
+   "family": "Infrastructure & Cloud Security",
+   "seniority": "Senior",
+   "next": "Section Head, Digital Infrastructure Security Operations",
+   "requirements": 27,
+   "technical": 19,
+   "crossFunctional": 8
+  },
+  {
+   "code": "ROLE-13",
+   "name": "Senior Engineer, Digital Vulnerability Management",
+   "sourceFamily": "Digital Cybersecurity Engineering Department",
+   "family": "Infrastructure & Cloud Security",
+   "seniority": "Senior",
+   "next": "Section Head, Digital Vulnerability Management",
+   "requirements": 20,
+   "technical": 10,
+   "crossFunctional": 10
+  },
+  {
+   "code": "ROLE-14",
+   "name": "Department Manager, Digital Risk Management & Compliance",
+   "sourceFamily": "Digital Risk Management and Compliance",
+   "family": "Governance, Risk & Compliance",
+   "seniority": "Manager",
+   "next": null,
+   "requirements": 4,
+   "technical": 0,
+   "crossFunctional": 4
+  },
+  {
+   "code": "ROLE-15",
+   "name": "Section Head, Cybersecurity Policies & Standard",
+   "sourceFamily": "Digital Risk Management and Compliance",
+   "family": "Governance, Risk & Compliance",
+   "seniority": "Lead",
+   "next": null,
+   "requirements": 13,
+   "technical": 0,
+   "crossFunctional": 13
+  },
+  {
+   "code": "ROLE-16",
+   "name": "Section Head, OT Risk Management & Compliance",
+   "sourceFamily": "Digital Risk Management and Compliance",
+   "family": "Governance, Risk & Compliance",
+   "seniority": "Lead",
+   "next": null,
+   "requirements": 14,
+   "technical": 0,
+   "crossFunctional": 14
+  },
+  {
+   "code": "ROLE-17",
+   "name": "Senior Analyst, Cybersecurity Policies and Standards",
+   "sourceFamily": "Digital Risk Management and Compliance",
+   "family": "Governance, Risk & Compliance",
+   "seniority": "Senior",
+   "next": "Section Head, Cybersecurity Policies & Standard",
+   "requirements": 24,
+   "technical": 12,
+   "crossFunctional": 12
+  },
+  {
+   "code": "ROLE-18",
+   "name": "Senior Analyst, IT Risk Management and Compliance",
+   "sourceFamily": "Digital Risk Management and Compliance",
+   "family": "Governance, Risk & Compliance",
+   "seniority": "Senior",
+   "next": null,
+   "requirements": 23,
+   "technical": 11,
+   "crossFunctional": 12
+  },
+  {
+   "code": "ROLE-19",
+   "name": "Senior Analyst, OT Risk Management and Compliance",
+   "sourceFamily": "Digital Risk Management and Compliance",
+   "family": "Governance, Risk & Compliance",
+   "seniority": "Senior",
+   "next": "Section Head, OT Risk Management & Compliance",
+   "requirements": 23,
+   "technical": 11,
+   "crossFunctional": 12
+  },
+  {
+   "code": "ROLE-20",
+   "name": "Specialist, Cybersecurity Policies and Standards",
+   "sourceFamily": "Digital Risk Management and Compliance",
+   "family": "Governance, Risk & Compliance",
+   "seniority": "Mid",
+   "next": "Senior Analyst, Cybersecurity Policies and Standards",
+   "requirements": 17,
+   "technical": 9,
+   "crossFunctional": 8
+  },
+  {
+   "code": "ROLE-21",
+   "name": "Specialist, Group Companies Risk Management and Compliance",
+   "sourceFamily": "Digital Risk Management and Compliance",
+   "family": "Governance, Risk & Compliance",
+   "seniority": "Mid",
+   "next": null,
+   "requirements": 27,
+   "technical": 15,
+   "crossFunctional": 12
+  },
+  {
+   "code": "ROLE-22",
+   "name": "Specialist, IT Risk Management and Compliance",
+   "sourceFamily": "Digital Risk Management and Compliance",
+   "family": "Governance, Risk & Compliance",
+   "seniority": "Mid",
+   "next": "Senior Analyst, IT Risk Management and Compliance",
+   "requirements": 21,
+   "technical": 11,
+   "crossFunctional": 10
+  },
+  {
+   "code": "ROLE-23",
+   "name": "Section Head, Downstream Industry, Marketing and Trading OT Cybersecurity",
+   "sourceFamily": "OT Cybersecurity Department",
+   "family": "OT Security",
+   "seniority": "Lead",
+   "next": null,
+   "requirements": 14,
+   "technical": 0,
+   "crossFunctional": 14
+  },
+  {
+   "code": "ROLE-24",
+   "name": "Section Head, Upstream OT Cybersecurity",
+   "sourceFamily": "OT Cybersecurity Department",
+   "family": "OT Security",
+   "seniority": "Lead",
+   "next": null,
+   "requirements": 13,
+   "technical": 0,
+   "crossFunctional": 13
+  },
+  {
+   "code": "ROLE-25",
+   "name": "Senior Engineer, Downstream OT Cybersecurity",
+   "sourceFamily": "OT Cybersecurity Department",
+   "family": "OT Security",
+   "seniority": "Senior",
+   "next": null,
+   "requirements": 24,
+   "technical": 12,
+   "crossFunctional": 12
+  },
+  {
+   "code": "ROLE-26",
+   "name": "Senior Engineer, Upstream OT Cybersecurity",
+   "sourceFamily": "OT Cybersecurity Department",
+   "family": "OT Security",
+   "seniority": "Senior",
+   "next": "Section Head, Upstream OT Cybersecurity",
+   "requirements": 22,
+   "technical": 12,
+   "crossFunctional": 10
+  },
+  {
+   "code": "ROLE-27",
+   "name": "Analyst, Digital Cybersecurity Monitoring",
+   "sourceFamily": "Security Operations Centre Department",
+   "family": "Security Operations",
+   "seniority": "Entry",
+   "next": "Senior Analyst, Digital Cybersecurity Monitoring",
+   "requirements": 27,
+   "technical": 19,
+   "crossFunctional": 8
+  },
+  {
+   "code": "ROLE-28",
+   "name": "Section Head, Digital Cybersecurity Monitoring",
+   "sourceFamily": "Security Operations Centre Department",
+   "family": "Security Operations",
+   "seniority": "Lead",
+   "next": null,
+   "requirements": 11,
+   "technical": 0,
+   "crossFunctional": 11
+  },
+  {
+   "code": "ROLE-29",
+   "name": "Section Head, Threat Hunting",
+   "sourceFamily": "Security Operations Centre Department",
+   "family": "Security Operations",
+   "seniority": "Lead",
+   "next": null,
+   "requirements": 20,
+   "technical": 0,
+   "crossFunctional": 20
+  },
+  {
+   "code": "ROLE-30",
+   "name": "Senior Analyst, Digital Cybersecurity Monitoring",
+   "sourceFamily": "Security Operations Centre Department",
+   "family": "Security Operations",
+   "seniority": "Senior",
+   "next": "Section Head, Digital Cybersecurity Monitoring",
+   "requirements": 24,
+   "technical": 18,
+   "crossFunctional": 6
+  },
+  {
+   "code": "ROLE-31",
+   "name": "Senior Engineer, Digital Cybersecurity Monitoring",
+   "sourceFamily": "Security Operations Centre Department",
+   "family": "Security Operations",
+   "seniority": "Senior",
+   "next": "Section Head, Digital Cybersecurity Monitoring",
+   "requirements": 25,
+   "technical": 16,
+   "crossFunctional": 9
+  },
+  {
+   "code": "ROLE-32",
+   "name": "Specialist, Malware Analysis",
+   "sourceFamily": "Security Operations Centre Department",
+   "family": "Security Operations",
+   "seniority": "Mid",
+   "next": null,
+   "requirements": 27,
+   "technical": 19,
+   "crossFunctional": 8
+  }
+ ],
+ "rolesWithoutProfile": [
+  "Department Manager, Digital Business Continuity and Cyber Threat Intelligence",
+  "Department Manager, Digital Cybersecurity Engineering",
+  "Department Manager, Digital Identity & Access Management",
+  "Department Manager, OT Cybersecurity",
+  "Department Manager, Security Operations Center Department",
+  "Section Head, Digital Clouds & Application Security",
+  "Section Head, IT Risk Management and Compliance",
+  "Vice President, Group Digital Cybersecurity Operations",
+  "Vice President, Group Information Security"
+ ],
+ "gradeSeniority": [
+  {
+   "grade": "Analyst",
+   "seniority": "Entry"
+  },
+  {
+   "grade": "Engineer",
+   "seniority": "Mid"
+  },
+  {
+   "grade": "Specialist",
+   "seniority": "Mid"
+  },
+  {
+   "grade": "Senior Analyst",
+   "seniority": "Senior"
+  },
+  {
+   "grade": "Senior Engineer",
+   "seniority": "Senior"
+  },
+  {
+   "grade": "Section Head",
+   "seniority": "Lead"
+  },
+  {
+   "grade": "Department Manager",
+   "seniority": "Manager"
+  },
+  {
+   "grade": "VP",
+   "seniority": "Executive"
+  }
+ ],
+ "requirements": [
+  {
+   "role": "ROLE-01",
+   "competency": "LXSCN001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-01",
+   "competency": "LXSCN019",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-01",
+   "competency": "LXSCN026",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-01",
+   "competency": "LXSCN027",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-01",
+   "competency": "LXSCN031",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-01",
+   "competency": "LXSCN032",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-01",
+   "competency": "LXSCN035",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-01",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-01",
+   "competency": "LXSCN038",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-01",
+   "competency": "LXSCN046",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-01",
+   "competency": "LXSCN055",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-02",
+   "competency": "LXSCN001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-02",
+   "competency": "LXSCN005",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-02",
+   "competency": "LXSCN008",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-02",
+   "competency": "LXSCN019",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-02",
+   "competency": "LXSCN026",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-02",
+   "competency": "LXSCN027",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-02",
+   "competency": "LXSCN031",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-02",
+   "competency": "LXSCN032",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-02",
+   "competency": "LXSCN035",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-02",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-02",
+   "competency": "LXSCN038",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-02",
+   "competency": "LXSCN046",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-02",
+   "competency": "LXSCN055",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "APKCE-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "ATAC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "CEOIS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "CIMRC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "CSDSP-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "CTIC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "CTIO-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "DOSIOC-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "ETTTE-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "OCI-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "OWCCCR-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "TAP-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "TILM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "TIRCC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "TM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "DM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "LXSCN026",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "LXSCN031",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "LXSCN038",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "LXSCN039",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-03",
+   "competency": "LXSCN045",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "BCDRSP-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "BCDRTEAM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "BIAB-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "BRT-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "BSDM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "CTBDEM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "DRCI-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "ICER-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "IICR-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "PPSD-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "SDRS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "TERA-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "DM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "LXSCN026",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "LXSCN030",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "LXSCN031",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "LXSCN038",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "LXSCN039",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-04",
+   "competency": "LXSCN045",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "AM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "CIM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "IA-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "IA-002",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "IAI-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "IG-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "PAMPG-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "RCI-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "UP-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "LXSCN020",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "LXSCN026",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "LXSCN031",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "LXSCN032",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "LXSCN034",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "LXSCN036",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "LXSCN038",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "LXSCN039",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "LXSCN045",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-05",
+   "competency": "LXSCN060",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-06",
+   "competency": "AS-002",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-06",
+   "competency": "ASD-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-06",
+   "competency": "ESI-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-06",
+   "competency": "ESO-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-06",
+   "competency": "PM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-06",
+   "competency": "VM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-06",
+   "competency": "WAS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-06",
+   "competency": "DM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-06",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-06",
+   "competency": "LXSCN019",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-06",
+   "competency": "LXSCN031",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-06",
+   "competency": "LXSCN032",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-06",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-06",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-06",
+   "competency": "LXSCN039",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-06",
+   "competency": "LXSCN045",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "AS-002",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "ASD-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "ASR-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "CAS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "CDL-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "CIMRC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "CSA-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "CSM-002",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "DAC-002",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "ESA-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "ESI-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "ESO-001",
+   "requiredLevel": 1,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "ICER-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "NIS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "PCM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "PM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "SHOSH-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "VM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "WAS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "LXSCN019",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "LXSCN031",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "LXSCN032",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "LXSCN039",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-07",
+   "competency": "LXSCN045",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "AS-002",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "CAS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "CDL-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "CIMRC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "CSA-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "CSM-002",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "DAC-002",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "ESA-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "ESI-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "ESO-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "ICER-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "NIS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "PCM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "PM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "SHOSH-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "VM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "WAS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "LXSCN019",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "LXSCN031",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "LXSCN039",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-08",
+   "competency": "LXSCN045",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-09",
+   "competency": "LXSCN001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-09",
+   "competency": "LXSCN005",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-09",
+   "competency": "LXSCN019",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-09",
+   "competency": "LXSCN026",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-09",
+   "competency": "LXSCN027",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-09",
+   "competency": "LXSCN031",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-09",
+   "competency": "LXSCN032",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-09",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-09",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-09",
+   "competency": "LXSCN038",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-09",
+   "competency": "LXSCN039",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-09",
+   "competency": "LXSCN045",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-09",
+   "competency": "LXSCN060",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-10",
+   "competency": "DM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-10",
+   "competency": "LXSCN001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-10",
+   "competency": "LXSCN005",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-10",
+   "competency": "LXSCN019",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-10",
+   "competency": "LXSCN027",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-10",
+   "competency": "LXSCN031",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-10",
+   "competency": "LXSCN032",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-10",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-10",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-10",
+   "competency": "LXSCN060",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "AS-002",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "ASD-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "ASR-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "CAS-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "CDL-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "CIMRC-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "CSA-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "CSM-002",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "DAC-002",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "ESA-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "ESI-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "ESO-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "ICER-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "NIS-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "PCM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "PM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "SHOSH-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "VM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "WAS-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "LXSCN019",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "LXSCN031",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "LXSCN032",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "LXSCN039",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-11",
+   "competency": "LXSCN045",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "AS-002",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "CAS-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "CDL-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "CIMRC-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "CSA-001",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "CSM-002",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "DAC-002",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "ESA-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "ESI-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "ESO-001",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "ICER-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "NIS-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "PCM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "PM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "SHOSH-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "VM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "WAS-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "LXSCN019",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "LXSCN031",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "LXSCN039",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "LXSCN045",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "AICI-001",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "AS-002",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "ASD-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "CAS-001",
+   "requiredLevel": 1,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "ESI-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "ESO-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "PM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "VM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "WAS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "WLSA-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "DM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "LXSCN019",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "LXSCN031",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "LXSCN032",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "LXSCN038",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "LXSCN039",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-13",
+   "competency": "LXSCN045",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-14",
+   "competency": "LXSCN001",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-14",
+   "competency": "LXSCN019",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-14",
+   "competency": "LXSCN026",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-14",
+   "competency": "LXSCN060",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-15",
+   "competency": "DM-001",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-15",
+   "competency": "LXSCN001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-15",
+   "competency": "LXSCN005",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-15",
+   "competency": "LXSCN019",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-15",
+   "competency": "LXSCN026",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-15",
+   "competency": "LXSCN030",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-15",
+   "competency": "LXSCN032",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-15",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-15",
+   "competency": "LXSCN035",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-15",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-15",
+   "competency": "LXSCN038",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-15",
+   "competency": "LXSCN046",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-15",
+   "competency": "LXSCN060",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-16",
+   "competency": "DM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-16",
+   "competency": "LXSCN001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-16",
+   "competency": "LXSCN005",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-16",
+   "competency": "LXSCN019",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-16",
+   "competency": "LXSCN026",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-16",
+   "competency": "LXSCN030",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-16",
+   "competency": "LXSCN031",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-16",
+   "competency": "LXSCN032",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-16",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-16",
+   "competency": "LXSCN035",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-16",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-16",
+   "competency": "LXSCN038",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-16",
+   "competency": "LXSCN046",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-16",
+   "competency": "LXSCN060",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "CRGS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "CSMS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "CSRG-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "ERMIR-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "ICER-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "ISA-001",
+   "requiredLevel": 1,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "ISGRC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "OCI-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "PPSD-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "RAM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "RTMP-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "SAC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "DM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "LXSCN026",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "LXSCN030",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "LXSCN031",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "LXSCN032",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "LXSCN034",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "LXSCN035",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "LXSCN036",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "LXSCN039",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "LXSCN045",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-17",
+   "competency": "LXSCN060",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "CRGS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "CSMS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "CSRG-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "ERMIR-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "ICER-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "ISA-001",
+   "requiredLevel": 1,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "ISGRC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "PPSD-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "RAM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "RTMP-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "SAC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "DM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "LXSCN026",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "LXSCN030",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "LXSCN031",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "LXSCN032",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "LXSCN034",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "LXSCN035",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "LXSCN036",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "LXSCN039",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "LXSCN045",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-18",
+   "competency": "LXSCN060",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "CRGS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "CSMS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "ERMIR-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "ICER-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "ISA-001",
+   "requiredLevel": 1,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "ISGRC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "OCI-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "PPSD-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "RAM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "RTMP-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "SAC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "DM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "LXSCN026",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "LXSCN030",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "LXSCN031",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "LXSCN032",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "LXSCN034",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "LXSCN035",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "LXSCN036",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "LXSCN039",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "LXSCN045",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-19",
+   "competency": "LXSCN060",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-20",
+   "competency": "CRGS-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-20",
+   "competency": "CSMS-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-20",
+   "competency": "CSRG-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-20",
+   "competency": "ERMIR-001",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-20",
+   "competency": "ICER-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-20",
+   "competency": "ISA-001",
+   "requiredLevel": 1,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-20",
+   "competency": "ISGRC-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-20",
+   "competency": "PPSD-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-20",
+   "competency": "SAC-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-20",
+   "competency": "DM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-20",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-20",
+   "competency": "LXSCN030",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-20",
+   "competency": "LXSCN032",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-20",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-20",
+   "competency": "LXSCN035",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-20",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-20",
+   "competency": "LXSCN060",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "BCDRTEAM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "BIAB-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "CRGS-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "CSMS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "CSRG-001",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "CTBDEM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "ERMIR-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "ICER-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "ISA-001",
+   "requiredLevel": 1,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "ISGRC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "OCI-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "PPSD-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "RAM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "RTMP-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "SAC-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "DM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "LXSCN026",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "LXSCN030",
+   "requiredLevel": 1,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "LXSCN031",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "LXSCN032",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "LXSCN035",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "LXSCN039",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "LXSCN045",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-21",
+   "competency": "LXSCN060",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "CRGS-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "CSMS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "CSRG-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "ERMIR-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "ICER-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "ISA-001",
+   "requiredLevel": 1,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "ISGRC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "PPSD-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "RAM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "RTMP-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "SAC-001",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "DM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "LXSCN026",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "LXSCN030",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "LXSCN031",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "LXSCN032",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "LXSCN035",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-22",
+   "competency": "LXSCN060",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-23",
+   "competency": "DM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-23",
+   "competency": "LXSCN001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-23",
+   "competency": "LXSCN008",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-23",
+   "competency": "LXSCN019",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-23",
+   "competency": "LXSCN020",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-23",
+   "competency": "LXSCN026",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-23",
+   "competency": "LXSCN027",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-23",
+   "competency": "LXSCN031",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-23",
+   "competency": "LXSCN035",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-23",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-23",
+   "competency": "LXSCN046",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-23",
+   "competency": "LXSCN055",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-23",
+   "competency": "LXSCN060",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-23",
+   "competency": "LXSCN206",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-24",
+   "competency": "DM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-24",
+   "competency": "LXSCN001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-24",
+   "competency": "LXSCN019",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-24",
+   "competency": "LXSCN020",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-24",
+   "competency": "LXSCN026",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-24",
+   "competency": "LXSCN027",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-24",
+   "competency": "LXSCN031",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-24",
+   "competency": "LXSCN035",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-24",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-24",
+   "competency": "LXSCN046",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-24",
+   "competency": "LXSCN055",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-24",
+   "competency": "LXSCN060",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-24",
+   "competency": "LXSCN206",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "DDUGE-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "IOS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "ODC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "OIRF-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "OND-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "OPSV-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "OPVM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "OSBCM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "PMOSP-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "PSHCRA-001",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "SRAGA-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "WLBOFAS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "DM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "LXSCN019",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "LXSCN031",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "LXSCN032",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "LXSCN035",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "LXSCN039",
+   "requiredLevel": 1,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "LXSCN045",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "LXSCN055",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-25",
+   "competency": "LXSCN060",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "DDUGE-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "IOS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "OIRF-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "OND-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "OPSV-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "OPVM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "OSBCM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "OUC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "PMOSP-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "PSHCRA-001",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "SRAGA-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "WLBOFAS-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "DM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "LXSCN019",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "LXSCN031",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "LXSCN032",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "LXSCN045",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "LXSCN055",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-26",
+   "competency": "LXSCN060",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "CIMRC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "CSM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "CTIC-001",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "CTIO-001",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "DAC-002",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "DE-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "DF-003",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "ESI-001",
+   "requiredLevel": 1,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "ESO-001",
+   "requiredLevel": 1,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "EXT-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "LM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "MA-001",
+   "requiredLevel": 1,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "NSM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "OTDM-001",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "PT-001",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "SA-001",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "SAT-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "TH-002",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "TMD-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "LXSCN019",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "LXSCN031",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "LXSCN037",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "LXSCN039",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-27",
+   "competency": "LXSCN045",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-28",
+   "competency": "LXSCN001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-28",
+   "competency": "LXSCN005",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-28",
+   "competency": "LXSCN019",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-28",
+   "competency": "LXSCN026",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-28",
+   "competency": "LXSCN027",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-28",
+   "competency": "LXSCN031",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-28",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-28",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-28",
+   "competency": "LXSCN037",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-28",
+   "competency": "LXSCN038",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-28",
+   "competency": "LXSCN060",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN005",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN008",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN019",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN020",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN026",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN027",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN030",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN031",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN032",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN035",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN037",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN038",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN039",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN045",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN046",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN060",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-29",
+   "competency": "LXSCN206",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "CIMRC-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "CSM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "CTIC-001",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "CTIO-001",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "DE-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "DF-003",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "ESI-001",
+   "requiredLevel": 1,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "ESO-001",
+   "requiredLevel": 1,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "EXT-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "LM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "MA-001",
+   "requiredLevel": 1,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "NSM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "OTDM-001",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "PT-001",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "SA-001",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "SAT-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "TH-002",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "TMD-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "LXSCN019",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "LXSCN031",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-30",
+   "competency": "LXSCN037",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "CIMRC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "CSM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "CTIC-001",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "CTIO-001",
+   "requiredLevel": 1,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "DAC-002",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "DE-001",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "ESI-001",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "ESO-001",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "EXT-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "LM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "MA-001",
+   "requiredLevel": 2,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "NSM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "OTDM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "SA-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "SAT-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "TMD-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "LXSCN019",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "LXSCN031",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "LXSCN032",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "LXSCN037",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "LXSCN039",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-31",
+   "competency": "LXSCN045",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "CIMRC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "CSM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "CTIC-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "CTIO-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "DAC-002",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "DE-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "DF-003",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "ESI-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "ESO-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "EXT-001",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "LM-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "MA-001",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "NSM-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "OTDM-001",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "PT-001",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "SA-001",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "SAT-001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "TH-002",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "TMD-001",
+   "requiredLevel": 4,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "LXSCN001",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "LXSCN019",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "LXSCN031",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "LXSCN034",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "LXSCN036",
+   "requiredLevel": 3,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "LXSCN037",
+   "requiredLevel": 2,
+   "sourcePriority": 3,
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "LXSCN039",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  },
+  {
+   "role": "ROLE-32",
+   "competency": "LXSCN045",
+   "requiredLevel": 3,
+   "sourcePriority": 2,
+   "priority": "High"
+  }
+ ],
+ "requirementsMissingLevel": [
+  {
+   "role": "ROLE-12",
+   "competency": "ASD-001",
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "ASR-001",
+   "priority": "Medium"
+  },
+  {
+   "role": "ROLE-12",
+   "competency": "LXSCN032",
+   "priority": "Medium"
+  }
+ ]
+}

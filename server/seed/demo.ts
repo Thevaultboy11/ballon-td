@@ -7,6 +7,7 @@
 import { prisma, prepareDatabase } from '../db.ts'
 import { nextId, nextIds, syncCounters } from '../lib/ids.ts'
 import { seedLibrary } from './seed.ts'
+import { seedStarterLibrary } from './starter.ts'
 
 const CLIENT = 'Northstar Enterprise Group (demo)'
 const TODAY = new Date(Date.UTC(2026, 9, 21))
@@ -42,6 +43,7 @@ async function remove() {
 async function create() {
   if (await prisma.client.findUnique({ where: { name: CLIENT } })) return console.log('The demo client already exists. Remove it first: npm run db:demo -- --remove')
   const counts = await seedLibrary()
+  await seedStarterLibrary() // the demo is built on the starter library's codes
   void counts
 
   const roles = await prisma.jobRole.findMany({ include: { requirements: true } })

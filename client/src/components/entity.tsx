@@ -33,6 +33,18 @@ function MultiLookup({ list, value, onChange }: { list: string; value: string | 
   )
 }
 
+/** Free text with the list's values offered as suggestions (org units, grades: names differ per client). */
+function SuggestInput({ list, value, onChange, small }: { list: string; value: any; onChange: (v: any) => void; small?: boolean }) {
+  const meta = useMeta()
+  const id = `dl-${list}`
+  return (
+    <>
+      <input className={`input ${small ? 'sm' : ''}`} list={id} value={value ?? ''} onChange={(e) => onChange(e.target.value)} placeholder="Type or pick…" />
+      <datalist id={id}>{(meta.lists[list] ?? []).filter((v) => v.active).map((v) => <option key={v.value} value={v.value}>{v.description ?? undefined}</option>)}</datalist>
+    </>
+  )
+}
+
 function RefInput({ field, value, onChange, form, small }: { field: Field; value: any; onChange: (v: any) => void; form: Record<string, any>; small?: boolean }) {
   const filter = Object.fromEntries(Object.entries(field.dependsOn ?? {}).map(([optField, formField]) => [optField, form[formField]]))
   const opts = useOptions(field.ref, filter)
@@ -51,6 +63,7 @@ export function FieldInput({ field, value, onChange, form = {}, small }: { field
         value={value ?? ''} onChange={(e) => onChange(e.target.value === '' ? null : e.target.value)} />
     case 'lookup': return <LookupSelect list={field.list!} value={value} onChange={onChange} required={field.required} small={small} />
     case 'multilookup': return <MultiLookup list={field.list!} value={value} onChange={onChange} />
+    case 'suggest': return <SuggestInput list={field.list!} value={value} onChange={onChange} small={small} />
     case 'ref': return <RefInput field={field} value={value} onChange={onChange} form={form} small={small} />
     case 'email': return <input className={cls} type="email" value={value ?? ''} onChange={(e) => onChange(e.target.value)} />
     case 'url': return <input className={cls} type="url" placeholder="https://" value={value ?? ''} onChange={(e) => onChange(e.target.value)} />
@@ -161,7 +174,7 @@ export function cellValue(f: Field, row: any): ReactNode {
     case 'percent': return `${v}%`
     case 'lookup': return STATUS_LISTS.has(f.list!) ? <Status v={v} /> : v
     case 'longtext': return <span className="clip" title={v}>{v}</span>
-    case 'url': return <a href={v} target="_blank" rel="noreferrer" className="lime-text">Open</a>
+    case 'url': return <a href={v} target="_blank" rel="noreferrer" className="accent-text">Open</a>
     default: return <span className="clip" title={String(v)}>{String(v)}</span>
   }
 }

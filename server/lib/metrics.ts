@@ -1,6 +1,7 @@
 // Calculated values. Nothing here is stored: it is worked out from the records every time,
 // shown in the app and written into the Excel export (Employee_Summary).
 import { prisma } from '../db.ts'
+import { evaluatePerson, evaluateGroup, observationSummary, baselineScore, labStats, type CompRow, type ObsDay, type Rule, type Flag } from './risks.ts'
 
 export const PRIORITY_WEIGHT: Record<string, number> = { High: 3, Medium: 2, Low: 1 }
 const DONE_TRAINING = new Set(['Completed'])
@@ -16,7 +17,7 @@ export async function loadData(scope: Scope = {}) {
   const employees = await prisma.employee.findMany({ where: empWhere, include: { client: true, jobRole: true, lineManager: true }, orderBy: { name: 'asc' } })
   const ids = employees.map((e) => e.id)
   const byEmp = { employeeId: { in: ids } }
-  const [enrollments, assessments, validations, idp, training, certs, coaching, evidence, requirements, competencies, parameters] = await Promise.all([
+  const [enrollments, assessments, validations, idp, training, certs, coaching, evidence, requirements, competencies, parameters, baselines, riskRules] = await Promise.all([
     prisma.enrollment.findMany({ where: byEmp, include: { program: true, coach: true, consultant: true }, orderBy: { startDate: 'desc' } }),
     prisma.assessment.findMany({ where: byEmp, include: { ratings: true, assessor: true }, orderBy: { date: 'asc' } }),
     prisma.managerValidation.findMany({ where: byEmp, include: { manager: true }, orderBy: { date: 'asc' } }),
@@ -28,6 +29,8 @@ export async function loadData(scope: Scope = {}) {
     prisma.roleRequirement.findMany(),
     prisma.competency.findMany({ include: { category: { include: { framework: true } } } }),
     prisma.observationParameter.findMany({ orderBy: { sortOrder: 'asc' } }),
+    prisma.baselineSurvey.findMany({ where: byEmp, orderBy: { date: 'asc' } }),
+    prisma.riskRule.findMany({ orderBy: { sortOrder: 'asc' } }),
   ])
   const group = <T extends { employeeId: string }>(rows: T[]) => {
     const m = new Map<string, T[]>()
@@ -42,18 +45,27 @@ export async function loadData(scope: Scope = {}) {
     competencies: new Map(competencies.map((c) => [c.id, c])),
     parameters: new Map(parameters.map((p) => [p.id, p])),
     enrollments: group(enrollments), assessments: group(assessments), validations: group(validations), idp: group(idp),
-    training: group(training), certs: group(certs), coaching: group(coaching), evidence: group(evidence),
+    training: group(training), certs: group(certs), coaching: group(coaching), evidence: group(evidence), baselines: group(baselines),
+    riskRules: riskRules as Rule[],
   }
 }
 export type Data = Awaited<ReturnType<typeof loadData>>
 
 export type CompetencyStatus = {
-  competencyId: string; code: string; name: string; category: string; framework: string; minLevel: number; maxLevel: number
+  competencyId: string; code: string; name: string; category: string; framework: string; frameworkCode: string; minLevel: number; maxLevel: number
   level: number | null; selfLevel: number | null; required: number | null; priority: string | null; gap: number | null
   nextRequired: number | null; source: string | null; sourceDate: Date | null; observedAvg: number | null
 }
 
 const avg = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null)
+
+/** Technical vs cross-functional, for the framework-level risk rules (R04, R05, R08). */
+export function frameworkKind(code: string, name: string): CompRow['frameworkKind'] {
+  if (/^TECH/i.test(code) || /technical/i.test(name)) return 'technical'
+  if (/^(LEAD|LEX)/i.test(code) || /cross-functional|leadership|behaviou?r/i.test(name)) return 'cross'
+  return 'other'
+}
+const SEGMENTS = [['S1', 's1'], ['S2', 's2'], ['S3', 's3'], ['S4', 's4'], ['S5', 's5'], ['DTN', 'dtn']] as const
 const maxDate = (ds: (Date | null | undefined)[]) => ds.reduce<Date | null>((m, d) => (d && (!m || d > m) ? d : m), null)
 
 function readiness(rows: { level: number | null; required: number | null; priority: string | null }[]) {
@@ -114,7 +126,7 @@ export function summarize(d: Data, emp: Data['employees'][number], today = new D
     const priority = cur?.priority ?? roleReqMap.get(cid)?.priority ?? null
     const level = cur?.level ?? null
     return {
-      competencyId: cid, code: c.code, name: c.name, category: c.category.name, framework: c.category.framework.name, minLevel: c.minLevel, maxLevel: c.maxLevel,
+      competencyId: cid, code: c.code, name: c.name, category: c.category.name, framework: c.category.framework.name, frameworkCode: c.category.framework.code, minLevel: c.minLevel, maxLevel: c.maxLevel,
       level, selfLevel: self.get(cid) ?? null, required: req, priority, gap: level != null && req != null ? req - level : null,
       nextRequired: nextReqs.get(cid)?.requiredLevel ?? null, source: cur?.source ?? null, sourceDate: cur?.date ?? null,
       observedAvg: avg(obsByComp.get(cid) ?? obsByName.get(c.name.toLowerCase()) ?? []),
@@ -145,6 +157,38 @@ export function summarize(d: Data, emp: Data['employees'][number], today = new D
   const nextRoleReadiness = nextRows.length && rated.length ? readiness(nextRows) : null
   const criticalGaps = gaps.filter((c) => c.priority === 'High').length
 
+  // ---- observation days (behaviour scores), baseline, labs, coaching per segment, risk flags
+  const days: ObsDay[] = training.flatMap((t) => t.days.map((day) => ({
+    date: day.date, attendance: day.attendance,
+    scores: day.scores.filter((x) => x.score != null).map((x) => { const p = d.parameters.get(x.parameterId)!; return { parameterId: x.parameterId, name: p?.name ?? x.parameterId, category: p?.category ?? '', score: x.score!, maxScore: p?.maxScore ?? 5 } }),
+  }))).sort((a, b) => (a.date?.getTime() ?? 0) - (b.date?.getTime() ?? 0))
+  const baselines = d.baselines.get(emp.id) ?? []
+  const baseline = baselines[baselines.length - 1] ?? null
+  const observedRec = [...training].reverse().find((t) => t.validatedLevel != null || t.targetLevel != null)
+  const observation = observationSummary(days, { selfAssessed: baselineScore(baseline), validated: observedRec?.validatedLevel ?? null, target: observedRec?.targetLevel ?? null })
+  const trainingRows = training.map((t) => ({
+    status: t.status, courseType: t.course.type, courseName: t.course.name, hours: t.hours ?? t.course.durationHours ?? null, attendancePct: t.attendancePct,
+    labsCompleted: t.labsCompleted, labsTotal: t.labsTotal ?? t.course.labsTotal ?? null, date: t.completionDate ?? t.startDate ?? t.session?.startDate ?? t.assignedDate,
+  }))
+  const labs = labStats(trainingRows)
+  const segmentProgress = Object.fromEntries(SEGMENTS.map(([seg, k]) => {
+    const last = [...coaching].reverse().find((c) => (c as any)[`${k}Progress`] != null)
+    return [seg, last ? (last as any)[`${k}Progress`] as number : null]
+  })) as Record<string, number | null>
+  const prog = enrollment?.program
+  const cycle = prog?.startDate || prog?.endDate || enrollment?.startDate || enrollment?.endDate
+    ? { start: enrollment?.startDate ?? prog?.startDate ?? null, end: enrollment?.endDate ?? prog?.endDate ?? null } : null
+  const s5 = idp.filter((a) => a.segment?.startsWith('S5') && a.status !== 'Cancelled')
+  const compRows: CompRow[] = competencies.map((c) => ({ name: c.name, frameworkKind: frameworkKind(c.frameworkCode, c.framework), level: c.level, required: c.required, priority: c.priority, maxLevel: c.maxLevel }))
+  const inScope = !['Out of Scope', 'Left Company'].includes(emp.status ?? '')
+  const risks: Flag[] = inScope ? evaluatePerson({
+    employeeId: emp.id, name: emp.name, competencies: compRows, days, training: trainingRows,
+    certTracks: certs.filter((c) => !['Cancelled', 'Not Required', 'Expired'].includes(c.status)).map((c) => c.certification.track ?? ''),
+    coachingDates: coachingDone.map((c) => c.date), cycle, s5PlanHours: s5.length ? s5.reduce((t, a) => t + (a.estimatedHours ?? 0), 0) || null : null,
+    selfAssessment: selfA?.status ?? 'Not Started', validationInterview: interview?.status ?? 'Not Started', report: interview?.reportStatus ?? 'Not Started',
+  }, d.riskRules) : []
+  const riskCount = (sev: string) => risks.filter((r) => r.severity === sev).length
+
   return {
     employeeId: emp.id,
     program: enrollment?.program?.name ?? null, batch: enrollment?.batch ?? null, enrollmentStatus: enrollment?.status ?? null,
@@ -169,8 +213,22 @@ export function summarize(d: Data, emp: Data['employees'][number], today = new D
     coachingSessions: coachingDone.length, coachingMinutes: coachingDone.reduce((t, c) => t + (c.prepMinutes ?? 0) + (c.durationMinutes ?? 0) + (c.reportingMinutes ?? 0), 0), lastCoaching: lastCoaching?.date ?? null, coachingProgress: [...coaching].reverse().find((c) => c.progressPct != null)?.progressPct ?? null,
     nextReview: lastCoaching?.nextReviewDate ?? null,
     evidenceTotal: evidence.length, evidenceVerified: evidence.filter((e) => e.verificationStatus === 'Verified').length,
+    baselineScore: baselineScore(baseline), baselineDate: baseline?.date ?? null,
+    labsAssigned: labs.assigned, labsCompleted: labs.done, labsTotal: labs.total, labsShare: labs.share,
+    segmentProgress, observation,
+    risks, risksHigh: riskCount('High'), risksMedium: riskCount('Medium'), risksLow: riskCount('Low'), opportunities: riskCount('Opportunity'),
+    criticalSkillGap: risks.some((r) => r.code === 'R01'),
     lastActivity: maxDate([emp.updatedAt, ...assessments.map((a) => a.updatedAt), ...validations.map((v) => v.updatedAt), ...idp.map((a) => a.updatedAt), ...training.map((t) => t.updatedAt), ...certs.map((c) => c.updatedAt), ...coaching.map((c) => c.updatedAt), ...evidence.map((e) => e.updatedAt)]),
     competencies,
   }
 }
 export type Summary = ReturnType<typeof summarize>
+
+/** Group rules (R34 team, R35 section, R36 organisation-wide skill) for a set of people. */
+export function groupRisks(d: Data, sums: { e: Data['employees'][number]; s: Summary }[]) {
+  const members = sums.filter((x) => !['Out of Scope', 'Left Company'].includes(x.e.status ?? '')).map(({ e, s }) => ({
+    employeeId: e.id, name: e.name, lineManager: e.lineManager?.name ?? e.lineManagerName ?? null, section: e.section,
+    criticalGap: s.criticalSkillGap, competencies: s.competencies.map((c) => ({ name: c.name, frameworkKind: frameworkKind(c.frameworkCode, c.framework), level: c.level, required: c.required, priority: c.priority, maxLevel: c.maxLevel })),
+  }))
+  return evaluateGroup(members, d.riskRules)
+}

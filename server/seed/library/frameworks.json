@@ -1,0 +1,61 @@
+{
+ "_about": "Competency frameworks and categories (master data catalogue, section 5.2). The technical framework has one category, labelled \"Technical Cybersecurity\".",
+ "frameworks": [
+  {
+   "code": "TECHCS",
+   "name": "Client Technical Framework (Digital & Cybersecurity)",
+   "externalId": null,
+   "scaleMin": 0,
+   "scaleMax": 4,
+   "description": "Technical / functional cybersecurity competencies of the client role profiles."
+  },
+  {
+   "code": "LEXCROSS",
+   "name": "Lexonis Cross-functional Competencies",
+   "externalId": "lexcross",
+   "scaleMin": 1,
+   "scaleMax": 4,
+   "description": "Behavioural and leadership competencies (Lexonis library)."
+  },
+  {
+   "code": "LEXFUNCT",
+   "name": "Lexonis Functional Competencies",
+   "externalId": "lexfunct",
+   "scaleMin": 1,
+   "scaleMax": 4,
+   "description": "Functional competencies (Lexonis library), project and programme management."
+  }
+ ],
+ "categories": [
+  {
+   "code": "GD&CS",
+   "framework": "TECHCS",
+   "name": "Technical Cybersecurity",
+   "externalId": null
+  },
+  {
+   "code": "LEX_CF",
+   "framework": "LEXCROSS",
+   "name": "Business",
+   "externalId": "LEX_CF"
+  },
+  {
+   "code": "LEX_LM",
+   "framework": "LEXCROSS",
+   "name": "Leadership and Management",
+   "externalId": "LEX_LM"
+  },
+  {
+   "code": "LEX_ORG",
+   "framework": "LEXCROSS",
+   "name": "Personal",
+   "externalId": "LEX_ORG"
+  },
+  {
+   "code": "LEX_PP",
+   "framework": "LEXFUNCT",
+   "name": "Project and Program Management",
+   "externalId": "LEX_PP"
+  }
+ ]
+}

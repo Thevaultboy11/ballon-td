@@ -1,29 +1,54 @@
-# Preloaded library
+# Reference library
 
-Everything `npm run db:seed` loads. All of it can be edited in the app on **Library**. Generated from `server/seed/library.ts` and `shared/lookups.ts` by `npm run docs:library` — do not edit by hand.
+Everything `npm run db:seed` loads into a new or existing database. All of it can be edited in the app on **Library**, and every row keeps a stable code, so the seed can be run again at any time: it only adds what is missing (`npm run db:seed -- --update` also overwrites the text of existing rows).
 
-**Totals:** 2 frameworks · 11 categories · 69 competencies · 388 level indicators · 31 job roles · 623 role requirements · 55 courses · 27 certifications · 25 observed behaviours · 30 dropdown lists (194 values)
-
-> Descriptions and level indicators are starter text. The 16 original leadership competencies and the 25 observed behaviours come from the client's workbooks; the technical competencies and all lists come from the Master Data Dictionary. Replace the wording with the client's framework when it is available.
+Generated from `server/seed/library/*.json` and `shared/lookups.ts` by `npm run docs:library`. Do not edit by hand.
 
 ## Contents
+- [Totals](#totals)
 - [Dropdown lists](#dropdown-lists)
 - [Frameworks and categories](#frameworks-and-categories)
 - [Competencies](#competencies)
 - [Level indicators](#level-indicators)
-- [Job roles and requirements](#job-roles-and-requirements)
-- [Courses](#courses)
+- [Role profiles](#role-profiles)
+- [Role requirements](#role-requirements)
+- [Courses and programmes](#courses-and-programmes)
+- [Lab collections](#lab-collections)
 - [Certifications](#certifications)
 - [Observed behaviours](#observed-behaviours)
+- [Risk and opportunity rules](#risk-and-opportunity-rules)
+- [Starter library (demos only)](#starter-library-demos-only)
+
+## Totals
+
+| What | Rows | Where in the app |
+| --- | ---: | --- |
+| Dropdown lists | 47 lists, 298 values | Library → Dropdowns |
+| Frameworks | 3 | Library → Frameworks |
+| Competency categories | 5 | Library → Categories |
+| Competencies | 160 | Library → Competencies |
+| Level indicators (behaviour descriptors) | 3,244 | Library → Level indicators |
+| Role profiles | 32 with requirements + 9 job titles without requirements yet | Library → Job roles |
+| Role requirements | 620 | Library → Role requirements |
+| Courses | 35 (15 catalogue courses, 1 observed programme, 6 boot camps, 1 LMS curriculum, 12 lab collections) | Library → Courses |
+| Certifications | 39 | Library → Certifications |
+| Observed behaviours | 25 | Library → Observed behaviours |
+| Risk and opportunity rules | 36 | Library → Risk rules |
 
 ## Dropdown lists
+
+Lists marked *suggest* are offered as suggestions on free-text fields (organisation units and grades differ per client); every other list is enforced.
 
 | List | Used for | Values |
 | --- | --- | --- |
 | **Programme status** `programStatus` | Where a client programme / IDP cycle is. | Planned · Active · On Hold · Completed · Cancelled |
 | **Staff role** `staffRole` | What our own people do. One person can have several. | Consultant · Coach · Trainer · Assessor · Programme Manager · Administrator |
 | **Employee status** `employeeStatus` | Whether the person is still in scope. | Active · On Leave · Left Company · Out of Scope |
-| **Job family** `jobFamily` | Groups job roles into career tracks. | Security Operations · Threat Intelligence · Application Security · Offensive Security · Infrastructure & Cloud Security · Identity & Access · Governance, Risk & Compliance · Business Continuity & Resilience · Security Leadership |
+| **Job family** `jobFamily` | Groups job roles into career tracks. | Security Operations · Threat Intelligence · Application Security · Offensive Security · Infrastructure & Cloud Security · Identity & Access · Governance, Risk & Compliance · Business Continuity & Resilience · Security Leadership · OT Security |
+| **Grade** `jobGrade` | Grade-style job titles from client people registers (suggestions; free text allowed). The description gives the matching seniority. | Analyst · Engineer · Specialist · Senior Analyst · Senior Engineer · Section Head · Department Manager · VP |
+| **Division** `orgDivision` | Suggested division names (a reusable template structure; free text allowed). Replace per client. | Digital Cybersecurity Operations Division · Group Information Security |
+| **Department** `orgDepartment` | Suggested department names (template structure; free text allowed). | Digital Business Continuity & Cyber Threat Intelligence Department · Digital Cybersecurity Engineering Department · Digital Identity & Access Management Department · Digital Risk Management & Compliance Department · Digital Security Operations Center Department · OT Cybersecurity Department |
+| **Section / team** `orgSection` | Suggested section names (template structure; free text allowed). The description names the department. | Digital Clouds & Applications Security Section · Digital Infrastructure Security Operations Section · Digital Vulnerability Management Section · Digital Cybersecurity Monitoring Section · Digital Threat Hunting Section · Downstream Industry, Marketing & Trading OT Cybersecurity Section · Upstream OT Cybersecurity Section · Cyber Threat Intelligence Section · Digital Business Continuity Management Section · Cyber Security Policies & Standards Section · IT Risk Management & Compliance Section · OT Risk Management & Compliance Section |
 | **Seniority** `seniority` | Drives default required levels on role profiles. | Entry · Mid · Senior · Lead · Manager · Head · Executive |
 | **Enrolment status** `enrollmentStatus` | A person's status in one programme. | Nominated · Enrolled · Active · On Hold · Completed · Withdrawn · Deferred |
 | **Assessment type** `assessmentType` | How the levels were obtained. Each is its own Assessment, so history is kept. | Self-Assessment · Consultant Assessment · Validation Interview · Manager Assessment · 360 Feedback · Technical Test · Re-assessment |
@@ -33,414 +58,1491 @@ Everything `npm run db:seed` loads. All of it can be edited in the app on **Libr
 | **Validation status** `validationStatus` | Manager validation outcome. | Pending · Approved · Rejected · Requires Further Evidence |
 | **Progress scale (1–5)** `progressScale` | Used by coaches and line managers to score progress on a behaviour or skill (Validated level on a manager validation). | 1 - Not Started / No Exposure · 2 - Limited progress or competence · 3 - On Track · 4 - Good Effort · 5 - Fully Achieved |
 | **Development action type** `idpActionType` | What kind of action is planned in the IDP. | Training · Workshop · Certification · Coaching · Mentoring · Project Assignment · Shadowing · Cross-Functional Rotation · Reading · Research · Simulation · Learning Plan Segment · Department Training Need |
+| **Plan segment** `idpSegment` | The fixed structure of an individual development plan: five segments and the department training need. | S1 Professional certification · S2 Hands-on labs · S3 AI certification · S4 LMS learning · S5 Cross-functional training · DTN Department training need |
 | **Development action status** `idpStatus` | "Overdue" is calculated (planned end passed and not completed), so it is not in this list. | Planned · Not Started · In Progress · Completed · On Hold · Deferred · Cancelled |
-| **Course type** `courseType` | The training categories of the catalogue. | Instructor Led · Workshop · Leadership Programme · Virtual Session · Immersive Lab · Simulation · Self Study · Certification Preparation · Cross-Functional Rotation · On The Job Training · Project Assignment · Mentoring · Coaching · Compliance & Awareness |
+| **Course type** `courseType` | The training categories of the catalogue. | Instructor Led · Workshop · Leadership Programme · Virtual Session · Immersive Lab · Simulation · Self Study · Certification Preparation · Cross-Functional Rotation · On The Job Training · Project Assignment · Mentoring · Coaching · Compliance & Awareness · Boot Camp |
 | **Delivery mode** `deliveryMode` |  | In-person · Online (live) · Hybrid · Self-paced |
 | **Difficulty** `difficulty` |  | Foundation · Intermediate · Advanced · Expert |
 | **Session status** `sessionStatus` | Status of one run of a course. | Planned · Scheduled · In Progress · Completed · Postponed · Cancelled |
 | **Training status** `trainingStatus` | One person on one course. | Assigned · Not Started · In Progress · Completed · Incomplete · No-show · Cancelled · Deferred · Expired |
 | **Attendance** `attendance` | Attendance on one day of a course. | Present · Partial · Absent · Excused |
 | **Observation category** `observationCategory` | Groups the behaviours trainers score. | Personal Effectiveness · Communication · Collaboration · Problem Solving · Leadership · Learning Agility |
+| **Observation score (1–5)** `observationScore` | The score labels trainers use on the daily behaviour grid. | 1 - Does not meet expectations · 2 - Below expectations · 3 - Average · 4 - Meets expectations · 5 - Exceeds expectations |
 | **Potential / risk note** `potentialNote` | The trainer's overall read on the person after a day. | High potential · Promising · Steady · Needs support · At risk |
 | **Certification track** `certTrack` |  | Professional · AI · Vendor / Product · Internal |
 | **Certification status** `certStatus` |  | Assigned · Not Started · Registered · In Progress · Exam Scheduled · Completed · Failed · Deferred · Expired · Not Required |
 | **Exam result** `examResult` |  | Pass · Fail · Pending · Not Taken |
 | **Coaching session type** `coachingType` |  | Kick-off · Monthly Check-In · Capability Review · Performance Coaching · Certification Coaching · Development Review · Feedback Session · Career Coaching · Close-out |
 | **Coaching session status** `coachingStatus` |  | Scheduled · Completed · Rescheduled · Cancelled · No-show |
-| **Evidence type** `evidenceType` |  | Project · Presentation · Assessment · Certification · Workshop · Training · Report · Case Study · Simulation · Manager Validation · Peer Feedback |
+| **Evidence type** `evidenceType` |  | Project · Presentation · Assessment · Certification · Workshop · Training · Report · Case Study · Simulation · Manager Validation · Peer Feedback · Artifact · Line Manager Confirmation · Workplace Assignment |
 | **Verification status** `verificationStatus` |  | Submitted · Under Review · Verified · Rejected · Needs More Information |
+| **Baseline: confidence** `baselineConfidence` | Self-reported. The number is the position used for the baseline score. | 1 - Not at all confident · 2 - Slightly confident · 3 - Neutral · 4 - Confident · 5 - Very confident |
+| **Baseline: emotional regulation** `baselineEmotionalRegulation` | Self-reported. | 1 - Poor regulation · 2 - Somewhat regulated · 3 - Average regulation · 4 - Developed regulation · 5 - Excellent regulation |
+| **Baseline: communication** `baselineCommunication` | Self-reported. | 1 - Poor communication · 2 - Below average · 3 - Average · 4 - Above average · 5 - Excellent |
+| **Baseline: accountability** `baselineAccountability` | Self-reported. | 1 - Poor accountability · 2 - Below average · 3 - Average accountability · 4 - Above average · 5 - High accountability |
+| **Baseline: productivity** `baselineProductivity` | Self-reported. | 1 - Poor productivity · 2 - Below average · 3 - Average · 4 - Above average · 5 - High productivity |
+| **Baseline: organisation skills** `baselineOrganisation` | Self-reported. | 1 - Poor organisation · 2 - Below average · 3 - Average · 4 - Above average · 5 - High organisation |
+| **Personality type (MBTI)** `mbti` | Self-reported. Sensitive: keep out of client-wide reports. | ISTJ · ISFJ · INFJ · INTJ · ISTP · ISFP · INFP · INTP · ESTP · ESFP · ENFP · ENTP · ESTJ · ESFJ · ENFJ · ENTJ |
+| **Risk severity** `riskSeverity` | Sort order: High 1, Medium 2, Low 3, Opportunity 4. | High · Medium · Low · Opportunity |
+| **Risk panel** `riskPanel` | Where a rule is shown on the dashboard. | Skill Gap Risks · Capability and Behaviour Risks · Development Plan Risks |
+| **Risk area** `riskArea` |  | Capability · Behaviour · Development Plan · Assessment · Group View |
+| **Risk applies to** `riskAppliesTo` |  | Individual and Group · Group |
 | **Source** `source` | Where a record came from. The client cannot use the app, so most of their input arrives by email or Excel and is typed in by us. | Direct entry · Email from client · Excel from client · Meeting / interview · Phone call · LMS / platform export · Trainer sheet · Imported |
 
 ## Frameworks and categories
 
-**Leadership & Behavioural Framework** (`LEAD`, scale 1–5) — How people communicate, lead, think, learn and deliver. Scale 1–5.
+**Client Technical Framework (Digital & Cybersecurity)** (`TECHCS`, scale 0–4) — Technical / functional cybersecurity competencies of the client role profiles.
 
-- `COM` Communication & Influence — 7 competencies
-- `LEA` Leadership & People — 6 competencies
-- `THK` Thinking & Decisions — 6 competencies
-- `LRN` Learning & Adaptability — 4 competencies
-- `DEL` Delivery & Ownership — 3 competencies
+- `GD&CS` Technical Cybersecurity — 135 competencies
 
-**Technical Cyber Security Framework** (`TECH`, scale 0–5) — Hands-on cyber security capability. Scale 0–5, where 0 means no exposure yet.
+**Lexonis Cross-functional Competencies** (`LEXCROSS`, scale 1–4, external ID `lexcross`) — Behavioural and leadership competencies (Lexonis library).
 
-- `GRC` Governance, Risk & Compliance — 8 competencies
-- `CTI` Threat Intelligence — 8 competencies
-- `SOC` Security Operations & Incident Response — 4 competencies
-- `BCM` Business Continuity & Resilience — 7 competencies
-- `INF` Infrastructure & Cloud Security — 9 competencies
-- `APP` Application Security — 7 competencies
+- `LEX_CF` Business — 4 competencies
+- `LEX_LM` Leadership and Management — 8 competencies
+- `LEX_ORG` Personal — 11 competencies
+
+**Lexonis Functional Competencies** (`LEXFUNCT`, scale 1–4, external ID `lexfunct`) — Functional competencies (Lexonis library), project and programme management.
+
+- `LEX_PP` Project and Program Management — 2 competencies
 
 ## Competencies
 
-### Communication & Influence
+Codes like `AICI-001` are technical competencies; `LXSCN…` are cross-functional (behavioural) competencies and keep their source ID in *External ID*. *Indicators* is the number of level indicators, *Roles* the number of role profiles that require it.
 
-| Code | Competency | Description | How it is assessed |
-| --- | --- | --- | --- |
-| `COM-01` | **Communication** | Shares information clearly and concisely, in writing and in person, so others understand and can act. | Written updates and reports, day-to-day communication, observed group work. |
-| `COM-02` | **Presentation Delivery** | Delivers well-structured presentations and briefings with confidence and composure. | Briefings, demos and the presentation exercises in leadership programmes. |
-| `COM-03` | **Stakeholder Management** | Builds trust with people outside the team and keeps them informed and aligned. | Incident briefings, project updates and cross-team meetings. |
-| `COM-04` | **Strategic Influence** | Gains support for ideas and decisions across the organisation without relying on formal authority. | Proposals, steering discussions, observed group exercises. |
-| `COM-05` | **Relationship Building** | Listens actively and builds respectful, lasting working relationships. | Peer feedback and observed group work. |
-| `COM-06` | **Negotiation** | Reaches agreements that protect security outcomes while keeping relationships intact. | Vendor and project discussions, role plays. |
-| `COM-07` | **Facilitation** | Runs meetings and workshops that reach clear outcomes and involve everyone. | Workshops and meetings led, participant feedback. |
+### Technical Cybersecurity (135)
 
-### Leadership & People
+| Code | Competency | Levels | Indicators | Roles | Description |
+| --- | --- | --- | ---: | ---: | --- |
+| `AICI-001` | **Asset Inventory and CMDB Integration** | 0–4 | 20 | 1 | The ability to maintain complete, accurate, and continuously updated records of enterprise servers and related configuration data within asset inventory and CM… |
+| `AM-001` | **Access Management** | 0–4 | 20 | 1 | The ability to define, enforce, review, and optimize access control models, including entitlements, RBAC and policy engines, to uphold least privilege, enforce… |
+| `APKCE-001` | **Attack-Path & Kill-Chain Engineering** | 0–4 | 20 | 1 | The ability to transform threat-intelligence and reconnaissance data into multi-stage kill-chains that reveal exploitable infrastructure, user-journey and proc… |
+| `AS-002` | **Application Security** | 0–4 | 20 | 6 | The ability to effectively identify, assess, mitigate, and manage application security risks throughout the software development lifecycle. |
+| `ASD-001` | **Application Security Development** | 0–4 | 20 | 5 | The ability to embed security throughout the software development and lifecycle management process by ensuring that applications are designed, built, deployed,… |
+| `ASR-001` | **Application Security Review** | 0–4 | 20 | 3 | The ability to perform in-depth application security reviews across the software development lifecycle by leveraging structured review processes, code analysis… |
+| `ATAC-001` | **APT Tracking & Attribution CTI** | 0–4 | 20 | 1 | The ability to correlate technical indicators, malware artefacts, network telemetry, TTPs, with geopolitical context, sector-specific targeting patterns, and b… |
+| `BCDRSP-001` | **Business Continuity & Disaster Recovery Strategy and Planning** | 0–4 | 20 | 1 | The ability to design, implement, and govern the organisation's Business Continuity and Disaster Recovery strategies in alignment with ISO 22301 standard, inte… |
+| `BCDRTEAM-001` | **BCDR Testing, Exercise and Awareness Management** | 0–4 | 20 | 2 | The ability to plan, execute, and govern business continuity and disaster recovery (BCDR) testing, simulation exercises, and awareness programs that validate o… |
+| `BIAB-001` | **Business Impact Analysis (BIA)** | 0–4 | 20 | 2 | The ability to plan, conduct, and govern Business Impact Analyses (BIA) to identify critical business and technical functions, assess disruption impacts, and t… |
+| `BRT-001` | **Backup and Recovery Technologies** | 0–4 | 20 | 1 | The ability to design, implement, manage, and govern backup and recovery technologies and procedures to ensure data integrity, availability, and rapid restorat… |
+| `BSDM-001` | **Business Service Dependency Mapping** | 0–4 | 20 | 1 | The ability to identify and document end-to-end service architecture, business-critical dependencies, and technical interconnections across IT and OT domains,… |
+| `CABP-001` | **Cybersecurity and Business Partnering** | 0–4 | 20 | 0 | The ability to advise and guide business and cybersecurity stakeholders on aligning risk and compliance priorities to ensure that security objectives are balan… |
+| `CAG-001` | **Cyber Assurance Governance** | 0–4 | 20 | 0 | The ability to advise and guide on the planning, execution, and governance of cyber assurance assessments across IT and OT to ensure control effectiveness is i… |
+| `CAS-001` | **Cloud Automation and Scripting** | 0–4 | 20 | 5 | The ability to design and implement scripts, API integrations, and infrastructure-as-code (IaC) to automate the enforcement of security controls, collection of… |
+| `CDL-001` | **Cybersecurity Data Lake** | 0–4 | 20 | 4 | The ability to design, operate, and leverage cybersecurity data lakes to ingest, normalize, correlate, and analyze diverse security telemetry (e.g., vulnerabil… |
+| `CEOIS-001` | **Cyber Exercise & Operational Intelligence Support** | 0–4 | 20 | 1 | The ability to embed targeted, high-fidelity threat intelligence into cybersecurity drills, Security Operations Center (SOC) workflows, and time-sensitive oper… |
+| `CIM-001` | **Cloud Identity Management** | 0–4 | 20 | 1 | The ability to manage and govern identities, roles, secrets, and access policies across multi-cloud environments, integrating with on-premises directories to e… |
+| `CIMRC-001` | **Cybersecurity Incident Management, Response, and Coordination** | 0–4 | 20 | 9 | The ability to detect, assess, respond to, and coordinate resolution of cybersecurity incidents across IT and OT environments, ensuring minimal business disrup… |
+| `CM-001` | **Crisis Management** | 0–4 | 20 | 0 | The ability to prepare for, respond to, and lead organizational crisis situations by activating structured plans, enabling informed decision-making, managing i… |
+| `CRGS-001` | **Cyber Risk Governance & Strategy** | 0–4 | 20 | 6 | The ability to define and implement cybersecurity risk governance models, strategies, and frameworks aligned with the organisation's business objectives, risk… |
+| `CSA-001` | **Cloud Security Architecture** | 0–4 | 20 | 4 | The ability to designs secure cloud architectures by integrating workload protection, identity and access control, and network segmentation using cloud-native… |
+| `CSDSP-001` | **Collection Strategy & Data-Source Prioritization** | 0–4 | 20 | 1 | The ability to transforms PIRs into focused collection plans selecting and prioritizing the most valuable data sources aligned to mission-critical assets and t… |
+| `CSM-001` | **Cloud Security Monitoring** | 0–4 | 20 | 4 | The ability to monitor security events across cloud platforms (e.g., AWS, Azure, GCP) by analyzing logs, detecting misconfigurations, access misuse, and cloud-… |
+| `CSM-002` | **Cloud Security Management** | 0–4 | 20 | 4 | The ability to operationalize and govern cloud security architectures, services, and controls across IaaS, PaaS, and SaaS environments, leveraging provider-nat… |
+| `CSMS-001` | **Cyber Security Management System (CSMS)** | 0–4 | 20 | 6 | The ability to implement, operate, and continuously enhance a Cyber Security Management System (CSMS) that satisfies ISA/IEC 62443, ISO 27001, and UAE regulato… |
+| `CSPM-001` | **Cloud Services Patch Management** | 0–4 | 20 | 0 | The ability to plan, automate, and govern Windows and Linux patching across cloud environments (AWS, Azure, GCP) to ensure systems remain secure, reliable, and… |
+| `CSRG-001` | **Cloud Security Risk Management** | 0–4 | 20 | 5 | The ability to identify, evaluate, and govern cloud-security risks, ensuring compliant, resilient, and cost-optimised cloud operations across the enterprise. |
+| `CTBDEM-001` | **Continuity Testing & BC/DR Exercise Management** | 0–4 | 20 | 2 | The ability to design, execute, and manage structured continuity testing programs, including business continuity and disaster recovery (BC/DR) drills, tabletop… |
+| `CTIC-001` | **Cyber Threat Intelligence (CTI)** | 0–4 | 21 | 5 | The ability to collect, enrich, analyze, and operationalize threat data and adversary behaviors to produce actionable intelligence that informs cybersecurity d… |
+| `CTIO-001` | **Cyber Threat Intelligence for OT** | 0–4 | 20 | 5 | The ability to collect, analyse, and apply cyber-threat intelligence that is specific to Operational Technology (OT) and industrial control systems (ICS) used… |
+| `CVM-001` | **Cybersecurity Vendor Management** | 0–4 | 20 | 0 | The ability to assess, select, onboard, monitor, and govern external cybersecurity vendors and service providers to ensure they meet organizational security, o… |
+| `DAC-002` | **Data Analytics for Cybersecurity** | 0–4 | 20 | 7 | The ability to collect, normalize, analyze, and visualize security-relevant data to detect anomalies, interpret adversary behavior, assess control effectivenes… |
+| `DDUGE-001` | **Data-Diode & Unidirectional-Gateway Engineering** | 0–4 | 20 | 2 | The ability to design, deploy, and maintain data-diode solutions to securely transfer OT data one-way, preventing inbound threats and ensuring compliance with… |
+| `DE-001` | **Detection Engineering** | 0–4 | 20 | 4 | The ability to design, tune, and validate detection logic, including analytics, correlation rules, and signatures, that reliably identifies malicious activity… |
+| `DF-003` | **Digital Forensics** | 0–4 | 20 | 3 | The ability to collect, preserve, analyze, and present digital evidence to support investigations of computer-related incidents maintain its integrity for use… |
+| `DIR-001` | **Data Incident Response** | 0–4 | 20 | 0 | The ability to triage, investigate, and assess data breaches by coordinating forensic analysis and response teams to contain impact, while ensuring timely repo… |
+| `DLPD-001` | **Data Loss Prevention (DLP)** | 0–4 | 20 | 0 | The ability to deploy, calibrate, and monitor endpoint, email, and cloud-based DLP controls that detect, alert, and prevent unauthorized transmission or exfilt… |
+| `DML-001` | **Data Management Lifecycle** | 0–4 | 20 | 0 | The ability to design and enforce data-classification schemas, handling rules, and retention schedules, applying labelling tools and automated workflows across… |
+| `DOSIOC-001` | **Deep Open-Source Intelligence (OSINT) Collection** | 0–4 | 20 | 1 | The ability to systematically gathers and enriches open-source and dark-web data to inform red-team planning, craft convincing social-engineering lures, and pi… |
+| `DPG-001` | **Data Protection Governance** | 0–4 | 20 | 0 | The ability to develop and deploy an enterprise data-protection governance model and strategic roadmap spanning privacy, classification, information lifecycle… |
+| `DPIAD-001` | **Data Privacy Impact Assessment (DPIA)** | 0–4 | 20 | 0 | The ability to assess projects, systems, and third-party vendors for privacy risk by documenting lawful basis, data flows, risk mitigations, and residual impac… |
+| `DRCI-001` | **Digital Resilience & Cybersecurity Integration** | 0–4 | 20 | 1 | The ability to embed cybersecurity requirements, threat intelligence insights, and cyber resilience principles into business continuity strategies, ensuring th… |
+| `DRM-001` | **Data Rights Management** | 0–4 | 20 | 0 | The ability to orchestrate end-to-end workflows for data subject rights requests, including identity verification, data retrieval, redaction, and secure fulfil… |
+| `DRSD-001` | **Data Retention & Secure Disposal** | 0–4 | 20 | 0 | The ability to align and enforce data retention and disposal practices by harmonizing legal hold obligations, operational needs, and UAE regulatory requirement… |
+| `DRSI-001` | **Data Regulatory & Standards Interpretation** | 0–4 | 20 | 0 | The ability to monitor, interpret and translate evolving UAE and international privacy regulations into actionable controls, updated policies, and enterprise-w… |
+| `ECAF-001` | **Enterprise Control and Assurance Framework** | 0–4 | 20 | 0 | The ability to design and maintain cybersecurity control frameworks across IT and OT, standardizing testing, mapping risks, scoring criticality, and enabling t… |
+| `ECAPM-001` | **Enterprise Cybersecurity Assurance Program Management** | 0–4 | 20 | 0 | The ability to lead a cybersecurity assurance program, aligning assessments and projects to strategic objectives, standardizing methods, coordinating vendors,… |
+| `ERMIR-001` | **Enterprise Risk Management Integration & Reporting** | 0–4 | 20 | 6 | The ability to integrate cybersecurity risk management into Enterprise Risk Management (ERM) frameworks and report risk status and trends to senior governance… |
+| `ESA-001` | **Enterprise Security Architecture** | 0–4 | 20 | 4 | The ability to design, assess, and govern secure digital infrastructure architectures across IT, OT, and cloud environments by embedding security-by-design pri… |
+| `ESI-001` | **Endpoint Security (IT)** | 0–4 | 20 | 10 | The ability to design, implement, operate, and govern security protections for individual computing devices (e.g., laptops, servers, mobile devices, virtual ma… |
+| `ESO-001` | **Endpoint Security (OT)** | 0–4 | 20 | 10 | The ability to secure industrial endpoint devices, such as PLCs, RTUs, HMIs, and safety systems, by applying security configuration, monitoring, and risk mitig… |
+| `ETTTE-001` | **Emerging Threat Technologies and Tools Evaluation** | 0–4 | 20 | 1 | The ability to identify, assess, and trial advanced threat intelligence platforms, data sources, and analytical tools to improve threat detection, attribution,… |
+| `EXT-001` | **EDR/XDR Tooling** | 0–4 | 20 | 4 | The ability to deploy, configure, and operationalize Endpoint Detection and Response (EDR) and Extended Detection and Response (XDR) platforms to achieve compr… |
+| `IA-001` | **IAM Architecture** | 0–4 | 20 | 1 | The ability to design and evolve holistic IAM blueprints, reference patterns, and technology roadmaps that align identity capabilities with enterprise architec… |
+| `IA-002` | **IAM Automation** | 0–4 | 20 | 1 | The ability to streamline identity lifecycle management, access provisioning, policy enforcement, and compliance reporting through automated workflows and inte… |
+| `IAI-001` | **IAM Application Integration** | 0–4 | 20 | 1 | The ability to build, secure, and maintain REST/SCIM integrations, using tokens, webhooks, and service identities that synchronise identity data and extend IAM… |
+| `ICER-001` | **Internal Controls Evaluation for Resilience** | 0–4 | 20 | 11 | The ability to systematically review, test, and enhance internal business, IT, OT, and third-party controls, spanning policies, processes, and technical safegu… |
+| `IG-001` | **IAM Governance** | 0–4 | 20 | 1 | The ability to establish, measure, and enforce IAM policies, roles, workflows, and accountability structures to ensure identity decisions align with organizati… |
+| `IICR-001` | **IT Infrastructure and Cloud Resilience** | 0–4 | 20 | 1 | The ability to design, implement, and govern resilient IT and cloud infrastructure architectures, ensuring system availability, recoverability, and continuity… |
+| `IOPSAT-001` | **ICS/OT Penetration & Safety-Aware Testing** | 0–4 | 20 | 0 | The ability to plan and executive penetration tests against industrial control systems and operational technology (OT) while preserving human / process safety,… |
+| `IOS-001` | **IAM for OT Systems** | 0–4 | 20 | 2 | The ability to manage and secure human and machine identities in OT environments by enforcing least privilege, MFA, and access governance, aligned with IEC 624… |
+| `ISA-001` | **Internal Security Audit** | 0–4 | 20 | 6 | The ability to systematically evaluates an organization's information security controls, policies, and procedures through structured assessment methodologies t… |
+| `ISA-002` | **Information Security Awareness** | 0–4 | 20 | 0 | The able to design and deliver awareness programs that embed UAE regulations and corporate data protection and privacy policies into daily practices promoting… |
+| `ISGRC-001` | **Information Security Governance and Regulatory Compliance** | 0–4 | 20 | 6 | The ability to interpret, implement, monitor, and continuously improve information security governance frameworks and cybersecurity requirements from internati… |
+| `KPM-001` | **Kubernetes Patch Management** | 0–4 | 20 | 0 | The ability to plan, execute, and govern patching activities across Kubernetes clusters and their underlying components to ensure security, stability, and comp… |
+| `LM-001` | **Log Management** | 0–4 | 20 | 4 | The ability to collect, normalize, store, and govern security-relevant log data to ensure its integrity, availability, and usability for threat monitoring, for… |
+| `MA-001` | **Malware Analysis** | 0–4 | 20 | 4 | The ability to dissect and analyze malicious code to uncover its functionality, identify behavioral patterns, extract indicators of compromise (IOCs), and reco… |
+| `NIS-001` | **Network & Infrastructure Security** | 0–4 | 20 | 4 | The ability to design, implement, monitor, and evolve secure, resilient, and compliant network infrastructure across IT and OT environments. This includes safe… |
+| `NSM-001` | **Network Security Monitoring** | 0–4 | 20 | 4 | The ability to monitor and analyze network traffic using IDS, flow data, and packet analysis tools to detect and investigate suspicious activity, validate IOCs… |
+| `OCI-001` | **OT Cybersecurity** | 0–4 | 20 | 4 | The ability to assess, implement, and govern cybersecurity controls for Operational Technology (OT) and Industrial Control Systems (ICS), in accordance with IE… |
+| `ODC-001` | **OT Downstream Cybersecurity** | 0–4 | 20 | 1 | The ability to secure and protect operational technology (OT) systems in downstream oil and gas operations, including refining, petrochemical processing, and d… |
+| `OIRF-001` | **OT Incident Response & Forensics** | 0–4 | 20 | 2 | The ability to manages OT cyber incident response coordinating containment, recovery, and forensics while maintaining safety and compliance with UAE critical i… |
+| `OISAIC-001` | **OT/ICS Security Assurance and IEC 62443 Conformance** | 0–4 | 20 | 0 | The ability to plan and execute OT assurance that sustains IEC 62443 conformance, prioritises safety, and proves control effectiveness across plants, pipelines… |
+| `OKD-001` | **OT KPIs & Dashboarding** | 0–4 | 20 | 0 | The ability to develop and maintain OT security KPIs and dashboards that visualize risk, control performance, and compliance to support data-driven decisions a… |
+| `OND-001` | **OT Network Design** | 0–4 | 20 | 2 | The ability to design and enforce OT network architectures using zoning and segmentation to block unauthorized traffic, protect SIS, and reduce lateral movemen… |
+| `OPSV-001` | **OT Project Security Validation** | 0–4 | 20 | 2 | The ability to ensure OT cybersecurity requirements are embedded and verified across EPCC project phases, aligning with corporate standards, UAE regulations, a… |
+| `OPVM-001` | **OT Patch & Vulnerability Management** | 0–4 | 20 | 2 | The ability to identify, prioritize, and remediate vulnerabilities in OT environments while maintaining safety, minimizing production downtime, and meeting UAE… |
+| `ORC-001` | **OT Regulatory Compliance** | 0–4 | 20 | 0 | The ability to ensure OT security control alignment with ISA/IEC 62443 and UAE regulations by managing compliance programs, audits, and evidence across critica… |
+| `OSBCM-001` | **OT Security Baselines & Configuration Management** | 0–4 | 20 | 2 | The ability to define, implement, and verify hardened security baselines for Operational Technology (OT) systems to reduce cyber risk and attack surface across… |
+| `OTDM-001` | **OT Threat Detection & Monitoring** | 0–4 | 20 | 4 | The ability to detects, analyze, and alert on threats across industrial networks and control systems to protect critical OT assets, aligned with UAE regulation… |
+| `OUC-001` | **OT Upstream Cybersecurity** | 0–4 | 20 | 1 | The ability to secure and protect operational technology (OT) systems involved in upstream oil and gas operations (exploration and production) ensuring resilie… |
+| `OWCCCR-001` | **OPSEC Workplace (Covert Command-and-Control Resilience)** | 0–4 | 20 | 1 | The ability to design and maintain resilient command-and-control (C) infrastructures (leveraging staging servers, proxy chains, domain fronting, and layered en… |
+| `PAMPG-001` | **Privileged Access Management (PAM) Governance** | 0–4 | 20 | 1 | The ability to govern, assure, and monitor privileged access across IT, cloud, and OT, enforcing policy, evidencing compliance, and detecting misuse through st… |
+| `PCAR-001` | **Patch Compliance and Audit Readiness** | 0–4 | 20 | 0 | The ability to analyze, prioritize, and manage vulnerabilities that drive patching decisions, ensuring remediation efforts focus on the highest-risk exposures. |
+| `PCM-001` | **PKI & Certificate Management** | 0–4 | 20 | 4 | The ability to architect, implement, and govern cryptographic ecosystems, spanning certificate lifecycle management, public key infrastructure (PKI), and cloud… |
+| `PDSMK-001` | **Privacy & Data Security Metrics/KPIs** | 0–4 | 20 | 0 | The ability to define, capture, and visualize key privacy and data security indicators (e.g., DPIA completion rates, DLP incident trends, etc.) aligned with UA… |
+| `PLRM-001` | **Patch Lifecyle and Release Management** | 0–4 | 20 | 0 | The ability to manage the complete lifecycle of software patches, from vendor release through internal validation, controlled deployment, and decommissioning ,… |
+| `PM-001` | **Patch Management** | 0–4 | 20 | 6 | The ability to identify, prioritize, deploy, verify, and track security patches and compensating mitigations across IT, OT, and cloud environments, aligned wit… |
+| `PMOSP-001` | **Preventive Maintenance for OT Security Platforms** | 0–4 | 20 | 2 | The ability to implement preventive maintenance for OT security platforms, aligning with vendor guidance, UAE regulations, and oil and gas uptime requirements… |
+| `PMPO-001` | **Patch Management Platform Operation** | 0–4 | 20 | 0 | The ability to effectively use, configure, and optimize enterprise patch management platforms to plan, deploy, monitor, and report on system updates across Win… |
+| `PPSD-001` | **Policy, Procedure & Standards Development** | 0–4 | 20 | 7 | The ability to design, document, deploy, and continuously improve cybersecurity policies, procedures, and standards, establishing clear governance, data-handli… |
+| `PRACI-001` | **Patch Reporting, Analytics and Continuous Improvement** | 0–4 | 20 | 0 | The ability to collect, analyze, and communicate patch management metrics to drive transparency, compliance, and ongoing performance enhancement. |
+| `PSHCRA-001` | **Process-Safety & HSE Cyber-Risk Alignment** | 0–4 | 20 | 2 | The ability to integrate cybersecurity risk into process safety and HSE frameworks to protect OT, SIS, and emergency systems, ensuring alignment with corporate… |
+| `PT-001` | **Penetration Testing** | 0–4 | 20 | 3 | The ability to simulate cyberattacks against computer systems, networks, applications, and physical infrastructure to identify security vulnerabilities and hel… |
+| `PTE-001` | **Purple Team Engagement** | 0–4 | 20 | 0 | The ability to operate effectively in joint Red Team (offense) and Blue Team (defense) exercises—planning, executing, and analyzing purple-team engagements to… |
+| `RAM-001` | **Risk Assessment Methodology** | 0–4 | 20 | 5 | The ability to plan, execute, and govern structured risk assessments to identify, analyze, and evaluate threats, vulnerabilities, and business impacts across I… |
+| `RCI-001` | **Regulatory Compliance (IAM)** | 0–4 | 20 | 1 | The ability to interpret regulatory requirements, industry standards, and audit obligations, translating them into effective IAM controls, evidence collection… |
+| `RCSA-001` | **Regulatory Compliance & Standards Adherence** | 0–4 | 20 | 0 | The ability to interpret, implement, monitor, and continuously improve cybersecurity requirements from international and national standards, sector directives,… |
+| `RTM-001` | **Red Team Management** | 0–4 | 20 | 0 | The ability to plan, execute, govern, and evaluate Red Team operations, simulations, and adversary emulation activities to assess and improve the organization'… |
+| `RTMP-001` | **Risk Treatment & Mitigation Planning** | 0–4 | 20 | 5 | The ability to develop, implement, and oversee risk treatment plans by selecting and applying controls, accepting or transferring risks as appropriate, and tra… |
+| `RTVAR-001` | **Red Team & Vulnerability Assessment Reporting** | 0–4 | 20 | 0 | The ability to synthesise, document, and communicate findings from penetration tests, red-team exercises, and enterprise vulnerability assessments across conve… |
+| `SA-001` | **SOC Automation** | 0–4 | 20 | 4 | The ability to identify, implement, and optimize automated tools, workflows, and processes to manage to security threats and incidents with increased speed, co… |
+| `SAC-001` | **Security Awareness & Communication** | 0–4 | 20 | 6 | The ability to ensures employees have the necessary knowledge and skills regarding cybersecurity risks and threats as well as the policies and best practices t… |
+| `SAT-001` | **Security Alert Triage** | 0–4 | 20 | 4 | The ability to assess, validate, and prioritize security alerts based on contextual risk, ensuring timely escalation of true threats while minimizing false pos… |
+| `SCCA-001` | **Security Control Compliance Assurance** | 0–4 | 20 | 0 | The ability to assure cybersecurity controls implemented across OT and IT systems are effective, ensuring compliance with internal policies, international stan… |
+| `SCCA-002` | **Strategic Change Cyber Assurance** | 0–4 | 20 | 0 | The ability to provide cybersecurity advisory and assurance across M&A, transformation, and digitization initiatives covering due diligence, control reviews, c… |
+| `SCH-001` | **Server Configuration and Hardening** | 0–4 | 20 | 0 | The ability to establish, implement, and maintain secure configuration baselines across Windows and Linux server environments to reduce attack surfaces and ens… |
+| `SCHMR-001` | **Server Cyber Hygiene Monitoring and Reporting** | 0–4 | 20 | 0 | The ability to ensure servers (Windows, Linux, on-prem, and cloud) are continuously monitored, assessed, and maintained for security health, configuration comp… |
+| `SCRA-001` | **Strategic Cyber Risk Advisory** | 0–4 | 20 | 0 | The ability to interpret, contextualize, and communicate cyber threat intelligence into actionable risk insights that inform executive decision-making, influen… |
+| `SDRS-001` | **Scenario Development & Resilience Simulation** | 0–4 | 20 | 1 | The ability to design, script, and execute realistic disruption scenarios that test organizational readiness, surface hidden dependencies, and drive continuous… |
+| `SEITS-001` | **Social Engineering & Insider Threat Simulation** | 0–4 | 20 | 0 | The ability to design and conduct sophisticated social-engineering and insider-threat campaigns to rigorously test human, process, and facility defences across… |
+| `SHOSH-001` | **System Hardening and OS Cyber Hygiene** | 0–4 | 20 | 4 | The ability to reduce attack surface by securely configuring operating systems, services and endpoints according to approved cybersecurity benchmarks. |
+| `SPM-001` | **Server Patch Deployment** | 0–4 | 20 | 0 | The ability to plan, execute, and govern the timely deployment of operating system and third-party software updates across Windows and Linux server environment… |
+| `SRAGA-001` | **Secure Remote Access Gateway Administration** | 0–4 | 20 | 2 | The ability to administer secure remote access gateways to OT assets, enabling controlled, auditable connectivity that preserves safety, system integrity, and… |
+| `SSC-001` | **Security Standards and Compliance Governance** | 0–4 | 20 | 0 | The ability to interpret, implement, monitor, and continuously improve cybersecurity requirements from international standards, regional regulations, sector-sp… |
+| `TAP-001` | **Threat Actor Profiling** | 0–4 | 20 | 1 | The ability to investigate, profile, and track threat actors targeting OT and IT technology in the Oil & Gas sector, transforming disparate data on campaigns,… |
+| `TEPE-001` | **Threat Emulation Planning & Execution** | 0–4 | 20 | 0 | The ability to design, orchestrate, and conduct full-scope red-team operations that faithfully replicate advanced adversaries to achieve clearly defined intell… |
+| `TERA-001` | **Technology Evaluation & Resilience Architecture** | 0–4 | 20 | 1 | The ability to assess, select, and architect technology solutions that support digital business continuity and cyber resilience objectives. |
+| `TH-002` | **Threat Hunting** | 0–4 | 20 | 3 | The ability to conduct hypothesis-driven searches for malicious activities and potential security compromises that may have evaded security controls within an… |
+| `TIDT-001` | **Threat Intelligence Deception Tooling** | 0–4 | 20 | 0 | The ability to design, deploy, and maintain deception technologies inside IT and OT environments to lure, detect, and analyse adversary activity and disrupt ca… |
+| `TIGC-001` | **Threat Intelligence Governance and Compliance** | 0–4 | 20 | 0 | The ability to apply regulatory, ethical, and policy-based requirements to ensure threat intelligence activities are conducted responsibly, securely, and in al… |
+| `TILM-001` | **Threat Intelligence Lifecycle Management** | 0–4 | 20 | 1 | The ability to orchestrate end-to-end cyber-threat intelligence, from multi-source collection and enrichment through to enterprise-wide operationalisation, ens… |
+| `TIPDL-001` | **Threat Intelligence Program Development & Leadership** | 0–4 | 20 | 0 | The ability to lead, develop, and sustain a high-performing threat intelligence function by setting vision and strategy, building capability, managing performa… |
+| `TIRCC-001` | **Threat Intelligence Reporting & Communication** | 0–4 | 20 | 1 | The ability to create and deliver clear, contextualized, and actionable threat intelligence outputs tailored to diverse audiences, from technical teams to exec… |
+| `TM-001` | **Threat Modelling** | 0–4 | 20 | 1 | The ability to identify, model, and prioritise cyber-threat scenarios that could impact both OT and IT environments in Oil & Gas, translating adversary tactics… |
+| `TMD-001` | **Threat Monitoring and Detection** | 0–4 | 20 | 4 | The ability to monitor networks, systems, and data to detect potential security threats, vulnerabilities, and suspicious activities to help maintain a robust s… |
+| `TPCBDTC-001` | **Third-Party & Cross-Border Data Transfer Compliance** | 0–4 | 20 | 0 | The ability to assess third-party data transfers, draft contract protections, and apply legal tools like SCCs and TIAs to manage cross-border data flows in lin… |
+| `TSC-001` | **Tools and Scripting Creation** | 0–4 | 20 | 0 | The ability to design, code, and maintain custom security tools, scripts, and automations that streamline defensive (SOC), offensive (Red-Team), and engineerin… |
+| `TVRM-001` | **Testing, Validation and Rollback Management** | 0–4 | 20 | 0 | The ability to plan and govern patch testing and rollback procedures that ensure stability, minimize disruption, and maintain reliability through structured va… |
+| `UP-001` | **User Provisioning** | 0–4 | 20 | 1 | The ability to orchestrate, automate, and continuously improve joiner–mover–leaver (JML) workflows to ensure accurate, timely, and auditable creation, modifica… |
+| `VM-001` | **Vulnerability Management** | 0–4 | 20 | 6 | The ability to systematically detect, analyze, prioritize, and remediate vulnerabilities across IT, OT, and cloud environments using risk-based, automated, and… |
+| `WAS-001` | **Web and API Security** | 0–4 | 20 | 6 | The ability to protect web applications and APIs against exploits, abuse and data leakage by applying secure-coding and defensive controls. |
+| `WLBOFAS-001` | **Wireless / Low-Bandwidth OT Field Asset Security** | 0–4 | 20 | 2 | The ability to secure telemetry and control traffic over constrained or wireless links, ensuring data confidentiality, integrity, and availability across remot… |
+| `WLSA-001` | **Windows and Linux Server Administration** | 0–4 | 20 | 1 | The ability to effectively configure, maintain, secure, and troubleshoot Windows and Linux server environments that underpin enterprise operations and patch ma… |
 
-| Code | Competency | Description | How it is assessed |
-| --- | --- | --- | --- |
-| `LEA-01` | **Leadership** | Sets direction, acts as a role model and takes charge when situations escalate. | Interviews, leadership programmes, incident behaviour. |
-| `LEA-02` | **Team Management** | Organises the team's work, develops people and handles conflict constructively. | Team feedback, interviews, observed group work. |
-| `LEA-03` | **Performance Management** | Sets clear goals, follows through on commitments and gives useful feedback. | Goal records, one-to-ones, follow-through on actions. |
-| `LEA-04` | **Cross-Team Integration** | Works effectively with other teams and shares information and resources across boundaries. | Joint projects, exercises and cross-functional rotations. |
-| `LEA-05` | **Coaching & Mentoring** | Develops others through coaching conversations, mentoring and knowledge sharing. | Mentee feedback, coaching logs, team growth. |
-| `LEA-06` | **Change Management** | Leads people through change so new ways of working stick. | Change initiatives led, adoption results. |
+### Business (4)
 
-### Thinking & Decisions
+| Code | Competency | Levels | Indicators | Roles | Description |
+| --- | --- | --- | ---: | ---: | --- |
+| `DM-001` | **Document Management** | 0–4 | 20 | 17 | The ability to create, manage, and govern cybersecurity documentation (e.g. policies, standards, runbooks, threat-intel reports, code artifacts) using discipli… |
+| `LXSCN055` | **Stakeholder Management** | 1–4 | 20 | 6 | Builds a broad network of relationships with stakeholders to identify problems and opportunities for improvement and structure performance expectations. |
+| `LXSCN060` | **Systems Thinking** | 1–4 | 20 | 18 | Focuses on big picture thinking, combining data and insights into useful strategies and actions. |
+| `LXSCN080` | **Budgeting** | 1–4 | 20 | 0 | Identifies and incorporates financial resources into a comprehensive financial plan that supports business strategies. |
 
-| Code | Competency | Description | How it is assessed |
-| --- | --- | --- | --- |
-| `THK-01` | **Analytical Thinking** | Breaks complex problems into parts, reasons logically and reflects on outcomes. | Investigations, case exercises and post-incident reviews. |
-| `THK-02` | **Problem Solving** | Defines the real problem, finds root causes and works out practical solutions. | Troubleshooting, root cause analyses and case exercises. |
-| `THK-03` | **Strategic Thinking** | Connects daily work to long-term goals and generates new ideas. | Roadmaps, proposals, scenario exercises. |
-| `THK-04` | **Decision Making** | Makes sound, timely decisions by weighing risks and trade-offs. | Incident decisions, prioritisation and scenario exercises. |
-| `THK-05` | **Critical Thinking** | Questions assumptions and evaluates information before accepting it. | Reviews of analyses and reports, case discussions. |
-| `THK-06` | **Systems Thinking** | Sees how people, processes and technology interact and anticipates knock-on effects. | Architecture and process reviews, scenario exercises. |
+### Leadership and Management (8)
 
-### Learning & Adaptability
+| Code | Competency | Levels | Indicators | Roles | Description |
+| --- | --- | --- | ---: | ---: | --- |
+| `LXSCN001` | **Cross-Team Integration** | 1–4 | 20 | 30 | Leads multiple teams to communicate and coordinate work as one team. |
+| `LXSCN005` | **Strategic Thinking** | 1–4 | 20 | 7 | Envisions the long-term direction of the organisation, anticipates future trends, develops plans that position the company for sustained success and pursues hi… |
+| `LXSCN008` | **Strategic Influence** | 1–4 | 24 | 3 | Develops and leverages internal/external relationships to facilitate decision-making. |
+| `LXSCN019` | **Decision Making** | 1–4 | 24 | 23 | Makes sound decisions in a timely manner, exercising a combination of analysis and good judgement. |
+| `LXSCN020` | **Operational Effectiveness** | 1–4 | 20 | 4 | Drives organisational success by optimising operations, improving efficiencies and maximising business performance. |
+| `LXSCN026` | **Leadership** | 1–4 | 24 | 18 | Creates a motivating vision, serves as a role model, rallies others in support of the chosen direction, and motivates people to embrace and lead change. |
+| `LXSCN027` | **Team Management** | 1–4 | 28 | 8 | Guides group efforts and helps others achieve excellent results. |
+| `LXSCN206` | **Performance Management** | 0–4 | 20 | 3 | Works with individuals and teams to set expectations, monitor progress, provide feedback and support and evaluate their performance. |
 
-| Code | Competency | Description | How it is assessed |
-| --- | --- | --- | --- |
-| `LRN-01` | **Continuous Learning** | Seeks feedback and new knowledge, learns quickly and applies what is learned. | Learning activity, certification progress, response to feedback. |
-| `LRN-02` | **Tolerance for Uncertainty** | Stays calm and effective under pressure and when information is incomplete. | Behaviour during incidents, exercises and change. |
-| `LRN-03` | **Adaptability** | Adjusts plans, priorities and approach when circumstances change. | Behaviour during change and reprioritisation. |
-| `LRN-04` | **Innovation** | Proposes and tests better ways of working and continuously improves processes. | Improvement ideas implemented, automation and process changes. |
+### Personal (11)
 
-### Delivery & Ownership
+| Code | Competency | Levels | Indicators | Roles | Description |
+| --- | --- | --- | ---: | ---: | --- |
+| `LXSCN030` | **Business Acumen** | 1–4 | 28 | 10 | Focuses activities and decisions on opportunities that produce significant, strategic business impact. |
+| `LXSCN031` | **Problem Solving** | 1–4 | 20 | 29 | Applies problem-solving techniques and tools to resolve problems effectively. |
+| `LXSCN032` | **Presentation Delivery** | 1–4 | 16 | 22 | Effectively presents ideas, solutions and strategies with impact and influence. |
+| `LXSCN034` | **Analytical Thinking** | 1–4 | 24 | 25 | Generates and analyses information to improve the clarity of ideas and approaches. |
+| `LXSCN035` | **Relationship Building** | 1–4 | 24 | 14 | Develops trusting relationships by valuing others' contributions and works with others in a constructive and collaborative manner. |
+| `LXSCN036` | **Communication** | 1–4 | 28 | 31 | Provides information and messages in a way that produces clarity and impact. |
+| `LXSCN037` | **Tolerance for Uncertainty** | 1–4 | 20 | 6 | Adept at handling risk, ambiguity and uncertainty in high pressured situations. |
+| `LXSCN038` | **Planning and Organising** | 1–4 | 20 | 11 | Mobilises, plans, and controls time and resources to get things done. |
+| `LXSCN039` | **Continuous Learning** | 1–4 | 24 | 19 | Actively seeks new learning opportunities and acts to improve own performance and that of others. Has a growth mindset approach to towards learning and persona… |
+| `LXSCN045` | **Accuracy and Attention to Detail** | 1–4 | 20 | 20 | Methodically plans, conducts and reviews work with a focus on quality. |
+| `LXSCN046` | **Adaptability** | 1–4 | 20 | 7 | Responds with flexibility to changing work demands. |
 
-| Code | Competency | Description | How it is assessed |
-| --- | --- | --- | --- |
-| `DEL-01` | **Operational Effectiveness** | Takes initiative and delivers work on time and to standard. | Delivery records, ticket data and manager feedback. |
-| `DEL-02` | **Planning & Organisation** | Plans work, manages time and keeps several priorities under control. | Plans, deadlines met, workload management. |
-| `DEL-03` | **Attention to Detail** | Produces accurate, complete work and spots errors others miss. | Quality of reports, configurations and evidence. |
+### Project and Program Management (2)
 
-### Governance, Risk & Compliance
-
-| Code | Competency | Description | How it is assessed |
-| --- | --- | --- | --- |
-| `GRC-01` | **Security & Risk Governance** | Sets up the structures, roles and reporting that steer security and risk. | Governance documents, committee reporting, interviews. |
-| `GRC-02` | **Risk Assessment** | Identifies, rates and communicates security risk in business terms. | Risk assessments delivered and the quality of risk reporting. |
-| `GRC-03` | **Risk Treatment Planning** | Chooses and tracks treatments that bring risk within appetite. | Treatment plans, risk register quality. |
-| `GRC-04` | **Compliance Management** | Maps controls to laws, regulations and standards and evidences them. | Control mappings, audit outcomes and evidence quality. |
-| `GRC-05` | **Internal Auditing** | Plans and performs security audits and reports findings that get fixed. | Audits completed, quality of findings. |
-| `GRC-06` | **Policy & Standards Development** | Writes security policies and standards that people can follow. | Policies and standards authored and adopted. |
-| `GRC-07` | **Control Frameworks** | Applies frameworks such as ISO 27001, NIST CSF and CIS Controls. | Framework implementations, gap assessments. |
-| `GRC-08` | **Security Awareness** | Designs and runs awareness activities that change behaviour. | Campaign results, phishing metrics. |
-
-### Threat Intelligence
-
-| Code | Competency | Description | How it is assessed |
-| --- | --- | --- | --- |
-| `CTI-01` | **Threat Intelligence Lifecycle** | Runs the intelligence cycle from requirements to dissemination and feedback. | Intelligence requirements and products delivered. |
-| `CTI-02` | **Threat Actor Profiling** | Profiles adversaries, their motives and techniques. | Actor profiles and ATT&CK mappings. |
-| `CTI-03` | **Threat Reporting** | Writes intelligence reports that decision makers act on. | Reports produced and their use. |
-| `CTI-04` | **Open Source Intelligence** | Collects and verifies information from open sources safely. | OSINT investigations, lab work. |
-| `CTI-05` | **Attack Path Analysis** | Works out how an attacker could move from entry point to critical assets. | Attack path analyses, purple-team exercises. |
-| `CTI-06` | **Threat Modelling** | Identifies threats to a system early and designs mitigations. | Threat models produced, design reviews. |
-| `CTI-07` | **Indicators of Compromise Analysis** | Analyses and enriches indicators and turns them into detections. | IOC analyses, detection content created. |
-| `CTI-08` | **Threat Hunting** | Searches proactively for attackers who evaded existing detection. | Hunts run, findings and new detections. |
-
-### Security Operations & Incident Response
-
-| Code | Competency | Description | How it is assessed |
-| --- | --- | --- | --- |
-| `SOC-01` | **Security Monitoring & Detection** | Builds, tunes and runs detection to spot malicious activity early. | Detection rules authored, alert quality and lab exercises. |
-| `SOC-02` | **Incident Response** | Contains, eradicates and recovers from incidents using sound playbooks. | Incident records, tabletop exercises and simulations. |
-| `SOC-03` | **Digital Forensics** | Collects and analyses digital evidence to reconstruct what happened. | Forensic case work and practical labs. |
-| `SOC-04` | **Malware Analysis** | Analyses malicious files to understand behaviour and extract indicators. | Malware analyses, lab results. |
-
-### Business Continuity & Resilience
-
-| Code | Competency | Description | How it is assessed |
-| --- | --- | --- | --- |
-| `BCM-01` | **Business Continuity Planning** | Writes and maintains plans that keep critical services running. | Plans produced and tested. |
-| `BCM-02` | **Business Impact Analysis** | Works out which services matter most and how long they can be down. | BIAs completed, RTO/RPO quality. |
-| `BCM-03` | **Disaster Recovery** | Plans and tests the technical recovery of systems and data. | DR plans and test results. |
-| `BCM-04` | **Operational Resilience** | Keeps important business services within impact tolerances. | Resilience assessments, DORA/NIS2 work. |
-| `BCM-05` | **Scenario Testing & Exercises** | Designs and runs exercises that test plans and people. | Exercises run, lessons learned. |
-| `BCM-06` | **Backup & Recovery** | Makes sure data can be restored quickly and safely. | Backup coverage, restore tests. |
-| `BCM-07` | **Dependency Mapping** | Maps the people, suppliers and systems a service depends on. | Dependency maps and their accuracy. |
-
-### Infrastructure & Cloud Security
-
-| Code | Competency | Description | How it is assessed |
-| --- | --- | --- | --- |
-| `INF-01` | **Network Security** | Designs and operates secure networks, segmentation and access rules. | Design reviews, rule audits and lab work. |
-| `INF-02` | **Cloud Security** | Secures cloud workloads, configurations and identities. | Posture findings, architecture reviews and labs. |
-| `INF-03` | **System Hardening** | Hardens servers and platforms against common attacks. | Hardening baselines and audit results. |
-| `INF-04` | **Endpoint Security** | Protects devices with endpoint protection and hardening. | EDR coverage, hardening baselines and incident data. |
-| `INF-05` | **Identity Management** | Manages the identity lifecycle from joiner to leaver. | Identity processes, access review results. |
-| `INF-06` | **Access Control** | Designs strong authentication, privileged access and least-privilege controls. | Access designs, PAM coverage. |
-| `INF-07` | **Certificate & Key Management** | Manages certificates, keys and secrets so they stay valid and protected. | Inventory quality, expiry incidents. |
-| `INF-08` | **Patch & Vulnerability Management** | Finds, prioritises and tracks vulnerabilities through to remediation. | Scan coverage, remediation times and prioritisation quality. |
-| `INF-09` | **Security Architecture** | Designs secure systems and reviews designs against security principles. | Architecture decisions and design reviews. |
-
-### Application Security
-
-| Code | Competency | Description | How it is assessed |
-| --- | --- | --- | --- |
-| `APP-01` | **Application Security Review** | Reviews applications and code for security flaws. | Reviews completed, findings quality. |
-| `APP-02` | **Secure Development** | Builds security into software design, code and delivery. | Code reviews, secure design records. |
-| `APP-03` | **API Security** | Designs and tests APIs against authentication, authorisation and abuse flaws. | API reviews and tests. |
-| `APP-04` | **DevSecOps** | Builds security checks into CI/CD pipelines. | Pipeline controls and coverage. |
-| `APP-05` | **Security Automation & Scripting** | Automates security tasks with scripts and playbooks. | Scripts, SOAR playbooks and time saved. |
-| `APP-06` | **Web Security** | Understands and fixes common web vulnerabilities (OWASP Top 10). | Web testing labs and findings. |
-| `APP-07` | **Penetration Testing** | Plans and runs authorised tests that find exploitable weaknesses. | Test reports, lab results and peer review. |
+| Code | Competency | Levels | Indicators | Roles | Description |
+| --- | --- | --- | ---: | ---: | --- |
+| `LXSCN065` | **Project Management** | 1–4 | 20 | 0 | Plans, controls, monitors and completes projects, ensuring efficient utilisation of resources, to achieve successful project outcomes. |
+| `LXSCN113` | **Managing the Programs and Projects Function** | 1–4 | 20 | 0 | Manages development and implementation of strategies, tools and methods for managing large scale efforts comprising a dossier of projects and transformation ac… |
 
 ## Level indicators
 
-Every competency gets one indicator per level, built from its behaviour phrase. Leadership competencies use levels 1–5; technical ones 0–5 (0 = no exposure yet).
+3,244 behaviour descriptors, each tied to one competency and one level. Codes follow `<competency>-L<level>-<nn>`; 524 cross-functional ones also carry their source ID. Coaches validate progress (1–5) against a single descriptor on **Evidence**. The full text is in the app (Library → Level indicators) and in the Excel export (sheet CompetencyBehavior); below is the count per level.
 
-| Level | Pattern |
-| --- | --- |
-| 0 | No exposure yet. |
-| 1 | With guidance, begins to …. |
-| 2 | Can … in routine situations, checking with others when unsure. |
-| 3 | Able to … independently, including in complex or unfamiliar situations. |
-| 4 | Helps others … and sets the standard for the team. |
-| 5 | Shapes how the organisation is expected to …; recognised as a reference inside and outside the team. |
+| Competency | L1 | L2 | L3 | L4 | Total |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `AICI-001` Asset Inventory and CMDB Integration | 5 | 5 | 5 | 5 | 20 |
+| `AM-001` Access Management | 5 | 5 | 5 | 5 | 20 |
+| `APKCE-001` Attack-Path & Kill-Chain Engineering | 5 | 5 | 5 | 5 | 20 |
+| `AS-002` Application Security | 5 | 5 | 5 | 5 | 20 |
+| `ASD-001` Application Security Development | 5 | 5 | 5 | 5 | 20 |
+| `ASR-001` Application Security Review | 5 | 5 | 5 | 5 | 20 |
+| `ATAC-001` APT Tracking & Attribution CTI | 5 | 5 | 5 | 5 | 20 |
+| `BCDRSP-001` Business Continuity & Disaster Recovery Strategy and Planning | 5 | 5 | 5 | 5 | 20 |
+| `BCDRTEAM-001` BCDR Testing, Exercise and Awareness Management | 5 | 5 | 5 | 5 | 20 |
+| `BIAB-001` Business Impact Analysis (BIA) | 5 | 5 | 5 | 5 | 20 |
+| `BRT-001` Backup and Recovery Technologies | 5 | 5 | 5 | 5 | 20 |
+| `BSDM-001` Business Service Dependency Mapping | 5 | 5 | 5 | 5 | 20 |
+| `CABP-001` Cybersecurity and Business Partnering | 5 | 5 | 5 | 5 | 20 |
+| `CAG-001` Cyber Assurance Governance | 5 | 5 | 5 | 5 | 20 |
+| `CAS-001` Cloud Automation and Scripting | 5 | 5 | 5 | 5 | 20 |
+| `CDL-001` Cybersecurity Data Lake | 5 | 5 | 5 | 5 | 20 |
+| `CEOIS-001` Cyber Exercise & Operational Intelligence Support | 5 | 5 | 5 | 5 | 20 |
+| `CIM-001` Cloud Identity Management | 5 | 5 | 5 | 5 | 20 |
+| `CIMRC-001` Cybersecurity Incident Management, Response, and Coordination | 5 | 5 | 5 | 5 | 20 |
+| `CM-001` Crisis Management | 5 | 5 | 5 | 5 | 20 |
+| `CRGS-001` Cyber Risk Governance & Strategy | 5 | 5 | 5 | 5 | 20 |
+| `CSA-001` Cloud Security Architecture | 5 | 5 | 5 | 5 | 20 |
+| `CSDSP-001` Collection Strategy & Data-Source Prioritization | 5 | 5 | 5 | 5 | 20 |
+| `CSM-001` Cloud Security Monitoring | 5 | 5 | 5 | 5 | 20 |
+| `CSM-002` Cloud Security Management | 5 | 5 | 5 | 5 | 20 |
+| `CSMS-001` Cyber Security Management System (CSMS) | 5 | 5 | 5 | 5 | 20 |
+| `CSPM-001` Cloud Services Patch Management | 5 | 5 | 5 | 5 | 20 |
+| `CSRG-001` Cloud Security Risk Management | 5 | 5 | 5 | 5 | 20 |
+| `CTBDEM-001` Continuity Testing & BC/DR Exercise Management | 5 | 5 | 5 | 5 | 20 |
+| `CTIC-001` Cyber Threat Intelligence (CTI) | 5 | 5 | 5 | 6 | 21 |
+| `CTIO-001` Cyber Threat Intelligence for OT | 5 | 5 | 5 | 5 | 20 |
+| `CVM-001` Cybersecurity Vendor Management | 5 | 5 | 5 | 5 | 20 |
+| `DAC-002` Data Analytics for Cybersecurity | 5 | 5 | 5 | 5 | 20 |
+| `DDUGE-001` Data-Diode & Unidirectional-Gateway Engineering | 5 | 5 | 5 | 5 | 20 |
+| `DE-001` Detection Engineering | 5 | 5 | 5 | 5 | 20 |
+| `DF-003` Digital Forensics | 5 | 5 | 5 | 5 | 20 |
+| `DIR-001` Data Incident Response | 5 | 5 | 5 | 5 | 20 |
+| `DLPD-001` Data Loss Prevention (DLP) | 5 | 5 | 5 | 5 | 20 |
+| `DML-001` Data Management Lifecycle | 5 | 5 | 5 | 5 | 20 |
+| `DOSIOC-001` Deep Open-Source Intelligence (OSINT) Collection | 5 | 5 | 5 | 5 | 20 |
+| `DPG-001` Data Protection Governance | 5 | 5 | 5 | 5 | 20 |
+| `DPIAD-001` Data Privacy Impact Assessment (DPIA) | 5 | 5 | 5 | 5 | 20 |
+| `DRCI-001` Digital Resilience & Cybersecurity Integration | 5 | 5 | 5 | 5 | 20 |
+| `DRM-001` Data Rights Management | 5 | 5 | 5 | 5 | 20 |
+| `DRSD-001` Data Retention & Secure Disposal | 5 | 5 | 5 | 5 | 20 |
+| `DRSI-001` Data Regulatory & Standards Interpretation | 5 | 5 | 5 | 5 | 20 |
+| `ECAF-001` Enterprise Control and Assurance Framework | 5 | 5 | 5 | 5 | 20 |
+| `ECAPM-001` Enterprise Cybersecurity Assurance Program Management | 5 | 5 | 5 | 5 | 20 |
+| `ERMIR-001` Enterprise Risk Management Integration & Reporting | 5 | 5 | 5 | 5 | 20 |
+| `ESA-001` Enterprise Security Architecture | 5 | 5 | 5 | 5 | 20 |
+| `ESI-001` Endpoint Security (IT) | 5 | 5 | 5 | 5 | 20 |
+| `ESO-001` Endpoint Security (OT) | 5 | 5 | 5 | 5 | 20 |
+| `ETTTE-001` Emerging Threat Technologies and Tools Evaluation | 5 | 5 | 5 | 5 | 20 |
+| `EXT-001` EDR/XDR Tooling | 5 | 5 | 5 | 5 | 20 |
+| `IA-001` IAM Architecture | 5 | 5 | 5 | 5 | 20 |
+| `IA-002` IAM Automation | 5 | 5 | 5 | 5 | 20 |
+| `IAI-001` IAM Application Integration | 5 | 5 | 5 | 5 | 20 |
+| `ICER-001` Internal Controls Evaluation for Resilience | 5 | 5 | 5 | 5 | 20 |
+| `IG-001` IAM Governance | 5 | 5 | 5 | 5 | 20 |
+| `IICR-001` IT Infrastructure and Cloud Resilience | 5 | 5 | 5 | 5 | 20 |
+| `IOPSAT-001` ICS/OT Penetration & Safety-Aware Testing | 5 | 5 | 5 | 5 | 20 |
+| `IOS-001` IAM for OT Systems | 5 | 5 | 5 | 5 | 20 |
+| `ISA-001` Internal Security Audit | 5 | 5 | 5 | 5 | 20 |
+| `ISA-002` Information Security Awareness | 5 | 5 | 5 | 5 | 20 |
+| `ISGRC-001` Information Security Governance and Regulatory Compliance | 5 | 5 | 5 | 5 | 20 |
+| `KPM-001` Kubernetes Patch Management | 5 | 5 | 5 | 5 | 20 |
+| `LM-001` Log Management | 5 | 5 | 5 | 5 | 20 |
+| `MA-001` Malware Analysis | 5 | 5 | 5 | 5 | 20 |
+| `NIS-001` Network & Infrastructure Security | 5 | 5 | 5 | 5 | 20 |
+| `NSM-001` Network Security Monitoring | 5 | 5 | 5 | 5 | 20 |
+| `OCI-001` OT Cybersecurity | 5 | 5 | 5 | 5 | 20 |
+| `ODC-001` OT Downstream Cybersecurity | 5 | 5 | 5 | 5 | 20 |
+| `OIRF-001` OT Incident Response & Forensics | 5 | 5 | 5 | 5 | 20 |
+| `OISAIC-001` OT/ICS Security Assurance and IEC 62443 Conformance | 5 | 5 | 5 | 5 | 20 |
+| `OKD-001` OT KPIs & Dashboarding | 5 | 5 | 5 | 5 | 20 |
+| `OND-001` OT Network Design | 5 | 5 | 5 | 5 | 20 |
+| `OPSV-001` OT Project Security Validation | 5 | 5 | 5 | 5 | 20 |
+| `OPVM-001` OT Patch & Vulnerability Management | 5 | 5 | 5 | 5 | 20 |
+| `ORC-001` OT Regulatory Compliance | 5 | 5 | 5 | 5 | 20 |
+| `OSBCM-001` OT Security Baselines & Configuration Management | 5 | 5 | 5 | 5 | 20 |
+| `OTDM-001` OT Threat Detection & Monitoring | 5 | 5 | 5 | 5 | 20 |
+| `OUC-001` OT Upstream Cybersecurity | 5 | 5 | 5 | 5 | 20 |
+| `OWCCCR-001` OPSEC Workplace (Covert Command-and-Control Resilience) | 5 | 4 | 5 | 5 | 19 |
+| `PAMPG-001` Privileged Access Management (PAM) Governance | 5 | 5 | 5 | 5 | 20 |
+| `PCAR-001` Patch Compliance and Audit Readiness | 5 | 5 | 5 | 5 | 20 |
+| `PCM-001` PKI & Certificate Management | 5 | 5 | 5 | 5 | 20 |
+| `PDSMK-001` Privacy & Data Security Metrics/KPIs | 5 | 5 | 5 | 5 | 20 |
+| `PLRM-001` Patch Lifecyle and Release Management | 5 | 5 | 5 | 5 | 20 |
+| `PM-001` Patch Management | 5 | 5 | 5 | 5 | 20 |
+| `PMOSP-001` Preventive Maintenance for OT Security Platforms | 5 | 5 | 5 | 5 | 20 |
+| `PMPO-001` Patch Management Platform Operation | 5 | 5 | 5 | 5 | 20 |
+| `PPSD-001` Policy, Procedure & Standards Development | 5 | 5 | 5 | 5 | 20 |
+| `PRACI-001` Patch Reporting, Analytics and Continuous Improvement | 5 | 5 | 5 | 5 | 20 |
+| `PSHCRA-001` Process-Safety & HSE Cyber-Risk Alignment | 5 | 5 | 5 | 5 | 20 |
+| `PT-001` Penetration Testing | 5 | 5 | 5 | 5 | 20 |
+| `PTE-001` Purple Team Engagement | 5 | 5 | 5 | 5 | 20 |
+| `RAM-001` Risk Assessment Methodology | 5 | 5 | 5 | 5 | 20 |
+| `RCI-001` Regulatory Compliance (IAM) | 5 | 5 | 5 | 5 | 20 |
+| `RCSA-001` Regulatory Compliance & Standards Adherence | 5 | 5 | 5 | 5 | 20 |
+| `RTM-001` Red Team Management | 5 | 5 | 5 | 5 | 20 |
+| `RTMP-001` Risk Treatment & Mitigation Planning | 5 | 5 | 5 | 5 | 20 |
+| `RTVAR-001` Red Team & Vulnerability Assessment Reporting | 5 | 5 | 5 | 5 | 20 |
+| `SA-001` SOC Automation | 5 | 5 | 5 | 5 | 20 |
+| `SAC-001` Security Awareness & Communication | 5 | 5 | 5 | 5 | 20 |
+| `SAT-001` Security Alert Triage | 5 | 5 | 5 | 5 | 20 |
+| `SCCA-001` Security Control Compliance Assurance | 5 | 5 | 5 | 5 | 20 |
+| `SCCA-002` Strategic Change Cyber Assurance | 5 | 5 | 5 | 5 | 20 |
+| `SCH-001` Server Configuration and Hardening | 5 | 5 | 5 | 5 | 20 |
+| `SCHMR-001` Server Cyber Hygiene Monitoring and Reporting | 5 | 5 | 5 | 5 | 20 |
+| `SCRA-001` Strategic Cyber Risk Advisory | 5 | 5 | 5 | 5 | 20 |
+| `SDRS-001` Scenario Development & Resilience Simulation | 5 | 5 | 5 | 5 | 20 |
+| `SEITS-001` Social Engineering & Insider Threat Simulation | 5 | 5 | 5 | 5 | 20 |
+| `SHOSH-001` System Hardening and OS Cyber Hygiene | 5 | 5 | 5 | 5 | 20 |
+| `SPM-001` Server Patch Deployment | 5 | 5 | 5 | 5 | 20 |
+| `SRAGA-001` Secure Remote Access Gateway Administration | 5 | 5 | 5 | 5 | 20 |
+| `SSC-001` Security Standards and Compliance Governance | 5 | 5 | 5 | 5 | 20 |
+| `TAP-001` Threat Actor Profiling | 5 | 5 | 5 | 5 | 20 |
+| `TEPE-001` Threat Emulation Planning & Execution | 5 | 5 | 5 | 5 | 20 |
+| `TERA-001` Technology Evaluation & Resilience Architecture | 5 | 5 | 5 | 5 | 20 |
+| `TH-002` Threat Hunting | 5 | 5 | 5 | 5 | 20 |
+| `TIDT-001` Threat Intelligence Deception Tooling | 5 | 5 | 5 | 5 | 20 |
+| `TIGC-001` Threat Intelligence Governance and Compliance | 5 | 5 | 5 | 5 | 20 |
+| `TILM-001` Threat Intelligence Lifecycle Management | 5 | 5 | 5 | 5 | 20 |
+| `TIPDL-001` Threat Intelligence Program Development & Leadership | 5 | 5 | 5 | 5 | 20 |
+| `TIRCC-001` Threat Intelligence Reporting & Communication | 5 | 5 | 5 | 5 | 20 |
+| `TM-001` Threat Modelling | 5 | 5 | 5 | 5 | 20 |
+| `TMD-001` Threat Monitoring and Detection | 5 | 5 | 5 | 5 | 20 |
+| `TPCBDTC-001` Third-Party & Cross-Border Data Transfer Compliance | 5 | 5 | 5 | 5 | 20 |
+| `TSC-001` Tools and Scripting Creation | 5 | 5 | 5 | 5 | 20 |
+| `TVRM-001` Testing, Validation and Rollback Management | 5 | 5 | 5 | 5 | 20 |
+| `UP-001` User Provisioning | 5 | 5 | 5 | 5 | 20 |
+| `VM-001` Vulnerability Management | 5 | 5 | 5 | 5 | 20 |
+| `WAS-001` Web and API Security | 5 | 5 | 5 | 5 | 20 |
+| `WLBOFAS-001` Wireless / Low-Bandwidth OT Field Asset Security | 5 | 5 | 5 | 5 | 20 |
+| `WLSA-001` Windows and Linux Server Administration | 5 | 5 | 5 | 5 | 20 |
+| `DM-001` Document Management | 5 | 5 | 5 | 5 | 20 |
+| `LXSCN055` Stakeholder Management | 5 | 5 | 5 | 5 | 20 |
+| `LXSCN060` Systems Thinking | 5 | 5 | 5 | 5 | 20 |
+| `LXSCN080` Budgeting | 5 | 5 | 5 | 5 | 20 |
+| `LXSCN001` Cross-Team Integration | 5 | 5 | 5 | 5 | 20 |
+| `LXSCN005` Strategic Thinking | 5 | 5 | 5 | 5 | 20 |
+| `LXSCN008` Strategic Influence | 6 | 6 | 6 | 6 | 24 |
+| `LXSCN019` Decision Making | 6 | 6 | 6 | 6 | 24 |
+| `LXSCN020` Operational Effectiveness | 5 | 5 | 5 | 5 | 20 |
+| `LXSCN026` Leadership | 6 | 6 | 6 | 6 | 24 |
+| `LXSCN027` Team Management | 7 | 7 | 7 | 7 | 28 |
+| `LXSCN206` Performance Management | 5 | 5 | 5 | 5 | 20 |
+| `LXSCN030` Business Acumen | 7 | 7 | 7 | 7 | 28 |
+| `LXSCN031` Problem Solving | 5 | 5 | 5 | 5 | 20 |
+| `LXSCN032` Presentation Delivery | 4 | 4 | 4 | 4 | 16 |
+| `LXSCN034` Analytical Thinking | 6 | 6 | 6 | 6 | 24 |
+| `LXSCN035` Relationship Building | 6 | 6 | 6 | 6 | 24 |
+| `LXSCN036` Communication | 7 | 7 | 7 | 7 | 28 |
+| `LXSCN037` Tolerance for Uncertainty | 5 | 5 | 5 | 5 | 20 |
+| `LXSCN038` Planning and Organising | 5 | 5 | 5 | 5 | 20 |
+| `LXSCN039` Continuous Learning | 6 | 6 | 6 | 6 | 24 |
+| `LXSCN045` Accuracy and Attention to Detail | 5 | 5 | 5 | 5 | 20 |
+| `LXSCN046` Adaptability | 5 | 5 | 5 | 5 | 20 |
+| `LXSCN065` Project Management | 5 | 5 | 5 | 5 | 20 |
+| `LXSCN113` Managing the Programs and Projects Function | 5 | 5 | 5 | 5 | 20 |
 
-| Code | Behaviour phrase (fills the "…") |
-| --- | --- |
-| `COM-01` Communication | explain technical issues clearly and concisely to any audience |
-| `COM-02` Presentation Delivery | deliver structured briefings with confidence and handle questions with composure |
-| `COM-03` Stakeholder Management | keep the right stakeholders informed and adapt the message to each of them |
-| `COM-04` Strategic Influence | build support for proposals and influence decisions without formal authority |
-| `COM-05` Relationship Building | build trust through active listening and respectful interaction |
-| `COM-06` Negotiation | negotiate workable agreements on scope, risk and resources |
-| `COM-07` Facilitation | run meetings and workshops that reach clear, agreed outcomes |
-| `LEA-01` Leadership | set direction, act as a visible role model and take charge when situations escalate |
-| `LEA-02` Team Management | organise the team's work fairly and resolve conflict constructively |
-| `LEA-03` Performance Management | set clear goals, follow through on commitments and give specific feedback |
-| `LEA-04` Cross-Team Integration | work effectively with other teams and share information across boundaries |
-| `LEA-05` Coaching & Mentoring | develop others through coaching, mentoring and knowledge sharing |
-| `LEA-06` Change Management | plan and lead change so that new ways of working are adopted |
-| `THK-01` Analytical Thinking | break complex problems into logical parts and reflect on outcomes |
-| `THK-02` Problem Solving | define the real problem, find root causes and work out practical solutions |
-| `THK-03` Strategic Thinking | connect daily work to long-term security goals and generate new ideas |
-| `THK-04` Decision Making | make sound, timely decisions by weighing risks and trade-offs |
-| `THK-05` Critical Thinking | question assumptions and test information before relying on it |
-| `THK-06` Systems Thinking | see how people, processes and technology interact and anticipate knock-on effects |
-| `LRN-01` Continuous Learning | seek feedback and new knowledge and apply what they learn quickly |
-| `LRN-02` Tolerance for Uncertainty | stay calm and effective under pressure and with incomplete information |
-| `LRN-03` Adaptability | adjust plans and approach quickly when circumstances change |
-| `LRN-04` Innovation | propose, test and adopt better ways of working |
-| `DEL-01` Operational Effectiveness | take initiative and deliver work on time and to standard |
-| `DEL-02` Planning & Organisation | plan work, manage time and keep several priorities under control |
-| `DEL-03` Attention to Detail | produce accurate, complete work and catch errors before they matter |
-| `GRC-01` Security & Risk Governance | set up and run security and risk governance structures and reporting |
-| `GRC-02` Risk Assessment | identify, rate and communicate security risks in business terms |
-| `GRC-03` Risk Treatment Planning | choose and track risk treatments that bring risk within appetite |
-| `GRC-04` Compliance Management | map controls to regulatory requirements and maintain compliance evidence |
-| `GRC-05` Internal Auditing | plan and run security audits and report findings that lead to action |
-| `GRC-06` Policy & Standards Development | write and maintain security policies and standards people can follow |
-| `GRC-07` Control Frameworks | apply control frameworks such as ISO 27001, NIST CSF and CIS |
-| `GRC-08` Security Awareness | design and run awareness activities that measurably change behaviour |
-| `CTI-01` Threat Intelligence Lifecycle | run the intelligence cycle from requirements to dissemination |
-| `CTI-02` Threat Actor Profiling | profile threat actors and map their techniques to MITRE ATT&CK |
-| `CTI-03` Threat Reporting | write threat reports that decision makers can act on |
-| `CTI-04` Open Source Intelligence | collect and verify open-source intelligence safely and legally |
-| `CTI-05` Attack Path Analysis | work out realistic attack paths to critical assets |
-| `CTI-06` Threat Modelling | identify threats to a system early and design mitigations |
-| `CTI-07` Indicators of Compromise Analysis | analyse and enrich indicators of compromise and turn them into detections |
-| `CTI-08` Threat Hunting | hunt proactively for threats that evaded existing detection |
-| `SOC-01` Security Monitoring & Detection | build and tune detection rules and triage alerts accurately |
-| `SOC-02` Incident Response | contain and remediate security incidents using sound playbooks |
-| `SOC-03` Digital Forensics | collect and analyse digital evidence to reconstruct attacker activity |
-| `SOC-04` Malware Analysis | analyse malicious files and extract useful indicators |
-| `BCM-01` Business Continuity Planning | write and maintain continuity plans for critical services |
-| `BCM-02` Business Impact Analysis | run business impact analyses and set recovery objectives |
-| `BCM-03` Disaster Recovery | plan and test the technical recovery of systems and data |
-| `BCM-04` Operational Resilience | keep important business services within agreed impact tolerances |
-| `BCM-05` Scenario Testing & Exercises | design and run realistic exercises that test plans and people |
-| `BCM-06` Backup & Recovery | make sure data can be restored quickly, safely and completely |
-| `BCM-07` Dependency Mapping | map the people, suppliers and systems a service depends on |
-| `INF-01` Network Security | design and review secure network segmentation and access rules |
-| `INF-02` Cloud Security | secure cloud workloads and fix cloud misconfigurations |
-| `INF-03` System Hardening | harden servers and platforms against common attacks |
-| `INF-04` Endpoint Security | deploy and tune endpoint protection on devices |
-| `INF-05` Identity Management | manage the identity lifecycle from joiner to leaver |
-| `INF-06` Access Control | design strong authentication and least-privilege access controls |
-| `INF-07` Certificate & Key Management | manage certificates, keys and secrets so they stay valid and protected |
-| `INF-08` Patch & Vulnerability Management | prioritise vulnerabilities by real risk and track them to closure |
-| `INF-09` Security Architecture | design secure architectures and review designs against security principles |
-| `APP-01` Application Security Review | review applications and code for security flaws |
-| `APP-02` Secure Development | build security into software design, code and delivery |
-| `APP-03` API Security | design and test APIs against authentication and authorisation flaws |
-| `APP-04` DevSecOps | build automated security checks into CI/CD pipelines |
-| `APP-05` Security Automation & Scripting | automate repetitive security tasks with scripts and playbooks |
-| `APP-06` Web Security | find and fix common web vulnerabilities such as the OWASP Top 10 |
-| `APP-07` Penetration Testing | plan and run authorised penetration tests and report clear remediation |
+## Role profiles
 
-## Job roles and requirements
+Seniority is derived from the grade in the job title:
 
-Required levels are defaults by seniority (soft skills rise from 2 for Entry to 5 for Executive; technical skills peak at Senior/Lead). Edit them per role on Library → Role requirements.
+Analyst → Entry · Engineer → Mid · Specialist → Mid · Senior Analyst → Senior · Senior Engineer → Senior · Section Head → Lead · Department Manager → Manager · VP → Executive
 
-| Code | Role | Family | Seniority | Next role | Requirements (level, priority) |
+| Code | Role | Family | Seniority | Next role | Requirements (technical + cross-functional) |
 | --- | --- | --- | --- | --- | --- |
-| `SOC-T1` | **SOC Analyst (Tier 1)** | Security Operations | Entry | SOC Analyst (Tier 2) | Communication 2 · Analytical Thinking 2 · Problem Solving 2 ★ · Continuous Learning 2 · Operational Effectiveness 2 ★ · Cross-Team Integration 2 · Tolerance for Uncertainty 2 · Attention to Detail 2 · Security Monitoring & Detection 2 ★ · Incident Response 2 ★ · Digital Forensics 2 ★ · Indicators of Compromise Analysis 2 · Threat Hunting 1 · Security Automation & Scripting 1 |
-| `SOC-T2` | **SOC Analyst (Tier 2)** | Security Operations | Mid | Senior SOC Analyst | Communication 3 · Analytical Thinking 3 · Problem Solving 3 ★ · Continuous Learning 3 · Operational Effectiveness 3 ★ · Cross-Team Integration 3 · Tolerance for Uncertainty 3 · Attention to Detail 3 · Security Monitoring & Detection 3 ★ · Incident Response 3 ★ · Digital Forensics 3 ★ · Indicators of Compromise Analysis 3 · Threat Hunting 2 · Security Automation & Scripting 2 |
-| `SOC-SR` | **Senior SOC Analyst** | Security Operations | Senior | SOC Team Lead | Communication 3 · Analytical Thinking 3 · Problem Solving 3 ★ · Continuous Learning 3 · Operational Effectiveness 3 ★ · Cross-Team Integration 3 · Tolerance for Uncertainty 3 · Attention to Detail 3 · Presentation Delivery 3 · Stakeholder Management 3 · Decision Making 3 · Coaching & Mentoring 3 · Critical Thinking 3 · Security Monitoring & Detection 4 ★ · Incident Response 4 ★ · Digital Forensics 4 ★ · Indicators of Compromise Analysis 4 · Threat Hunting 3 · Security Automation & Scripting 3 |
-| `IR-SR` | **Senior Incident Responder** | Security Operations | Senior | SOC Team Lead | Communication 3 · Analytical Thinking 3 · Problem Solving 3 ★ · Continuous Learning 3 · Operational Effectiveness 3 ★ · Cross-Team Integration 3 · Tolerance for Uncertainty 3 · Attention to Detail 3 · Presentation Delivery 3 · Stakeholder Management 3 · Decision Making 3 · Coaching & Mentoring 3 · Critical Thinking 3 · Security Monitoring & Detection 4 ★ · Incident Response 4 ★ · Digital Forensics 4 ★ · Indicators of Compromise Analysis 4 · Threat Hunting 3 · Security Automation & Scripting 3 |
-| `SOC-LD` | **SOC Team Lead** | Security Operations | Lead | Security Operations Manager | Communication 4 · Analytical Thinking 4 · Problem Solving 4 · Continuous Learning 4 · Operational Effectiveness 4 · Cross-Team Integration 4 · Tolerance for Uncertainty 4 · Attention to Detail 4 · Presentation Delivery 4 · Stakeholder Management 4 · Decision Making 4 · Coaching & Mentoring 4 · Critical Thinking 4 · Leadership 4 ★ · Team Management 4 ★ · Performance Management 4 ★ · Strategic Influence 4 ★ · Strategic Thinking 4 ★ · Change Management 4 · Systems Thinking 3 · Negotiation 3 · Facilitation 3 · Security Monitoring & Detection 4 ★ · Incident Response 4 ★ · Digital Forensics 4 ★ · Indicators of Compromise Analysis 4 · Threat Hunting 3 · Security Automation & Scripting 3 |
-| `SOC-MGR` | **Security Operations Manager** | Security Operations | Manager | Head of Cyber Security | Communication 4 · Analytical Thinking 4 · Problem Solving 4 · Continuous Learning 4 · Operational Effectiveness 4 · Cross-Team Integration 4 · Tolerance for Uncertainty 4 · Attention to Detail 4 · Presentation Delivery 4 · Stakeholder Management 4 · Decision Making 4 · Coaching & Mentoring 4 · Critical Thinking 4 · Leadership 4 ★ · Team Management 4 ★ · Performance Management 4 ★ · Strategic Influence 4 ★ · Strategic Thinking 4 ★ · Change Management 4 · Systems Thinking 3 · Negotiation 3 · Facilitation 3 · Security Monitoring & Detection 3 · Incident Response 3 · Digital Forensics 3 · Indicators of Compromise Analysis 3 · Threat Hunting 2 · Security Automation & Scripting 2 |
-| `CTI-AN` | **Threat Intelligence Analyst** | Threat Intelligence | Mid | Senior Threat Intelligence Analyst | Communication 3 · Analytical Thinking 3 · Problem Solving 3 ★ · Continuous Learning 3 · Operational Effectiveness 3 ★ · Cross-Team Integration 3 · Tolerance for Uncertainty 3 · Attention to Detail 3 · Threat Intelligence Lifecycle 3 ★ · Threat Actor Profiling 3 ★ · Threat Reporting 3 ★ · Open Source Intelligence 3 · Attack Path Analysis 2 · Indicators of Compromise Analysis 2 |
-| `CTI-SR` | **Senior Threat Intelligence Analyst** | Threat Intelligence | Senior | Threat Intelligence Lead | Communication 3 · Analytical Thinking 3 · Problem Solving 3 ★ · Continuous Learning 3 · Operational Effectiveness 3 ★ · Cross-Team Integration 3 · Tolerance for Uncertainty 3 · Attention to Detail 3 · Presentation Delivery 3 · Stakeholder Management 3 · Decision Making 3 · Coaching & Mentoring 3 · Critical Thinking 3 · Threat Intelligence Lifecycle 4 ★ · Threat Actor Profiling 4 ★ · Threat Reporting 4 ★ · Open Source Intelligence 4 · Attack Path Analysis 3 · Indicators of Compromise Analysis 3 |
-| `CTI-LD` | **Threat Intelligence Lead** | Threat Intelligence | Lead | Security Operations Manager | Communication 4 · Analytical Thinking 4 · Problem Solving 4 · Continuous Learning 4 · Operational Effectiveness 4 · Cross-Team Integration 4 · Tolerance for Uncertainty 4 · Attention to Detail 4 · Presentation Delivery 4 · Stakeholder Management 4 · Decision Making 4 · Coaching & Mentoring 4 · Critical Thinking 4 · Leadership 4 ★ · Team Management 4 ★ · Performance Management 4 ★ · Strategic Influence 4 ★ · Strategic Thinking 4 ★ · Change Management 4 · Systems Thinking 3 · Negotiation 3 · Facilitation 3 · Threat Intelligence Lifecycle 4 ★ · Threat Actor Profiling 4 ★ · Threat Reporting 4 ★ · Open Source Intelligence 4 · Attack Path Analysis 3 · Indicators of Compromise Analysis 3 |
-| `APS-EN` | **Application Security Engineer** | Application Security | Mid | Senior Application Security Engineer | Communication 3 · Analytical Thinking 3 · Problem Solving 3 ★ · Continuous Learning 3 · Operational Effectiveness 3 ★ · Cross-Team Integration 3 · Tolerance for Uncertainty 3 · Attention to Detail 3 · Application Security Review 3 ★ · Secure Development 3 ★ · API Security 3 ★ · DevSecOps 3 · Web Security 2 · Threat Modelling 2 |
-| `APS-SR` | **Senior Application Security Engineer** | Application Security | Senior | Application Security Lead | Communication 3 · Analytical Thinking 3 · Problem Solving 3 ★ · Continuous Learning 3 · Operational Effectiveness 3 ★ · Cross-Team Integration 3 · Tolerance for Uncertainty 3 · Attention to Detail 3 · Presentation Delivery 3 · Stakeholder Management 3 · Decision Making 3 · Coaching & Mentoring 3 · Critical Thinking 3 · Application Security Review 4 ★ · Secure Development 4 ★ · API Security 4 ★ · DevSecOps 4 · Web Security 3 · Threat Modelling 3 |
-| `APS-LD` | **Application Security Lead** | Application Security | Lead | Head of Cyber Security | Communication 4 · Analytical Thinking 4 · Problem Solving 4 · Continuous Learning 4 · Operational Effectiveness 4 · Cross-Team Integration 4 · Tolerance for Uncertainty 4 · Attention to Detail 4 · Presentation Delivery 4 · Stakeholder Management 4 · Decision Making 4 · Coaching & Mentoring 4 · Critical Thinking 4 · Leadership 4 ★ · Team Management 4 ★ · Performance Management 4 ★ · Strategic Influence 4 ★ · Strategic Thinking 4 ★ · Change Management 4 · Systems Thinking 3 · Negotiation 3 · Facilitation 3 · Application Security Review 4 ★ · Secure Development 4 ★ · API Security 4 ★ · DevSecOps 4 · Web Security 3 · Threat Modelling 3 |
-| `PEN-JR` | **Junior Penetration Tester** | Offensive Security | Entry | Penetration Tester | Communication 2 · Analytical Thinking 2 · Problem Solving 2 ★ · Continuous Learning 2 · Operational Effectiveness 2 ★ · Cross-Team Integration 2 · Tolerance for Uncertainty 2 · Attention to Detail 2 · Penetration Testing 2 ★ · Web Security 2 ★ · Attack Path Analysis 2 ★ · Network Security 2 · Security Automation & Scripting 1 · Open Source Intelligence 1 |
-| `PEN-TS` | **Penetration Tester** | Offensive Security | Mid | Senior Penetration Tester | Communication 3 · Analytical Thinking 3 · Problem Solving 3 ★ · Continuous Learning 3 · Operational Effectiveness 3 ★ · Cross-Team Integration 3 · Tolerance for Uncertainty 3 · Attention to Detail 3 · Penetration Testing 3 ★ · Web Security 3 ★ · Attack Path Analysis 3 ★ · Network Security 3 · Security Automation & Scripting 2 · Open Source Intelligence 2 |
-| `PEN-SR` | **Senior Penetration Tester** | Offensive Security | Senior | Application Security Lead | Communication 3 · Analytical Thinking 3 · Problem Solving 3 ★ · Continuous Learning 3 · Operational Effectiveness 3 ★ · Cross-Team Integration 3 · Tolerance for Uncertainty 3 · Attention to Detail 3 · Presentation Delivery 3 · Stakeholder Management 3 · Decision Making 3 · Coaching & Mentoring 3 · Critical Thinking 3 · Penetration Testing 4 ★ · Web Security 4 ★ · Attack Path Analysis 4 ★ · Network Security 4 · Security Automation & Scripting 3 · Open Source Intelligence 3 |
-| `INF-EN` | **Infrastructure Security Engineer** | Infrastructure & Cloud Security | Mid | Senior Infrastructure & Cloud Security Engineer | Communication 3 · Analytical Thinking 3 · Problem Solving 3 ★ · Continuous Learning 3 · Operational Effectiveness 3 ★ · Cross-Team Integration 3 · Tolerance for Uncertainty 3 · Attention to Detail 3 · Network Security 3 ★ · Cloud Security 3 ★ · System Hardening 3 ★ · Endpoint Security 3 · Patch & Vulnerability Management 2 · Security Architecture 2 |
-| `CLD-EN` | **Cloud Security Engineer** | Infrastructure & Cloud Security | Mid | Senior Infrastructure & Cloud Security Engineer | Communication 3 · Analytical Thinking 3 · Problem Solving 3 ★ · Continuous Learning 3 · Operational Effectiveness 3 ★ · Cross-Team Integration 3 · Tolerance for Uncertainty 3 · Attention to Detail 3 · Network Security 3 ★ · Cloud Security 3 ★ · System Hardening 3 ★ · Endpoint Security 3 · Patch & Vulnerability Management 2 · Security Architecture 2 |
-| `INF-SR` | **Senior Infrastructure & Cloud Security Engineer** | Infrastructure & Cloud Security | Senior | Security Architect | Communication 3 · Analytical Thinking 3 · Problem Solving 3 ★ · Continuous Learning 3 · Operational Effectiveness 3 ★ · Cross-Team Integration 3 · Tolerance for Uncertainty 3 · Attention to Detail 3 · Presentation Delivery 3 · Stakeholder Management 3 · Decision Making 3 · Coaching & Mentoring 3 · Critical Thinking 3 · Network Security 4 ★ · Cloud Security 4 ★ · System Hardening 4 ★ · Endpoint Security 4 · Patch & Vulnerability Management 3 · Security Architecture 3 |
-| `ARC-SEC` | **Security Architect** | Infrastructure & Cloud Security | Lead | Head of Cyber Security | Communication 4 · Analytical Thinking 4 · Problem Solving 4 · Continuous Learning 4 · Operational Effectiveness 4 · Cross-Team Integration 4 · Tolerance for Uncertainty 4 · Attention to Detail 4 · Presentation Delivery 4 · Stakeholder Management 4 · Decision Making 4 · Coaching & Mentoring 4 · Critical Thinking 4 · Leadership 4 ★ · Team Management 4 ★ · Performance Management 4 ★ · Strategic Influence 4 ★ · Strategic Thinking 4 ★ · Change Management 4 · Systems Thinking 3 · Negotiation 3 · Facilitation 3 · Network Security 4 ★ · Cloud Security 4 ★ · System Hardening 4 ★ · Endpoint Security 4 · Patch & Vulnerability Management 3 · Security Architecture 3 |
-| `IAM-AN` | **IAM Analyst** | Identity & Access | Entry | IAM Engineer | Communication 2 · Analytical Thinking 2 · Problem Solving 2 ★ · Continuous Learning 2 · Operational Effectiveness 2 ★ · Cross-Team Integration 2 · Tolerance for Uncertainty 2 · Attention to Detail 2 · Identity Management 2 ★ · Access Control 2 ★ · Certificate & Key Management 2 ★ · Cloud Security 2 · Compliance Management 1 |
-| `IAM-EN` | **IAM Engineer** | Identity & Access | Mid | IAM Lead | Communication 3 · Analytical Thinking 3 · Problem Solving 3 ★ · Continuous Learning 3 · Operational Effectiveness 3 ★ · Cross-Team Integration 3 · Tolerance for Uncertainty 3 · Attention to Detail 3 · Identity Management 3 ★ · Access Control 3 ★ · Certificate & Key Management 3 ★ · Cloud Security 3 · Compliance Management 2 |
-| `IAM-LD` | **IAM Lead** | Identity & Access | Lead | Head of Cyber Security | Communication 4 · Analytical Thinking 4 · Problem Solving 4 · Continuous Learning 4 · Operational Effectiveness 4 · Cross-Team Integration 4 · Tolerance for Uncertainty 4 · Attention to Detail 4 · Presentation Delivery 4 · Stakeholder Management 4 · Decision Making 4 · Coaching & Mentoring 4 · Critical Thinking 4 · Leadership 4 ★ · Team Management 4 ★ · Performance Management 4 ★ · Strategic Influence 4 ★ · Strategic Thinking 4 ★ · Change Management 4 · Systems Thinking 3 · Negotiation 3 · Facilitation 3 · Identity Management 4 ★ · Access Control 4 ★ · Certificate & Key Management 4 ★ · Cloud Security 4 · Compliance Management 3 |
-| `GRC-AN` | **GRC Analyst** | Governance, Risk & Compliance | Entry | Senior GRC Analyst | Communication 2 · Analytical Thinking 2 · Problem Solving 2 ★ · Continuous Learning 2 · Operational Effectiveness 2 ★ · Cross-Team Integration 2 · Tolerance for Uncertainty 2 · Attention to Detail 2 · Security & Risk Governance 2 ★ · Risk Assessment 2 ★ · Risk Treatment Planning 2 ★ · Compliance Management 2 · Internal Auditing 1 · Policy & Standards Development 1 · Control Frameworks 1 |
-| `GRC-SR` | **Senior GRC Analyst** | Governance, Risk & Compliance | Senior | GRC Lead | Communication 3 · Analytical Thinking 3 · Problem Solving 3 ★ · Continuous Learning 3 · Operational Effectiveness 3 ★ · Cross-Team Integration 3 · Tolerance for Uncertainty 3 · Attention to Detail 3 · Presentation Delivery 3 · Stakeholder Management 3 · Decision Making 3 · Coaching & Mentoring 3 · Critical Thinking 3 · Security & Risk Governance 4 ★ · Risk Assessment 4 ★ · Risk Treatment Planning 4 ★ · Compliance Management 4 · Internal Auditing 3 · Policy & Standards Development 3 · Control Frameworks 3 |
-| `AUD-IT` | **IT Security Auditor** | Governance, Risk & Compliance | Mid | Senior GRC Analyst | Communication 3 · Analytical Thinking 3 · Problem Solving 3 ★ · Continuous Learning 3 · Operational Effectiveness 3 ★ · Cross-Team Integration 3 · Tolerance for Uncertainty 3 · Attention to Detail 3 · Security & Risk Governance 3 ★ · Risk Assessment 3 ★ · Risk Treatment Planning 3 ★ · Compliance Management 3 · Internal Auditing 2 · Policy & Standards Development 2 · Control Frameworks 2 |
-| `GRC-LD` | **GRC Lead** | Governance, Risk & Compliance | Lead | Head of Governance, Risk & Compliance | Communication 4 · Analytical Thinking 4 · Problem Solving 4 · Continuous Learning 4 · Operational Effectiveness 4 · Cross-Team Integration 4 · Tolerance for Uncertainty 4 · Attention to Detail 4 · Presentation Delivery 4 · Stakeholder Management 4 · Decision Making 4 · Coaching & Mentoring 4 · Critical Thinking 4 · Leadership 4 ★ · Team Management 4 ★ · Performance Management 4 ★ · Strategic Influence 4 ★ · Strategic Thinking 4 ★ · Change Management 4 · Systems Thinking 3 · Negotiation 3 · Facilitation 3 · Security & Risk Governance 4 ★ · Risk Assessment 4 ★ · Risk Treatment Planning 4 ★ · Compliance Management 4 · Internal Auditing 3 · Policy & Standards Development 3 · Control Frameworks 3 |
-| `HEAD-GRC` | **Head of Governance, Risk & Compliance** | Governance, Risk & Compliance | Head | Chief Information Security Officer | Communication 4 · Analytical Thinking 4 · Problem Solving 4 · Continuous Learning 4 · Operational Effectiveness 4 · Cross-Team Integration 4 · Tolerance for Uncertainty 4 · Attention to Detail 4 · Presentation Delivery 4 · Stakeholder Management 4 · Decision Making 4 · Coaching & Mentoring 4 · Critical Thinking 4 · Leadership 4 ★ · Team Management 4 ★ · Performance Management 4 ★ · Strategic Influence 4 ★ · Strategic Thinking 4 ★ · Change Management 4 · Systems Thinking 3 · Negotiation 3 · Facilitation 3 · Security & Risk Governance 3 · Risk Assessment 3 · Risk Treatment Planning 3 · Compliance Management 3 · Internal Auditing 2 · Policy & Standards Development 2 · Control Frameworks 2 |
-| `BCM-AN` | **Business Continuity Analyst** | Business Continuity & Resilience | Mid | Business Continuity & Resilience Manager | Communication 3 · Analytical Thinking 3 · Problem Solving 3 ★ · Continuous Learning 3 · Operational Effectiveness 3 ★ · Cross-Team Integration 3 · Tolerance for Uncertainty 3 · Attention to Detail 3 · Business Continuity Planning 3 ★ · Business Impact Analysis 3 ★ · Disaster Recovery 3 ★ · Operational Resilience 3 · Scenario Testing & Exercises 2 · Dependency Mapping 2 |
-| `BCM-MGR` | **Business Continuity & Resilience Manager** | Business Continuity & Resilience | Manager | Head of Governance, Risk & Compliance | Communication 4 · Analytical Thinking 4 · Problem Solving 4 · Continuous Learning 4 · Operational Effectiveness 4 · Cross-Team Integration 4 · Tolerance for Uncertainty 4 · Attention to Detail 4 · Presentation Delivery 4 · Stakeholder Management 4 · Decision Making 4 · Coaching & Mentoring 4 · Critical Thinking 4 · Leadership 4 ★ · Team Management 4 ★ · Performance Management 4 ★ · Strategic Influence 4 ★ · Strategic Thinking 4 ★ · Change Management 4 · Systems Thinking 3 · Negotiation 3 · Facilitation 3 · Business Continuity Planning 3 · Business Impact Analysis 3 · Disaster Recovery 3 · Operational Resilience 3 · Scenario Testing & Exercises 2 · Dependency Mapping 2 |
-| `HEAD-CYB` | **Head of Cyber Security** | Security Leadership | Head | Chief Information Security Officer | Communication 4 · Analytical Thinking 4 · Problem Solving 4 · Continuous Learning 4 · Operational Effectiveness 4 · Cross-Team Integration 4 · Tolerance for Uncertainty 4 · Attention to Detail 4 · Presentation Delivery 4 · Stakeholder Management 4 · Decision Making 4 · Coaching & Mentoring 4 · Critical Thinking 4 · Leadership 4 ★ · Team Management 4 ★ · Performance Management 4 ★ · Strategic Influence 4 ★ · Strategic Thinking 4 ★ · Change Management 4 · Systems Thinking 3 · Negotiation 3 · Facilitation 3 · Security & Risk Governance 3 · Risk Assessment 3 · Incident Response 3 · Security Architecture 3 · Operational Resilience 2 |
-| `CISO` | **Chief Information Security Officer** | Security Leadership | Executive | — | Communication 5 · Analytical Thinking 5 · Problem Solving 5 · Continuous Learning 5 · Operational Effectiveness 5 · Cross-Team Integration 5 · Tolerance for Uncertainty 5 · Attention to Detail 5 · Presentation Delivery 5 · Stakeholder Management 5 · Decision Making 5 · Coaching & Mentoring 5 · Critical Thinking 5 · Leadership 5 ★ · Team Management 5 ★ · Performance Management 5 ★ · Strategic Influence 5 ★ · Strategic Thinking 5 ★ · Change Management 5 · Systems Thinking 4 · Negotiation 4 · Facilitation 4 · Security & Risk Governance 3 · Risk Assessment 3 · Incident Response 3 · Security Architecture 3 · Operational Resilience 2 |
+| `ROLE-01` | **Section Head, Cyber Threat Intelligence** | Threat Intelligence | Lead | — | 11 (0 + 11) |
+| `ROLE-02` | **Section Head, Digital Business Continuity** | Business Continuity & Resilience | Lead | — | 13 (0 + 13) |
+| `ROLE-03` | **Senior Analyst, Cyber Threat Intelligence** | Threat Intelligence | Senior | Section Head, Cyber Threat Intelligence | 22 (15 + 7) |
+| `ROLE-04` | **Senior Analyst, Digital Business Continuity** | Business Continuity & Resilience | Senior | Section Head, Digital Business Continuity | 20 (12 + 8) |
+| `ROLE-05` | **Senior Analyst, Digital Identity & Access Management** | Identity & Access | Senior | — | 20 (9 + 11) |
+| `ROLE-06` | **Analyst, Digital Vulnerability Management** | Infrastructure & Cloud Security | Entry | — | 16 (7 + 9) |
+| `ROLE-07` | **Engineer, Digital Clouds & Application Security** | Infrastructure & Cloud Security | Mid | Senior Engineer, Digital Clouds & Application Security | 27 (19 + 8) |
+| `ROLE-08` | **Engineer, Digital Infrastructure Security** | Infrastructure & Cloud Security | Mid | Senior Engineer, Digital Infrastructure Security | 24 (17 + 7) |
+| `ROLE-09` | **Section Head, Digital Infrastructure Security Operations** | Infrastructure & Cloud Security | Lead | — | 13 (0 + 13) |
+| `ROLE-10` | **Section Head, Digital Vulnerability Management** | Infrastructure & Cloud Security | Lead | — | 10 (0 + 10) |
+| `ROLE-11` | **Senior Engineer, Digital Clouds & Application Security** | Infrastructure & Cloud Security | Senior | — | 27 (19 + 8) |
+| `ROLE-12` | **Senior Engineer, Digital Infrastructure Security** | Infrastructure & Cloud Security | Senior | Section Head, Digital Infrastructure Security Operations | 27 (19 + 8) |
+| `ROLE-13` | **Senior Engineer, Digital Vulnerability Management** | Infrastructure & Cloud Security | Senior | Section Head, Digital Vulnerability Management | 20 (10 + 10) |
+| `ROLE-14` | **Department Manager, Digital Risk Management & Compliance** | Governance, Risk & Compliance | Manager | — | 4 (0 + 4) |
+| `ROLE-15` | **Section Head, Cybersecurity Policies & Standard** | Governance, Risk & Compliance | Lead | — | 13 (0 + 13) |
+| `ROLE-16` | **Section Head, OT Risk Management & Compliance** | Governance, Risk & Compliance | Lead | — | 14 (0 + 14) |
+| `ROLE-17` | **Senior Analyst, Cybersecurity Policies and Standards** | Governance, Risk & Compliance | Senior | Section Head, Cybersecurity Policies & Standard | 24 (12 + 12) |
+| `ROLE-18` | **Senior Analyst, IT Risk Management and Compliance** | Governance, Risk & Compliance | Senior | — | 23 (11 + 12) |
+| `ROLE-19` | **Senior Analyst, OT Risk Management and Compliance** | Governance, Risk & Compliance | Senior | Section Head, OT Risk Management & Compliance | 23 (11 + 12) |
+| `ROLE-20` | **Specialist, Cybersecurity Policies and Standards** | Governance, Risk & Compliance | Mid | Senior Analyst, Cybersecurity Policies and Standards | 17 (9 + 8) |
+| `ROLE-21` | **Specialist, Group Companies Risk Management and Compliance** | Governance, Risk & Compliance | Mid | — | 27 (15 + 12) |
+| `ROLE-22` | **Specialist, IT Risk Management and Compliance** | Governance, Risk & Compliance | Mid | Senior Analyst, IT Risk Management and Compliance | 21 (11 + 10) |
+| `ROLE-23` | **Section Head, Downstream Industry, Marketing and Trading OT Cybersecurity** | OT Security | Lead | — | 14 (0 + 14) |
+| `ROLE-24` | **Section Head, Upstream OT Cybersecurity** | OT Security | Lead | — | 13 (0 + 13) |
+| `ROLE-25` | **Senior Engineer, Downstream OT Cybersecurity** | OT Security | Senior | — | 24 (12 + 12) |
+| `ROLE-26` | **Senior Engineer, Upstream OT Cybersecurity** | OT Security | Senior | Section Head, Upstream OT Cybersecurity | 22 (12 + 10) |
+| `ROLE-27` | **Analyst, Digital Cybersecurity Monitoring** | Security Operations | Entry | Senior Analyst, Digital Cybersecurity Monitoring | 27 (19 + 8) |
+| `ROLE-28` | **Section Head, Digital Cybersecurity Monitoring** | Security Operations | Lead | — | 11 (0 + 11) |
+| `ROLE-29` | **Section Head, Threat Hunting** | Security Operations | Lead | — | 20 (0 + 20) |
+| `ROLE-30` | **Senior Analyst, Digital Cybersecurity Monitoring** | Security Operations | Senior | Section Head, Digital Cybersecurity Monitoring | 24 (18 + 6) |
+| `ROLE-31` | **Senior Engineer, Digital Cybersecurity Monitoring** | Security Operations | Senior | Section Head, Digital Cybersecurity Monitoring | 25 (16 + 9) |
+| `ROLE-32` | **Specialist, Malware Analysis** | Security Operations | Mid | — | 27 (19 + 8) |
 
-★ = High priority.
+**Job titles without requirements yet** (loaded as ROLE-33 onward so people can be linked; add requirements when the client provides them): Department Manager, Digital Business Continuity and Cyber Threat Intelligence · Department Manager, Digital Cybersecurity Engineering · Department Manager, Digital Identity & Access Management · Department Manager, OT Cybersecurity · Department Manager, Security Operations Center Department · Section Head, Digital Clouds & Application Security · Section Head, IT Risk Management and Compliance · Vice President, Group Digital Cybersecurity Operations · Vice President, Group Information Security.
 
-## Courses
+## Role requirements
 
-| Code | Course | Type | Delivery | Hours | Days | Observed | Builds |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `ELB` | **Emerging Leaders Bootcamp** | Leadership Programme | In-person | 24 | 3 | Yes | Leadership, Team Management, Presentation Delivery, Decision Making, Continuous Learning |
-| `MGR` | **Manager Essentials** | Leadership Programme | Hybrid | 21 | 3 | Yes | Team Management, Performance Management, Stakeholder Management, Coaching & Mentoring |
-| `CWI` | **Communicate with Impact** | Workshop | In-person | 14 | 2 | Yes | Communication, Presentation Delivery, Relationship Building, Stakeholder Management |
-| `SLL` | **Strategic Leadership Lab** | Leadership Programme | In-person | 16 | 2 | Yes | Strategic Thinking, Strategic Influence, Change Management, Systems Thinking |
-| `FBK` | **Giving and Receiving Feedback** | Workshop | In-person | 4 | 1 |  | Performance Management, Continuous Learning, Relationship Building |
-| `TPM` | **Time & Priority Management** | Virtual Session | Online (live) | 3 | 1 |  | Planning & Organisation, Operational Effectiveness |
-| `EXW` | **Writing for Executives** | Virtual Session | Online (live) | 4 | 1 |  | Communication, Stakeholder Management |
-| `CSS` | **Coaching Skills for Senior Staff** | Workshop | In-person | 8 | 1 | Yes | Coaching & Mentoring, Relationship Building, Performance Management |
-| `NEG` | **Negotiation for Security Professionals** | Workshop | In-person | 7 | 1 |  | Negotiation, Strategic Influence |
-| `FAC` | **Facilitating Workshops that Decide** | Workshop | In-person | 6 | 1 |  | Facilitation, Cross-Team Integration |
-| `CHG` | **Leading Change** | Virtual Session | Online (live) | 6 | 2 |  | Change Management, Strategic Influence |
-| `CRT` | **Critical Thinking for Analysts** | Workshop | Hybrid | 7 | 1 |  | Critical Thinking, Analytical Thinking, Attention to Detail |
-| `SIEM` | **SIEM Detection Engineering** | Instructor Led | Hybrid | 16 | 2 |  | Security Monitoring & Detection, Indicators of Compromise Analysis, Security Automation & Scripting |
-| `HUNT` | **Threat Hunting Fundamentals** | Immersive Lab | Online (live) | 12 | 2 |  | Threat Hunting, Security Monitoring & Detection |
-| `IRW` | **Incident Handling Workshop** | Workshop | In-person | 16 | 2 |  | Incident Response, Tolerance for Uncertainty, Decision Making |
-| `TTX` | **Cyber Crisis Tabletop Exercise** | Simulation | In-person | 4 | 1 | Yes | Incident Response, Scenario Testing & Exercises, Decision Making, Stakeholder Management |
-| `MAL` | **Malware Analysis Basics** | Immersive Lab | Online (live) | 20 | 3 |  | Malware Analysis, Indicators of Compromise Analysis |
-| `FOR` | **Digital Forensics & Evidence Handling** | Instructor Led | In-person | 24 | 3 |  | Digital Forensics |
-| `CTI` | **Threat Intelligence with MITRE ATT&CK** | Instructor Led | Online (live) | 14 | 2 |  | Threat Intelligence Lifecycle, Threat Actor Profiling, Threat Reporting |
-| `OSI` | **OSINT Investigations** | Immersive Lab | Online (live) | 8 | 1 |  | Open Source Intelligence |
-| `WPT` | **Web Application Penetration Testing** | Immersive Lab | Hybrid | 24 | 3 |  | Penetration Testing, Web Security |
-| `SCR` | **Secure Code Review** | Instructor Led | Online (live) | 12 | 2 |  | Application Security Review, Secure Development |
-| `API` | **API Security in Practice** | Immersive Lab | Online (live) | 8 | 1 |  | API Security |
-| `DSO` | **DevSecOps Pipelines** | Instructor Led | Hybrid | 12 | 2 |  | DevSecOps, Security Automation & Scripting |
-| `TMW` | **Threat Modelling Workshop** | Workshop | In-person | 8 | 1 |  | Threat Modelling, Security Architecture |
-| `CAP` | **Cloud Attack Paths** | Immersive Lab | Online (live) | 16 | 2 |  | Attack Path Analysis, Cloud Security |
-| `CSF` | **Cloud Security Foundations** | Self Study | Self-paced | 12 | 2 |  | Cloud Security |
-| `K8S` | **Kubernetes Security** | Instructor Led | Hybrid | 16 | 2 |  | Cloud Security, System Hardening |
-| `NSF` | **Network Segmentation & Firewall Policy** | Instructor Led | In-person | 16 | 2 |  | Network Security |
-| `HRD` | **System Hardening with CIS Benchmarks** | Immersive Lab | Online (live) | 8 | 1 |  | System Hardening, Endpoint Security |
-| `EDR` | **Endpoint Hardening with EDR** | Instructor Led | Online (live) | 10 | 2 |  | Endpoint Security |
-| `VMP` | **Vulnerability Prioritisation with CVSS and EPSS** | Virtual Session | Online (live) | 6 | 1 |  | Patch & Vulnerability Management |
-| `PKI` | **PKI and Secrets Management** | Instructor Led | Online (live) | 8 | 1 |  | Certificate & Key Management |
-| `ZTA` | **Zero Trust Identity Architecture** | Instructor Led | Online (live) | 12 | 2 |  | Access Control, Identity Management, Security Architecture |
-| `PAM` | **Privileged Access Management in Practice** | Instructor Led | Hybrid | 16 | 2 |  | Access Control |
-| `ARC` | **Security Architecture Patterns** | Instructor Led | Hybrid | 16 | 2 |  | Security Architecture, Systems Thinking |
-| `ISO` | **ISO 27001 Implementation** | Instructor Led | Hybrid | 24 | 3 |  | Control Frameworks, Compliance Management, Policy & Standards Development |
-| `RSK` | **Risk Assessment & Treatment** | Workshop | In-person | 8 | 1 |  | Risk Assessment, Risk Treatment Planning |
-| `FAIR` | **Risk Quantification with FAIR** | Instructor Led | Online (live) | 14 | 2 |  | Risk Assessment, Security & Risk Governance |
-| `AUD` | **Audit Evidence & Sampling** | Instructor Led | In-person | 12 | 2 |  | Internal Auditing, Attention to Detail |
-| `NIS` | **NIS2 and DORA Readiness** | Compliance & Awareness | Online (live) | 6 | 1 |  | Compliance Management, Operational Resilience |
-| `POL` | **Writing Security Policies People Follow** | Workshop | Online (live) | 4 | 1 |  | Policy & Standards Development, Communication |
-| `BIA` | **Business Impact Analysis Workshop** | Workshop | In-person | 6 | 1 |  | Business Impact Analysis, Dependency Mapping |
-| `BCP` | **Business Continuity & Disaster Recovery Planning** | Instructor Led | Hybrid | 16 | 2 |  | Business Continuity Planning, Disaster Recovery, Backup & Recovery |
-| `AWR` | **Security Awareness Annual Refresher** | Compliance & Awareness | Self-paced | 1.5 | 1 |  | Security Awareness |
-| `AIS` | **AI for Security Teams** | Virtual Session | Online (live) | 6 | 1 |  | Security Automation & Scripting, Innovation |
-| `AIL` | **Prompting & AI Safety at Work** | Self Study | Self-paced | 3 | 1 |  | Innovation, Continuous Learning |
-| `PY` | **Python for Security Automation** | Self Study | Self-paced | 20 | 4 |  | Security Automation & Scripting |
-| `ROT-SOC` | **SOC Shadowing Programme** | Cross-Functional Rotation | In-person | 24 | 5 |  | Cross-Team Integration, Security Monitoring & Detection |
-| `ROT-CLD` | **Cloud Security Rotation** | Cross-Functional Rotation | Hybrid | 40 | 10 |  | Cross-Team Integration, Cloud Security |
-| `ROT-GRC` | **GRC for Engineers** | Cross-Functional Rotation | Online (live) | 12 | 3 |  | Cross-Team Integration, Risk Assessment |
-| `ROT-PUR` | **Red Team / Blue Team Exchange** | Cross-Functional Rotation | In-person | 16 | 4 |  | Cross-Team Integration, Penetration Testing, Security Monitoring & Detection |
-| `PREP-SEC` | **Security+ Exam Preparation** | Certification Preparation | Online (live) | 16 | 4 |  | Risk Assessment, Network Security |
-| `PREP-CISSP` | **CISSP Exam Preparation** | Certification Preparation | Hybrid | 40 | 5 |  | Security & Risk Governance, Security Architecture |
-| `PREP-CISM` | **CISM Exam Preparation** | Certification Preparation | Online (live) | 24 | 4 |  | Security & Risk Governance, Risk Treatment Planning |
+Required level per competency per role (623 pairs in the source, 620 loaded). Source priority 2 is the higher priority and is loaded as High; 3 is loaded as Medium (confirm with the client).
+
+<details><summary><b>ROLE-01</b> Section Head, Cyber Threat Intelligence — 11 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `LXSCN001` Cross-Team Integration | 3 | Medium |
+| `LXSCN019` Decision Making | 3 | Medium |
+| `LXSCN026` Leadership | 3 | Medium |
+| `LXSCN027` Team Management | 3 | Medium |
+| `LXSCN031` Problem Solving | 3 | Medium |
+| `LXSCN032` Presentation Delivery | 3 | Medium |
+| `LXSCN035` Relationship Building | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN038` Planning and Organising | 3 | Medium |
+| `LXSCN046` Adaptability | 3 | Medium |
+| `LXSCN055` Stakeholder Management | 3 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-02</b> Section Head, Digital Business Continuity — 13 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `LXSCN001` Cross-Team Integration | 3 | Medium |
+| `LXSCN005` Strategic Thinking | 3 | High |
+| `LXSCN008` Strategic Influence | 3 | High |
+| `LXSCN019` Decision Making | 3 | Medium |
+| `LXSCN026` Leadership | 3 | Medium |
+| `LXSCN027` Team Management | 3 | Medium |
+| `LXSCN031` Problem Solving | 3 | Medium |
+| `LXSCN032` Presentation Delivery | 3 | Medium |
+| `LXSCN035` Relationship Building | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN038` Planning and Organising | 3 | Medium |
+| `LXSCN046` Adaptability | 3 | Medium |
+| `LXSCN055` Stakeholder Management | 3 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-03</b> Senior Analyst, Cyber Threat Intelligence — 22 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `APKCE-001` Attack-Path & Kill-Chain Engineering | 2 | Medium |
+| `ATAC-001` APT Tracking & Attribution CTI | 2 | Medium |
+| `CEOIS-001` Cyber Exercise & Operational Intelligence Support | 2 | Medium |
+| `CIMRC-001` Cybersecurity Incident Management, Response, and Coordination | 2 | High |
+| `CSDSP-001` Collection Strategy & Data-Source Prioritization | 3 | Medium |
+| `CTIC-001` Cyber Threat Intelligence (CTI) | 2 | Medium |
+| `CTIO-001` Cyber Threat Intelligence for OT | 2 | Medium |
+| `DOSIOC-001` Deep Open-Source Intelligence (OSINT) Collection | 3 | Medium |
+| `ETTTE-001` Emerging Threat Technologies and Tools Evaluation | 2 | High |
+| `OCI-001` OT Cybersecurity | 2 | High |
+| `OWCCCR-001` OPSEC Workplace (Covert Command-and-Control Resilience) | 2 | High |
+| `TAP-001` Threat Actor Profiling | 2 | Medium |
+| `TILM-001` Threat Intelligence Lifecycle Management | 3 | Medium |
+| `TIRCC-001` Threat Intelligence Reporting & Communication | 2 | Medium |
+| `TM-001` Threat Modelling | 2 | Medium |
+| `DM-001` Document Management | 2 | High |
+| `LXSCN026` Leadership | 2 | Medium |
+| `LXSCN031` Problem Solving | 2 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN038` Planning and Organising | 2 | Medium |
+| `LXSCN039` Continuous Learning | 2 | Medium |
+| `LXSCN045` Accuracy and Attention to Detail | 3 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-04</b> Senior Analyst, Digital Business Continuity — 20 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `BCDRSP-001` Business Continuity & Disaster Recovery Strategy and Planning | 2 | Medium |
+| `BCDRTEAM-001` BCDR Testing, Exercise and Awareness Management | 3 | Medium |
+| `BIAB-001` Business Impact Analysis (BIA) | 3 | Medium |
+| `BRT-001` Backup and Recovery Technologies | 2 | Medium |
+| `BSDM-001` Business Service Dependency Mapping | 2 | Medium |
+| `CTBDEM-001` Continuity Testing & BC/DR Exercise Management | 3 | Medium |
+| `DRCI-001` Digital Resilience & Cybersecurity Integration | 2 | Medium |
+| `ICER-001` Internal Controls Evaluation for Resilience | 2 | Medium |
+| `IICR-001` IT Infrastructure and Cloud Resilience | 2 | Medium |
+| `PPSD-001` Policy, Procedure & Standards Development | 2 | Medium |
+| `SDRS-001` Scenario Development & Resilience Simulation | 2 | Medium |
+| `TERA-001` Technology Evaluation & Resilience Architecture | 2 | Medium |
+| `DM-001` Document Management | 2 | Medium |
+| `LXSCN026` Leadership | 2 | Medium |
+| `LXSCN030` Business Acumen | 2 | High |
+| `LXSCN031` Problem Solving | 2 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN038` Planning and Organising | 2 | Medium |
+| `LXSCN039` Continuous Learning | 2 | Medium |
+| `LXSCN045` Accuracy and Attention to Detail | 3 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-05</b> Senior Analyst, Digital Identity & Access Management — 20 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `AM-001` Access Management | 3 | Medium |
+| `CIM-001` Cloud Identity Management | 2 | High |
+| `IA-001` IAM Architecture | 2 | Medium |
+| `IA-002` IAM Automation | 2 | Medium |
+| `IAI-001` IAM Application Integration | 2 | Medium |
+| `IG-001` IAM Governance | 2 | Medium |
+| `PAMPG-001` Privileged Access Management (PAM) Governance | 2 | Medium |
+| `RCI-001` Regulatory Compliance (IAM) | 2 | High |
+| `UP-001` User Provisioning | 2 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN020` Operational Effectiveness | 2 | High |
+| `LXSCN026` Leadership | 2 | High |
+| `LXSCN031` Problem Solving | 2 | Medium |
+| `LXSCN032` Presentation Delivery | 2 | High |
+| `LXSCN034` Analytical Thinking | 2 | Medium |
+| `LXSCN036` Communication | 2 | Medium |
+| `LXSCN038` Planning and Organising | 2 | Medium |
+| `LXSCN039` Continuous Learning | 2 | Medium |
+| `LXSCN045` Accuracy and Attention to Detail | 2 | Medium |
+| `LXSCN060` Systems Thinking | 2 | High |
+
+</details>
+
+<details><summary><b>ROLE-06</b> Analyst, Digital Vulnerability Management — 16 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `AS-002` Application Security | 3 | Medium |
+| `ASD-001` Application Security Development | 2 | High |
+| `ESI-001` Endpoint Security (IT) | 2 | High |
+| `ESO-001` Endpoint Security (OT) | 2 | High |
+| `PM-001` Patch Management | 2 | Medium |
+| `VM-001` Vulnerability Management | 2 | Medium |
+| `WAS-001` Web and API Security | 2 | Medium |
+| `DM-001` Document Management | 2 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN019` Decision Making | 2 | Medium |
+| `LXSCN031` Problem Solving | 3 | Medium |
+| `LXSCN032` Presentation Delivery | 1 | Medium |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN039` Continuous Learning | 3 | High |
+| `LXSCN045` Accuracy and Attention to Detail | 3 | High |
+
+</details>
+
+<details><summary><b>ROLE-07</b> Engineer, Digital Clouds & Application Security — 27 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `AS-002` Application Security | 2 | Medium |
+| `ASD-001` Application Security Development | 2 | Medium |
+| `ASR-001` Application Security Review | 2 | Medium |
+| `CAS-001` Cloud Automation and Scripting | 2 | Medium |
+| `CDL-001` Cybersecurity Data Lake | 2 | High |
+| `CIMRC-001` Cybersecurity Incident Management, Response, and Coordination | 2 | Medium |
+| `CSA-001` Cloud Security Architecture | 2 | Medium |
+| `CSM-002` Cloud Security Management | 2 | Medium |
+| `DAC-002` Data Analytics for Cybersecurity | 3 | High |
+| `ESA-001` Enterprise Security Architecture | 2 | Medium |
+| `ESI-001` Endpoint Security (IT) | 2 | Medium |
+| `ESO-001` Endpoint Security (OT) | 1 | High |
+| `ICER-001` Internal Controls Evaluation for Resilience | 2 | Medium |
+| `NIS-001` Network & Infrastructure Security | 2 | Medium |
+| `PCM-001` PKI & Certificate Management | 2 | Medium |
+| `PM-001` Patch Management | 2 | Medium |
+| `SHOSH-001` System Hardening and OS Cyber Hygiene | 2 | Medium |
+| `VM-001` Vulnerability Management | 2 | High |
+| `WAS-001` Web and API Security | 2 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN019` Decision Making | 2 | Medium |
+| `LXSCN031` Problem Solving | 3 | Medium |
+| `LXSCN032` Presentation Delivery | 2 | Medium |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN039` Continuous Learning | 3 | Medium |
+| `LXSCN045` Accuracy and Attention to Detail | 3 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-08</b> Engineer, Digital Infrastructure Security — 24 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `AS-002` Application Security | 3 | High |
+| `CAS-001` Cloud Automation and Scripting | 2 | Medium |
+| `CDL-001` Cybersecurity Data Lake | 2 | Medium |
+| `CIMRC-001` Cybersecurity Incident Management, Response, and Coordination | 2 | Medium |
+| `CSA-001` Cloud Security Architecture | 2 | High |
+| `CSM-002` Cloud Security Management | 2 | High |
+| `DAC-002` Data Analytics for Cybersecurity | 3 | High |
+| `ESA-001` Enterprise Security Architecture | 2 | Medium |
+| `ESI-001` Endpoint Security (IT) | 2 | Medium |
+| `ESO-001` Endpoint Security (OT) | 2 | High |
+| `ICER-001` Internal Controls Evaluation for Resilience | 2 | Medium |
+| `NIS-001` Network & Infrastructure Security | 2 | Medium |
+| `PCM-001` PKI & Certificate Management | 2 | Medium |
+| `PM-001` Patch Management | 2 | Medium |
+| `SHOSH-001` System Hardening and OS Cyber Hygiene | 2 | Medium |
+| `VM-001` Vulnerability Management | 2 | High |
+| `WAS-001` Web and API Security | 2 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN019` Decision Making | 2 | Medium |
+| `LXSCN031` Problem Solving | 3 | Medium |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN039` Continuous Learning | 3 | High |
+| `LXSCN045` Accuracy and Attention to Detail | 3 | High |
+
+</details>
+
+<details><summary><b>ROLE-09</b> Section Head, Digital Infrastructure Security Operations — 13 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `LXSCN001` Cross-Team Integration | 3 | Medium |
+| `LXSCN005` Strategic Thinking | 2 | Medium |
+| `LXSCN019` Decision Making | 3 | Medium |
+| `LXSCN026` Leadership | 3 | High |
+| `LXSCN027` Team Management | 3 | Medium |
+| `LXSCN031` Problem Solving | 4 | Medium |
+| `LXSCN032` Presentation Delivery | 3 | High |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN038` Planning and Organising | 3 | High |
+| `LXSCN039` Continuous Learning | 3 | High |
+| `LXSCN045` Accuracy and Attention to Detail | 3 | High |
+| `LXSCN060` Systems Thinking | 3 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-10</b> Section Head, Digital Vulnerability Management — 10 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `DM-001` Document Management | 3 | Medium |
+| `LXSCN001` Cross-Team Integration | 3 | Medium |
+| `LXSCN005` Strategic Thinking | 2 | Medium |
+| `LXSCN019` Decision Making | 3 | Medium |
+| `LXSCN027` Team Management | 3 | Medium |
+| `LXSCN031` Problem Solving | 4 | Medium |
+| `LXSCN032` Presentation Delivery | 3 | Medium |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN060` Systems Thinking | 3 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-11</b> Senior Engineer, Digital Clouds & Application Security — 27 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `AS-002` Application Security | 3 | Medium |
+| `ASD-001` Application Security Development | 3 | Medium |
+| `ASR-001` Application Security Review | 3 | Medium |
+| `CAS-001` Cloud Automation and Scripting | 3 | Medium |
+| `CDL-001` Cybersecurity Data Lake | 2 | High |
+| `CIMRC-001` Cybersecurity Incident Management, Response, and Coordination | 3 | Medium |
+| `CSA-001` Cloud Security Architecture | 3 | Medium |
+| `CSM-002` Cloud Security Management | 3 | Medium |
+| `DAC-002` Data Analytics for Cybersecurity | 3 | High |
+| `ESA-001` Enterprise Security Architecture | 3 | Medium |
+| `ESI-001` Endpoint Security (IT) | 3 | Medium |
+| `ESO-001` Endpoint Security (OT) | 2 | High |
+| `ICER-001` Internal Controls Evaluation for Resilience | 3 | Medium |
+| `NIS-001` Network & Infrastructure Security | 3 | Medium |
+| `PCM-001` PKI & Certificate Management | 3 | Medium |
+| `PM-001` Patch Management | 3 | Medium |
+| `SHOSH-001` System Hardening and OS Cyber Hygiene | 3 | Medium |
+| `VM-001` Vulnerability Management | 2 | High |
+| `WAS-001` Web and API Security | 3 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN019` Decision Making | 2 | Medium |
+| `LXSCN031` Problem Solving | 3 | Medium |
+| `LXSCN032` Presentation Delivery | 3 | Medium |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN039` Continuous Learning | 3 | Medium |
+| `LXSCN045` Accuracy and Attention to Detail | 3 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-12</b> Senior Engineer, Digital Infrastructure Security — 24 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `AS-002` Application Security | 3 | High |
+| `CAS-001` Cloud Automation and Scripting | 3 | Medium |
+| `CDL-001` Cybersecurity Data Lake | 3 | Medium |
+| `CIMRC-001` Cybersecurity Incident Management, Response, and Coordination | 3 | Medium |
+| `CSA-001` Cloud Security Architecture | 3 | High |
+| `CSM-002` Cloud Security Management | 3 | High |
+| `DAC-002` Data Analytics for Cybersecurity | 3 | High |
+| `ESA-001` Enterprise Security Architecture | 3 | Medium |
+| `ESI-001` Endpoint Security (IT) | 3 | Medium |
+| `ESO-001` Endpoint Security (OT) | 3 | High |
+| `ICER-001` Internal Controls Evaluation for Resilience | 3 | Medium |
+| `NIS-001` Network & Infrastructure Security | 3 | Medium |
+| `PCM-001` PKI & Certificate Management | 3 | Medium |
+| `PM-001` Patch Management | 3 | Medium |
+| `SHOSH-001` System Hardening and OS Cyber Hygiene | 3 | Medium |
+| `VM-001` Vulnerability Management | 2 | High |
+| `WAS-001` Web and API Security | 3 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN019` Decision Making | 2 | Medium |
+| `LXSCN031` Problem Solving | 3 | Medium |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN039` Continuous Learning | 3 | High |
+| `LXSCN045` Accuracy and Attention to Detail | 3 | High |
+
+</details>
+
+<details><summary><b>ROLE-13</b> Senior Engineer, Digital Vulnerability Management — 20 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `AICI-001` Asset Inventory and CMDB Integration | 3 | High |
+| `AS-002` Application Security | 3 | Medium |
+| `ASD-001` Application Security Development | 2 | High |
+| `CAS-001` Cloud Automation and Scripting | 1 | High |
+| `ESI-001` Endpoint Security (IT) | 2 | High |
+| `ESO-001` Endpoint Security (OT) | 2 | High |
+| `PM-001` Patch Management | 3 | Medium |
+| `VM-001` Vulnerability Management | 3 | Medium |
+| `WAS-001` Web and API Security | 2 | High |
+| `WLSA-001` Windows and Linux Server Administration | 2 | High |
+| `DM-001` Document Management | 2 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN019` Decision Making | 2 | Medium |
+| `LXSCN031` Problem Solving | 3 | Medium |
+| `LXSCN032` Presentation Delivery | 2 | Medium |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN038` Planning and Organising | 3 | Medium |
+| `LXSCN039` Continuous Learning | 3 | High |
+| `LXSCN045` Accuracy and Attention to Detail | 3 | High |
+
+</details>
+
+<details><summary><b>ROLE-14</b> Department Manager, Digital Risk Management & Compliance — 4 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `LXSCN001` Cross-Team Integration | 4 | Medium |
+| `LXSCN019` Decision Making | 4 | Medium |
+| `LXSCN026` Leadership | 4 | Medium |
+| `LXSCN060` Systems Thinking | 4 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-15</b> Section Head, Cybersecurity Policies & Standard — 13 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `DM-001` Document Management | 4 | Medium |
+| `LXSCN001` Cross-Team Integration | 3 | Medium |
+| `LXSCN005` Strategic Thinking | 3 | Medium |
+| `LXSCN019` Decision Making | 3 | Medium |
+| `LXSCN026` Leadership | 3 | Medium |
+| `LXSCN030` Business Acumen | 2 | Medium |
+| `LXSCN032` Presentation Delivery | 4 | Medium |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN035` Relationship Building | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN038` Planning and Organising | 3 | Medium |
+| `LXSCN046` Adaptability | 3 | Medium |
+| `LXSCN060` Systems Thinking | 3 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-16</b> Section Head, OT Risk Management & Compliance — 14 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `DM-001` Document Management | 2 | Medium |
+| `LXSCN001` Cross-Team Integration | 3 | Medium |
+| `LXSCN005` Strategic Thinking | 2 | Medium |
+| `LXSCN019` Decision Making | 3 | Medium |
+| `LXSCN026` Leadership | 3 | Medium |
+| `LXSCN030` Business Acumen | 2 | Medium |
+| `LXSCN031` Problem Solving | 4 | Medium |
+| `LXSCN032` Presentation Delivery | 4 | Medium |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN035` Relationship Building | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN038` Planning and Organising | 3 | Medium |
+| `LXSCN046` Adaptability | 3 | Medium |
+| `LXSCN060` Systems Thinking | 3 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-17</b> Senior Analyst, Cybersecurity Policies and Standards — 24 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `CRGS-001` Cyber Risk Governance & Strategy | 2 | Medium |
+| `CSMS-001` Cyber Security Management System (CSMS) | 2 | Medium |
+| `CSRG-001` Cloud Security Risk Management | 2 | High |
+| `ERMIR-001` Enterprise Risk Management Integration & Reporting | 2 | High |
+| `ICER-001` Internal Controls Evaluation for Resilience | 2 | High |
+| `ISA-001` Internal Security Audit | 1 | High |
+| `ISGRC-001` Information Security Governance and Regulatory Compliance | 2 | Medium |
+| `OCI-001` OT Cybersecurity | 2 | High |
+| `PPSD-001` Policy, Procedure & Standards Development | 3 | Medium |
+| `RAM-001` Risk Assessment Methodology | 2 | High |
+| `RTMP-001` Risk Treatment & Mitigation Planning | 2 | High |
+| `SAC-001` Security Awareness & Communication | 2 | Medium |
+| `DM-001` Document Management | 2 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN026` Leadership | 2 | High |
+| `LXSCN030` Business Acumen | 1 | Medium |
+| `LXSCN031` Problem Solving | 2 | High |
+| `LXSCN032` Presentation Delivery | 3 | Medium |
+| `LXSCN034` Analytical Thinking | 2 | Medium |
+| `LXSCN035` Relationship Building | 2 | Medium |
+| `LXSCN036` Communication | 2 | Medium |
+| `LXSCN039` Continuous Learning | 2 | High |
+| `LXSCN045` Accuracy and Attention to Detail | 2 | High |
+| `LXSCN060` Systems Thinking | 2 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-18</b> Senior Analyst, IT Risk Management and Compliance — 23 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `CRGS-001` Cyber Risk Governance & Strategy | 2 | Medium |
+| `CSMS-001` Cyber Security Management System (CSMS) | 2 | High |
+| `CSRG-001` Cloud Security Risk Management | 2 | Medium |
+| `ERMIR-001` Enterprise Risk Management Integration & Reporting | 2 | Medium |
+| `ICER-001` Internal Controls Evaluation for Resilience | 2 | Medium |
+| `ISA-001` Internal Security Audit | 1 | High |
+| `ISGRC-001` Information Security Governance and Regulatory Compliance | 2 | Medium |
+| `PPSD-001` Policy, Procedure & Standards Development | 2 | High |
+| `RAM-001` Risk Assessment Methodology | 2 | Medium |
+| `RTMP-001` Risk Treatment & Mitigation Planning | 2 | Medium |
+| `SAC-001` Security Awareness & Communication | 2 | High |
+| `DM-001` Document Management | 2 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN026` Leadership | 2 | High |
+| `LXSCN030` Business Acumen | 1 | Medium |
+| `LXSCN031` Problem Solving | 2 | Medium |
+| `LXSCN032` Presentation Delivery | 3 | Medium |
+| `LXSCN034` Analytical Thinking | 2 | Medium |
+| `LXSCN035` Relationship Building | 2 | Medium |
+| `LXSCN036` Communication | 2 | Medium |
+| `LXSCN039` Continuous Learning | 2 | High |
+| `LXSCN045` Accuracy and Attention to Detail | 2 | High |
+| `LXSCN060` Systems Thinking | 2 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-19</b> Senior Analyst, OT Risk Management and Compliance — 23 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `CRGS-001` Cyber Risk Governance & Strategy | 2 | Medium |
+| `CSMS-001` Cyber Security Management System (CSMS) | 2 | High |
+| `ERMIR-001` Enterprise Risk Management Integration & Reporting | 2 | Medium |
+| `ICER-001` Internal Controls Evaluation for Resilience | 2 | Medium |
+| `ISA-001` Internal Security Audit | 1 | High |
+| `ISGRC-001` Information Security Governance and Regulatory Compliance | 2 | Medium |
+| `OCI-001` OT Cybersecurity | 2 | Medium |
+| `PPSD-001` Policy, Procedure & Standards Development | 2 | High |
+| `RAM-001` Risk Assessment Methodology | 2 | Medium |
+| `RTMP-001` Risk Treatment & Mitigation Planning | 2 | Medium |
+| `SAC-001` Security Awareness & Communication | 2 | High |
+| `DM-001` Document Management | 2 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN026` Leadership | 2 | High |
+| `LXSCN030` Business Acumen | 1 | Medium |
+| `LXSCN031` Problem Solving | 2 | Medium |
+| `LXSCN032` Presentation Delivery | 3 | Medium |
+| `LXSCN034` Analytical Thinking | 2 | Medium |
+| `LXSCN035` Relationship Building | 2 | Medium |
+| `LXSCN036` Communication | 2 | Medium |
+| `LXSCN039` Continuous Learning | 2 | High |
+| `LXSCN045` Accuracy and Attention to Detail | 2 | High |
+| `LXSCN060` Systems Thinking | 2 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-20</b> Specialist, Cybersecurity Policies and Standards — 17 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `CRGS-001` Cyber Risk Governance & Strategy | 3 | Medium |
+| `CSMS-001` Cyber Security Management System (CSMS) | 3 | Medium |
+| `CSRG-001` Cloud Security Risk Management | 2 | High |
+| `ERMIR-001` Enterprise Risk Management Integration & Reporting | 3 | High |
+| `ICER-001` Internal Controls Evaluation for Resilience | 2 | High |
+| `ISA-001` Internal Security Audit | 1 | High |
+| `ISGRC-001` Information Security Governance and Regulatory Compliance | 3 | Medium |
+| `PPSD-001` Policy, Procedure & Standards Development | 3 | Medium |
+| `SAC-001` Security Awareness & Communication | 3 | Medium |
+| `DM-001` Document Management | 3 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN030` Business Acumen | 1 | Medium |
+| `LXSCN032` Presentation Delivery | 3 | Medium |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN035` Relationship Building | 2 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN060` Systems Thinking | 3 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-21</b> Specialist, Group Companies Risk Management and Compliance — 27 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `BCDRTEAM-001` BCDR Testing, Exercise and Awareness Management | 2 | Medium |
+| `BIAB-001` Business Impact Analysis (BIA) | 3 | Medium |
+| `CRGS-001` Cyber Risk Governance & Strategy | 3 | Medium |
+| `CSMS-001` Cyber Security Management System (CSMS) | 2 | Medium |
+| `CSRG-001` Cloud Security Risk Management | 3 | High |
+| `CTBDEM-001` Continuity Testing & BC/DR Exercise Management | 2 | High |
+| `ERMIR-001` Enterprise Risk Management Integration & Reporting | 3 | Medium |
+| `ICER-001` Internal Controls Evaluation for Resilience | 2 | Medium |
+| `ISA-001` Internal Security Audit | 1 | High |
+| `ISGRC-001` Information Security Governance and Regulatory Compliance | 2 | Medium |
+| `OCI-001` OT Cybersecurity | 2 | Medium |
+| `PPSD-001` Policy, Procedure & Standards Development | 2 | Medium |
+| `RAM-001` Risk Assessment Methodology | 2 | Medium |
+| `RTMP-001` Risk Treatment & Mitigation Planning | 2 | Medium |
+| `SAC-001` Security Awareness & Communication | 3 | Medium |
+| `DM-001` Document Management | 2 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN026` Leadership | 2 | High |
+| `LXSCN030` Business Acumen | 1 | High |
+| `LXSCN031` Problem Solving | 3 | Medium |
+| `LXSCN032` Presentation Delivery | 3 | Medium |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN035` Relationship Building | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN039` Continuous Learning | 3 | High |
+| `LXSCN045` Accuracy and Attention to Detail | 2 | High |
+| `LXSCN060` Systems Thinking | 3 | High |
+
+</details>
+
+<details><summary><b>ROLE-22</b> Specialist, IT Risk Management and Compliance — 21 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `CRGS-001` Cyber Risk Governance & Strategy | 3 | Medium |
+| `CSMS-001` Cyber Security Management System (CSMS) | 2 | High |
+| `CSRG-001` Cloud Security Risk Management | 3 | Medium |
+| `ERMIR-001` Enterprise Risk Management Integration & Reporting | 3 | Medium |
+| `ICER-001` Internal Controls Evaluation for Resilience | 2 | Medium |
+| `ISA-001` Internal Security Audit | 1 | High |
+| `ISGRC-001` Information Security Governance and Regulatory Compliance | 2 | Medium |
+| `PPSD-001` Policy, Procedure & Standards Development | 2 | High |
+| `RAM-001` Risk Assessment Methodology | 2 | Medium |
+| `RTMP-001` Risk Treatment & Mitigation Planning | 2 | Medium |
+| `SAC-001` Security Awareness & Communication | 3 | High |
+| `DM-001` Document Management | 2 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN026` Leadership | 2 | High |
+| `LXSCN030` Business Acumen | 1 | Medium |
+| `LXSCN031` Problem Solving | 3 | Medium |
+| `LXSCN032` Presentation Delivery | 3 | Medium |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN035` Relationship Building | 2 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN060` Systems Thinking | 3 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-23</b> Section Head, Downstream Industry, Marketing and Trading OT Cybersecurity — 14 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `DM-001` Document Management | 3 | Medium |
+| `LXSCN001` Cross-Team Integration | 3 | Medium |
+| `LXSCN008` Strategic Influence | 3 | High |
+| `LXSCN019` Decision Making | 3 | Medium |
+| `LXSCN020` Operational Effectiveness | 2 | Medium |
+| `LXSCN026` Leadership | 3 | Medium |
+| `LXSCN027` Team Management | 3 | Medium |
+| `LXSCN031` Problem Solving | 4 | Medium |
+| `LXSCN035` Relationship Building | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN046` Adaptability | 3 | Medium |
+| `LXSCN055` Stakeholder Management | 3 | Medium |
+| `LXSCN060` Systems Thinking | 3 | Medium |
+| `LXSCN206` Performance Management | 3 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-24</b> Section Head, Upstream OT Cybersecurity — 13 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `DM-001` Document Management | 3 | Medium |
+| `LXSCN001` Cross-Team Integration | 3 | Medium |
+| `LXSCN019` Decision Making | 3 | Medium |
+| `LXSCN020` Operational Effectiveness | 2 | Medium |
+| `LXSCN026` Leadership | 3 | Medium |
+| `LXSCN027` Team Management | 3 | Medium |
+| `LXSCN031` Problem Solving | 4 | Medium |
+| `LXSCN035` Relationship Building | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN046` Adaptability | 3 | Medium |
+| `LXSCN055` Stakeholder Management | 3 | Medium |
+| `LXSCN060` Systems Thinking | 3 | Medium |
+| `LXSCN206` Performance Management | 3 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-25</b> Senior Engineer, Downstream OT Cybersecurity — 24 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `DDUGE-001` Data-Diode & Unidirectional-Gateway Engineering | 2 | Medium |
+| `IOS-001` IAM for OT Systems | 2 | Medium |
+| `ODC-001` OT Downstream Cybersecurity | 2 | Medium |
+| `OIRF-001` OT Incident Response & Forensics | 2 | Medium |
+| `OND-001` OT Network Design | 2 | Medium |
+| `OPSV-001` OT Project Security Validation | 2 | Medium |
+| `OPVM-001` OT Patch & Vulnerability Management | 2 | Medium |
+| `OSBCM-001` OT Security Baselines & Configuration Management | 2 | Medium |
+| `PMOSP-001` Preventive Maintenance for OT Security Platforms | 2 | Medium |
+| `PSHCRA-001` Process-Safety & HSE Cyber-Risk Alignment | 1 | Medium |
+| `SRAGA-001` Secure Remote Access Gateway Administration | 2 | High |
+| `WLBOFAS-001` Wireless / Low-Bandwidth OT Field Asset Security | 2 | Medium |
+| `DM-001` Document Management | 2 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN019` Decision Making | 2 | Medium |
+| `LXSCN031` Problem Solving | 3 | Medium |
+| `LXSCN032` Presentation Delivery | 2 | High |
+| `LXSCN034` Analytical Thinking | 3 | High |
+| `LXSCN035` Relationship Building | 2 | High |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN039` Continuous Learning | 1 | High |
+| `LXSCN045` Accuracy and Attention to Detail | 2 | High |
+| `LXSCN055` Stakeholder Management | 2 | Medium |
+| `LXSCN060` Systems Thinking | 2 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-26</b> Senior Engineer, Upstream OT Cybersecurity — 22 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `DDUGE-001` Data-Diode & Unidirectional-Gateway Engineering | 3 | Medium |
+| `IOS-001` IAM for OT Systems | 2 | Medium |
+| `OIRF-001` OT Incident Response & Forensics | 2 | Medium |
+| `OND-001` OT Network Design | 2 | Medium |
+| `OPSV-001` OT Project Security Validation | 2 | Medium |
+| `OPVM-001` OT Patch & Vulnerability Management | 2 | Medium |
+| `OSBCM-001` OT Security Baselines & Configuration Management | 2 | Medium |
+| `OUC-001` OT Upstream Cybersecurity | 2 | Medium |
+| `PMOSP-001` Preventive Maintenance for OT Security Platforms | 2 | Medium |
+| `PSHCRA-001` Process-Safety & HSE Cyber-Risk Alignment | 1 | Medium |
+| `SRAGA-001` Secure Remote Access Gateway Administration | 2 | High |
+| `WLBOFAS-001` Wireless / Low-Bandwidth OT Field Asset Security | 2 | Medium |
+| `DM-001` Document Management | 2 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN019` Decision Making | 2 | Medium |
+| `LXSCN031` Problem Solving | 3 | Medium |
+| `LXSCN032` Presentation Delivery | 2 | High |
+| `LXSCN034` Analytical Thinking | 3 | High |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN045` Accuracy and Attention to Detail | 2 | High |
+| `LXSCN055` Stakeholder Management | 2 | Medium |
+| `LXSCN060` Systems Thinking | 2 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-27</b> Analyst, Digital Cybersecurity Monitoring — 27 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `CIMRC-001` Cybersecurity Incident Management, Response, and Coordination | 2 | Medium |
+| `CSM-001` Cloud Security Monitoring | 2 | Medium |
+| `CTIC-001` Cyber Threat Intelligence (CTI) | 1 | Medium |
+| `CTIO-001` Cyber Threat Intelligence for OT | 1 | Medium |
+| `DAC-002` Data Analytics for Cybersecurity | 2 | High |
+| `DE-001` Detection Engineering | 2 | Medium |
+| `DF-003` Digital Forensics | 1 | Medium |
+| `ESI-001` Endpoint Security (IT) | 1 | High |
+| `ESO-001` Endpoint Security (OT) | 1 | High |
+| `EXT-001` EDR/XDR Tooling | 2 | Medium |
+| `LM-001` Log Management | 2 | Medium |
+| `MA-001` Malware Analysis | 1 | High |
+| `NSM-001` Network Security Monitoring | 2 | Medium |
+| `OTDM-001` OT Threat Detection & Monitoring | 1 | Medium |
+| `PT-001` Penetration Testing | 1 | Medium |
+| `SA-001` SOC Automation | 1 | Medium |
+| `SAT-001` Security Alert Triage | 2 | Medium |
+| `TH-002` Threat Hunting | 1 | Medium |
+| `TMD-001` Threat Monitoring and Detection | 2 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN019` Decision Making | 2 | Medium |
+| `LXSCN031` Problem Solving | 2 | Medium |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN037` Tolerance for Uncertainty | 2 | Medium |
+| `LXSCN039` Continuous Learning | 2 | High |
+| `LXSCN045` Accuracy and Attention to Detail | 2 | High |
+
+</details>
+
+<details><summary><b>ROLE-28</b> Section Head, Digital Cybersecurity Monitoring — 11 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `LXSCN001` Cross-Team Integration | 3 | Medium |
+| `LXSCN005` Strategic Thinking | 2 | Medium |
+| `LXSCN019` Decision Making | 3 | Medium |
+| `LXSCN026` Leadership | 3 | Medium |
+| `LXSCN027` Team Management | 3 | Medium |
+| `LXSCN031` Problem Solving | 4 | Medium |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN037` Tolerance for Uncertainty | 4 | Medium |
+| `LXSCN038` Planning and Organising | 3 | Medium |
+| `LXSCN060` Systems Thinking | 3 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-29</b> Section Head, Threat Hunting — 20 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `LXSCN001` Cross-Team Integration | 3 | Medium |
+| `LXSCN005` Strategic Thinking | 4 | Medium |
+| `LXSCN008` Strategic Influence | 3 | Medium |
+| `LXSCN019` Decision Making | 3 | Medium |
+| `LXSCN020` Operational Effectiveness | 4 | Medium |
+| `LXSCN026` Leadership | 3 | High |
+| `LXSCN027` Team Management | 3 | Medium |
+| `LXSCN030` Business Acumen | 3 | Medium |
+| `LXSCN031` Problem Solving | 3 | Medium |
+| `LXSCN032` Presentation Delivery | 3 | High |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN035` Relationship Building | 4 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN037` Tolerance for Uncertainty | 3 | Medium |
+| `LXSCN038` Planning and Organising | 3 | High |
+| `LXSCN039` Continuous Learning | 3 | High |
+| `LXSCN045` Accuracy and Attention to Detail | 3 | High |
+| `LXSCN046` Adaptability | 4 | Medium |
+| `LXSCN060` Systems Thinking | 3 | Medium |
+| `LXSCN206` Performance Management | 4 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-30</b> Senior Analyst, Digital Cybersecurity Monitoring — 24 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `CIMRC-001` Cybersecurity Incident Management, Response, and Coordination | 3 | Medium |
+| `CSM-001` Cloud Security Monitoring | 3 | Medium |
+| `CTIC-001` Cyber Threat Intelligence (CTI) | 1 | Medium |
+| `CTIO-001` Cyber Threat Intelligence for OT | 1 | Medium |
+| `DE-001` Detection Engineering | 2 | Medium |
+| `DF-003` Digital Forensics | 1 | Medium |
+| `ESI-001` Endpoint Security (IT) | 1 | High |
+| `ESO-001` Endpoint Security (OT) | 1 | High |
+| `EXT-001` EDR/XDR Tooling | 2 | Medium |
+| `LM-001` Log Management | 2 | Medium |
+| `MA-001` Malware Analysis | 1 | High |
+| `NSM-001` Network Security Monitoring | 2 | Medium |
+| `OTDM-001` OT Threat Detection & Monitoring | 1 | Medium |
+| `PT-001` Penetration Testing | 1 | Medium |
+| `SA-001` SOC Automation | 1 | Medium |
+| `SAT-001` Security Alert Triage | 2 | Medium |
+| `TH-002` Threat Hunting | 1 | Medium |
+| `TMD-001` Threat Monitoring and Detection | 2 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN019` Decision Making | 2 | Medium |
+| `LXSCN031` Problem Solving | 3 | Medium |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN037` Tolerance for Uncertainty | 2 | Medium |
+
+</details>
+
+<details><summary><b>ROLE-31</b> Senior Engineer, Digital Cybersecurity Monitoring — 25 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `CIMRC-001` Cybersecurity Incident Management, Response, and Coordination | 2 | Medium |
+| `CSM-001` Cloud Security Monitoring | 3 | Medium |
+| `CTIC-001` Cyber Threat Intelligence (CTI) | 1 | Medium |
+| `CTIO-001` Cyber Threat Intelligence for OT | 1 | Medium |
+| `DAC-002` Data Analytics for Cybersecurity | 3 | Medium |
+| `DE-001` Detection Engineering | 4 | Medium |
+| `ESI-001` Endpoint Security (IT) | 3 | High |
+| `ESO-001` Endpoint Security (OT) | 3 | High |
+| `EXT-001` EDR/XDR Tooling | 2 | Medium |
+| `LM-001` Log Management | 3 | Medium |
+| `MA-001` Malware Analysis | 2 | High |
+| `NSM-001` Network Security Monitoring | 3 | Medium |
+| `OTDM-001` OT Threat Detection & Monitoring | 2 | Medium |
+| `SA-001` SOC Automation | 3 | Medium |
+| `SAT-001` Security Alert Triage | 3 | Medium |
+| `TMD-001` Threat Monitoring and Detection | 3 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN019` Decision Making | 3 | Medium |
+| `LXSCN031` Problem Solving | 3 | Medium |
+| `LXSCN032` Presentation Delivery | 3 | High |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN037` Tolerance for Uncertainty | 2 | Medium |
+| `LXSCN039` Continuous Learning | 3 | High |
+| `LXSCN045` Accuracy and Attention to Detail | 3 | High |
+
+</details>
+
+<details><summary><b>ROLE-32</b> Specialist, Malware Analysis — 27 requirements</summary>
+
+| Competency | Level | Priority |
+| --- | ---: | --- |
+| `CIMRC-001` Cybersecurity Incident Management, Response, and Coordination | 2 | Medium |
+| `CSM-001` Cloud Security Monitoring | 2 | Medium |
+| `CTIC-001` Cyber Threat Intelligence (CTI) | 2 | Medium |
+| `CTIO-001` Cyber Threat Intelligence for OT | 2 | Medium |
+| `DAC-002` Data Analytics for Cybersecurity | 2 | Medium |
+| `DE-001` Detection Engineering | 3 | Medium |
+| `DF-003` Digital Forensics | 4 | Medium |
+| `ESI-001` Endpoint Security (IT) | 3 | Medium |
+| `ESO-001` Endpoint Security (OT) | 3 | Medium |
+| `EXT-001` EDR/XDR Tooling | 4 | Medium |
+| `LM-001` Log Management | 2 | Medium |
+| `MA-001` Malware Analysis | 4 | Medium |
+| `NSM-001` Network Security Monitoring | 3 | Medium |
+| `OTDM-001` OT Threat Detection & Monitoring | 4 | Medium |
+| `PT-001` Penetration Testing | 4 | Medium |
+| `SA-001` SOC Automation | 3 | Medium |
+| `SAT-001` Security Alert Triage | 2 | Medium |
+| `TH-002` Threat Hunting | 4 | Medium |
+| `TMD-001` Threat Monitoring and Detection | 4 | Medium |
+| `LXSCN001` Cross-Team Integration | 2 | Medium |
+| `LXSCN019` Decision Making | 2 | Medium |
+| `LXSCN031` Problem Solving | 3 | Medium |
+| `LXSCN034` Analytical Thinking | 3 | Medium |
+| `LXSCN036` Communication | 3 | Medium |
+| `LXSCN037` Tolerance for Uncertainty | 2 | Medium |
+| `LXSCN039` Continuous Learning | 3 | High |
+| `LXSCN045` Accuracy and Attention to Detail | 3 | High |
+
+</details>
+
+Not loaded because the source has no required level: ROLE-12 / ASD-001, ROLE-12 / ASR-001, ROLE-12 / LXSCN032. Add them on Library → Role requirements once the level is known.
+
+## Courses and programmes
+
+| Code | Course | Type | Delivery | Hours | Days | Observed |
+| --- | --- | --- | --- | ---: | ---: | --- |
+| `AIC-01` | **AI+ Security Practitioner** | Certification Preparation | In-person | 40 | 5 |  |
+| `CF-02` | **Cognitive Agility, Decision Making and Behavioral Performance** | Workshop | In-person | 6 | 1 | Yes |
+| `CF-03` | **Communicating with Impact- Effective Presentation Skills** | Workshop | In-person | 4 | 1 | Yes |
+| `CF-04` | **Communicating with Influence-Storytelling for Engagement** | Workshop | In-person | 4 | 1 | Yes |
+| `CF-05` | **Communication Skills: Communicating with Clarity & Impact: Part 1** | Workshop | In-person | 4 | 1 | Yes |
+| `CF-06` | **Communication Skills: Communicating with Clarity & Impact: Part 2** | Workshop | In-person | 4 | 1 | Yes |
+| `CF-07` | **Communication in Meetings- Driving Clarity & Accountability with Minutes of the Meeting** | Workshop | In-person | 4 | 1 | Yes |
+| `CF-08` | **Communication with Effective Solutions with Design Thinking** | Workshop | In-person | 4 | 1 | Yes |
+| `CF-09` | **Reading People, Shaping Outcomes: Psychometrics, NLP & Conflict Intelligence** | Workshop | In-person | 6 | 1 | Yes |
+| `CF-10` | **Team Collaboration & Communication Excellence with Fish Philosophy** | Workshop | In-person | 4 | 1 | Yes |
+| `CF-11` | **The Human Side of Time Management and the Psychology of Prioritization** | Workshop | In-person | 6 | 1 | Yes |
+| `PEP-01` | **Cognitive Agility, Decision Making & Behavioral Performance** (hours proposed) | Leadership Programme | In-person | 6 | 1 | Yes |
+| `PEP-02` | **Communication Skills - Part 1** (hours proposed) | Leadership Programme | In-person | 6 | 1 | Yes |
+| `PEP-03` | **The Human Side of Time Management & Psychology of Prioritization** (hours proposed) | Leadership Programme | In-person | 6 | 1 | Yes |
+| `PEP-04` | **The Psychology of Persuasive Communication** (hours proposed) | Leadership Programme | In-person | 6 | 1 | Yes |
+| `XF-OBS-5D` | **Cross-Functional Assessment Programme (5 days)** | Leadership Programme | In-person | | 5 | Yes |
+| `DTN-01` | **OT Fundamentals Boot Camp** | Boot Camp | In-person | 20 | | |
+| `DTN-02` | **Vulnerability and Infrastructure Security Boot Camp** | Boot Camp | In-person | 20 | | |
+| `DTN-03` | **AI SOC Boot Camp** | Boot Camp | In-person | 20 | | |
+| `DTN-04` | **OT & GRC Boot Camp** | Boot Camp | In-person | 20 | | |
+| `DTN-05` | **CAPM Preparation Boot Camp** | Boot Camp | In-person | 20 | | |
+| `DTN-06` | **OT & ICS Boot Camp** | Boot Camp | In-person | 20 | | |
+| `LMS-S4` | **LMS learning curriculum (SAP SuccessFactors)** | Self Study | Self-paced | 8 | | |
+
+**Observed programme days** (the observation grid shows these titles per day):
+
+- Day 1: S1 Team Collaboration — Team Collaboration with Fish Philosophy
+- Day 2: S2 Accountability & MOM — Driving Accountability & MOM
+- Day 3: S3 Storytelling — Communication with Influence - Storytelling
+- Day 4: S4 Presentation Skills — Communication with Impact - Presentation Skills
+- Day 5: S5 Problem Solving — Effective Solutions: Problem Solving & Critical Thinking
+
+**IDP segments** (Development plan → Segment; progress per segment on the coaching tracker):
+
+| Segment | Label | Hours | Recorded as |
+| --- | --- | ---: | --- |
+| S1 | S1 Professional certification | 40 | Certification (track Professional) |
+| S2 | S2 Hands-on labs (Immersive) |  | Course (Immersive Lab collection) |
+| S3 | S3 AI certification | 10 | Certification (track AI) |
+| S4 | S4 LMS learning (SAP SuccessFactors) | 8 | Course (Self Study) |
+| S5 | S5 Cross-functional training | 35 | Courses (Workshop / Leadership Programme) |
+| DTN | DTN Department training need | 20 | Course (Boot camp) |
+
+## Lab collections
+
+Loaded as courses of type Immersive Lab (code `LAB-<collection>`) with the number of labs, so a training record can hold *labs completed of total*.
+
+| Code | Collection | Labs |
+| --- | --- | ---: |
+| `LAB-AI-CHALLENGES` | AI Challenges | 3 |
+| `LAB-ENG-CIA-1` | Cloud, Infra, & App Sec Phase 1 | 79 |
+| `LAB-BCMCTI-DBC-1` | DBC Phase 1 | 42 |
+| `LAB-RC-ITOT-1` | IT & OT Risk & Compliance Phase 1 | 31 |
+| `LAB-DIAM-1` | Identity & Access Phase 1 | 26 |
+| `LAB-SOC-M-1` | Monitoring Phase 1 | 74 |
+| `LAB-OSINT` | OSINT | 15 |
+| `LAB-BCMCTI-RCTI-1` | Red & CTI Phase 1 | 68 |
+| `LAB-RC-RCPS-1` | Risk, Compliance, Policies, & Standards Phase 1 | 42 |
+| `LAB-SOC-TH-1` | Threat Hunting Phase 1 | 70 |
+| `LAB-OT-1` | Up & Down Stream Phase 1 | 37 |
+| `LAB-ENG-VP-1` | Vulnerability & Patch Management Phase 1 | 78 |
 
 ## Certifications
 
-| Code | Certification | Provider | Track | Difficulty | Valid (months) | Proves |
-| --- | --- | --- | --- | --- | --- | --- |
-| `SECPLUS` | **CompTIA Security+** | CompTIA | Professional | Foundation | 36 | Risk Assessment, Network Security, Security Monitoring & Detection |
-| `NETPLUS` | **CompTIA Network+** | CompTIA | Professional | Foundation | 36 | Network Security |
-| `CYSA` | **CompTIA CySA+** | CompTIA | Professional | Intermediate | 36 | Security Monitoring & Detection, Indicators of Compromise Analysis |
-| `GCIH` | **GIAC Certified Incident Handler (GCIH)** | GIAC | Professional | Intermediate | 48 | Incident Response |
-| `GCFA` | **GIAC Certified Forensic Analyst (GCFA)** | GIAC | Professional | Advanced | 48 | Digital Forensics |
-| `GCTI` | **GIAC Cyber Threat Intelligence (GCTI)** | GIAC | Professional | Advanced | 48 | Threat Intelligence Lifecycle, Threat Actor Profiling |
-| `GWAPT` | **GIAC Web Application Penetration Tester (GWAPT)** | GIAC | Professional | Advanced | 48 | Penetration Testing, Web Security |
-| `EJPT` | **INE Junior Penetration Tester (eJPT)** | INE | Professional | Foundation | 36 | Penetration Testing |
-| `OSCP` | **OffSec Certified Professional (OSCP)** | OffSec | Professional | Advanced | — | Penetration Testing, Attack Path Analysis |
-| `CSSLP` | **Certified Secure Software Lifecycle Professional (CSSLP)** | ISC2 | Professional | Advanced | 36 | Secure Development, DevSecOps |
-| `CISSP` | **Certified Information Systems Security Professional (CISSP)** | ISC2 | Professional | Advanced | 36 | Security & Risk Governance, Security Architecture |
-| `CCSP` | **Certified Cloud Security Professional (CCSP)** | ISC2 | Professional | Advanced | 36 | Cloud Security |
-| `CISM` | **Certified Information Security Manager (CISM)** | ISACA | Professional | Advanced | 36 | Security & Risk Governance, Risk Treatment Planning |
-| `CISA` | **Certified Information Systems Auditor (CISA)** | ISACA | Professional | Advanced | 36 | Internal Auditing |
-| `CRISC` | **Certified in Risk and Information Systems Control (CRISC)** | ISACA | Professional | Advanced | 36 | Risk Assessment, Risk Treatment Planning |
-| `ISO-LI` | **ISO/IEC 27001 Lead Implementer** | PECB | Professional | Intermediate | 36 | Control Frameworks, Compliance Management |
-| `ISO-LA` | **ISO/IEC 27001 Lead Auditor** | PECB | Professional | Intermediate | 36 | Internal Auditing, Control Frameworks |
-| `CBCI` | **BCI Certificate (CBCI)** | Business Continuity Institute | Professional | Intermediate | 12 | Business Continuity Planning, Business Impact Analysis |
-| `CCISO` | **EC-Council Certified CISO (CCISO)** | EC-Council | Professional | Expert | 36 | Security & Risk Governance, Leadership |
-| `SC300` | **Microsoft Identity and Access Administrator (SC-300)** | Microsoft | Vendor / Product | Intermediate | 12 | Identity Management, Access Control |
-| `AZ500` | **Microsoft Azure Security Engineer (AZ-500)** | Microsoft | Vendor / Product | Intermediate | 12 | Cloud Security |
-| `AWSSEC` | **AWS Certified Security – Specialty** | Amazon Web Services | Vendor / Product | Advanced | 36 | Cloud Security |
-| `AI900` | **Microsoft Azure AI Fundamentals (AI-900)** | Microsoft | AI | Foundation | — | Innovation |
-| `AWSAI` | **AWS Certified AI Practitioner** | Amazon Web Services | AI | Foundation | 36 | Innovation |
-| `AI102` | **Microsoft Azure AI Engineer Associate (AI-102)** | Microsoft | AI | Intermediate | 12 | Security Automation & Scripting, Innovation |
-| `AIGP` | **IAPP Artificial Intelligence Governance Professional (AIGP)** | IAPP | AI | Intermediate | 24 | Security & Risk Governance, Compliance Management |
-| `GENAI` | **Google Cloud Generative AI Leader** | Google Cloud | AI | Foundation | 36 | Strategic Thinking, Innovation |
+*Other spellings* are the variants found in source registers; use them to match imported rows to the right certification.
+
+| Code | Certification | Provider | Track | Other spellings |
+| --- | --- | --- | --- | --- |
+| `CISSP` | **Certified Information Systems Security Professional (CISSP)** | ISC2 | Professional | ISC 2 CISSP - Certified Information Systems Security Professional<br>ISC2 C IS SP : Certified Information Systems Security Pro fessional |
+| `CCSP` | **Certified Cloud Security Professional (CCSP)** | ISC2 | Professional | CCSP - Certified Cloud Security Professional<br>ISC2 CCSP: Certified Cloud Security Professional |
+| `CSSLP` | **Certified Secure Software Lifecycle Professional (CSSLP)** | ISC2 | Professional | ISC2 CSSLP (Certified Secure Software Lifecycle Professional) |
+| `CISM` | **Certified Information Security Manager (CISM)** | ISACA | Professional | ISACA CISM (Certified Information Security Manager) |
+| `CISA` | **Certified Information Systems Auditor (CISA)** | ISACA | Professional | ISACA CISA (Certified Information Systems Auditor)<br>ISACA CIS A (Certified Information Systems Auditor ) |
+| `CRISC` | **Certified in Risk and Information Systems Control (CRISC)** | ISACA | Professional | ISACA CRISC (Certified in Risk and Information Systems Control)<br>CRISC (Certified in Risk and Information Systems Control)<br>ISACA CRISC – Certified in Risk and Information Systems Control<br>ISACA Certified in Risk and Information Systems Control (CRISC) |
+| `CGEIT` | **Certified in the Governance of Enterprise IT (CGEIT)** | ISACA | Professional | CGEIT (Certified in the Governance of Enterprise IT) |
+| `CDPSE` | **Certified Data Privacy Solutions Engineer (CDPSE)** | ISACA | Professional | ISACA CDPSE : Certified Data Privacy Solutions Engineer |
+| `GCDA` | **GIAC Certified Detection Analyst (GCDA)** | SANS / GIAC | Professional | SANS GIAC Certified Detection Analyst (GCDA) |
+| `GCIH` | **GIAC Certified Incident Handler (GCIH)** | SANS / GIAC | Professional | GIAC Certified Incident Handler (GCIH)<br>SANS GIAC Certified Incident Handler ( GCIH ) |
+| `GCTI` | **GIAC Cyber Threat Intelligence (GCTI)** | SANS / GIAC | Professional | GCTI – GIAC Cyber Threat Intelligence<br>SANS GIAC Cyber Threat Intelligence (GCTI) |
+| `GOSI` | **GIAC Open Source Intelligence (GOSI)** | SANS / GIAC | Professional | GOSI – GIAC Open-Source Intelligence |
+| `GRID` | **GIAC Response and Industrial Defense (GRID)** | SANS / GIAC | Professional | SANS GIAC Response and Industrial Defense (GRID) |
+| `ICS410` | **ICS/SCADA Security Essentials (ICS410)** | SANS | Professional | ICS/SCADA Security Essentials (ICS410)<br>ICS/SCADA Security Essentials ( ICS 410) |
+| `FOR509` | **FOR509: Enterprise Cloud Forensics and Incident Response** | SANS | Professional | SANS FOR509: Enterprise Cloud Forensics and Incident Response |
+| `CESE` | **Certified Endpoint Security Engineer (CESE)** | EC-Council | Professional | EC-Council Certified Endpoint Security Engineer (CESE) |
+| `CASE` | **Certified Application Security Engineer (CASE)** | EC-Council | Professional | EC-Council: Certified Application Security Engineer (CASE) |
+| `SECPLUS` | **CompTIA Security+** | CompTIA | Professional | CompTIA Security+ |
+| `CYSA` | **CompTIA CySA+** | CompTIA | Professional | CompTIA CySA+<br>CompTIA CySA + |
+| `CCNA` | **Cisco Certified Network Associate (CCNA)** | Cisco | Professional | Cisco CCNA: Certified Computer Networks Associate |
+| `AZ-400` | **Microsoft Certified: DevOps Engineer Expert (AZ-400)** | Microsoft | Professional | Microsoft Certified: DevOps Engineer Expert (AZ-400)<br>Microsoft AZ-400 DevOps Engineer Expert<br>Microsoft Certified: DevOps Engineer Expert (AZ-400) or Pre- reqs , Azure DevOps Associate or Azure Administrator Associate, AZ-104 or AZ-204 |
+| `SC-300` | **Microsoft Certified: Identity and Access Administrator Associate (SC-300)** | Microsoft | Professional | Microsoft Certified: Identity and Access Administrator Associate (SC-300) |
+| `SC-200` | **Microsoft Certified: Security Operations Analyst Associate (SC-200)** | Microsoft | Professional | Microsoft Certified: Security Operations Analyst Associate (SC-200) |
+| `OSWA` | **OffSec Web Assessor (OSWA) - WEB-200** | OffSec | Professional | OffSec WEB-200 (OSWA) – Offensive Security Web Assessor |
+| `ISO27001-LI` | **ISO/IEC 27001 Lead Implementer** | PECB | Professional | PECB ISO/IEC 27001 Lead Implementer |
+| `ISO31000-RM` | **ISO 31000 Risk Manager** | PECB | Professional | ISO 31000 Risk Manager<br>PECB ISO 31000 Risk Manager |
+| `ISO22301-LI` | **ISO/IEC 22301 Lead Implementer** | PECB | Professional | ISO 22301 Lead Implementer<br>ISO/IEC 22301 Lead Implementer |
+| `ISO42001-LI` | **ISO/IEC 42001 Lead Implementer - AI Management System** | PECB | Professional | ISO/IEC 42001 Lead Implementer – AI Management System |
+| `CBCP` | **Certified Business Continuity Professional (CBCP)** | DRI International | Professional | Certified Business Continuity Professional (CBCP) |
+| `ISA62443-CFS` | **ISA/IEC 62443 Cybersecurity Fundamentals Specialist** | ISA | Professional | ISA/IEC 62443 Cybersecurity Fundamentals Specialist<br>ISA/IEC 62443 Fundamentals |
+| `COPSECP` | **Certified Operational Security Professional (COPSECP)** | OPSEC Professionals Society | Professional | Certified Operational Security Professional (COPSECP) |
+| `AIP-SEC-L1` | **AI+ Security Level 1** | AI CERTs | AI | AI+ Security Level 1 |
+| `AIP-SEC-L2` | **AI+ Security Level 2** | AI CERTs | AI | AI+ Security Level 2 |
+| `AIP-SEC-PRAC` | **AI+ Security Practitioner** | AI CERTs | AI | AI+ Security Practitioner |
+| `AIP-SEC-EXP` | **AI+ Security Expert** | AI CERTs | AI | AI+ Security Expert |
+| `AIP-SEC-COMP` | **AI+ Security Compliance** | AI CERTs | AI | AI+ Security Compliance |
+| `AIP-CLOUD` | **AI+ Cloud Practitioner** | AI CERTs | AI | AI+ Cloud Practitioner<br>AI+ Cloud Practitioner 4 |
+| `AIP-ARCH` | **AI+ Architect Practitioner** | AI CERTs | AI | AI+ Architect Practitioner |
+| `AIP-NET` | **AI+ Network Practitioner** | AI CERTs | AI | AI+ Network Practitioner |
 
 ## Observed behaviours
 
-Scored 1–5 by trainers on every day of an observed course. Each one is evidence for one competency.
+Scored 1–5 by the trainer on every observed day. Each one is evidence for one cross-functional competency.
 
-| Code | Behaviour | Category | Evidence for | What to look for |
+| Code | Behaviour | Domain | Evidence for | What to look for |
 | --- | --- | --- | --- | --- |
-| `OB-01` | **Confidence / composure** | Personal Effectiveness | Presentation Delivery | Speaks and acts with composure, also when challenged. |
-| `OB-02` | **Accountability / follow-through** | Personal Effectiveness | Performance Management | Does what they said they would do and owns the result. |
-| `OB-03` | **Emotional regulation** | Personal Effectiveness | Tolerance for Uncertainty | Stays calm and constructive under pressure or frustration. |
-| `OB-04` | **Openness to feedback** | Learning Agility | Continuous Learning | Listens to feedback without defending and asks for more. |
-| `OB-05` | **Clarity of message** | Communication | Communication | The point is easy to understand the first time. |
-| `OB-06` | **Structure of message** | Communication | Presentation Delivery | Messages have a clear beginning, logic and conclusion. |
-| `OB-07` | **Active listening** | Communication | Relationship Building | Listens fully, checks understanding and builds on what others say. |
-| `OB-08` | **Adaptation to audience** | Communication | Stakeholder Management | Adjusts detail, language and tone to who is listening. |
-| `OB-09` | **Conciseness** | Communication | Communication | Says what matters without padding. |
-| `OB-10` | **Participation** | Collaboration | Cross-Team Integration | Contributes actively to group work. |
-| `OB-11` | **Respectful interaction** | Collaboration | Relationship Building | Treats everyone with respect, including in disagreement. |
-| `OB-12` | **Influence in group** | Collaboration | Strategic Influence | Moves the group's thinking or decisions. |
-| `OB-13` | **Conflict handling** | Collaboration | Team Management | Addresses disagreement openly and resolves it constructively. |
-| `OB-14` | **Collaboration** | Collaboration | Cross-Team Integration | Works with others towards a shared result rather than alone. |
-| `OB-15` | **Problem definition** | Problem Solving | Problem Solving | Clarifies the real problem before jumping to solutions. |
-| `OB-16` | **Logical thinking** | Problem Solving | Analytical Thinking | Reasons step by step and backs conclusions with facts. |
-| `OB-17` | **Idea generation** | Problem Solving | Strategic Thinking | Comes up with several useful options. |
-| `OB-18` | **Decision quality** | Problem Solving | Decision Making | Reaches sound decisions in reasonable time. |
-| `OB-19` | **Initiative** | Personal Effectiveness | Operational Effectiveness | Acts without being asked when something needs doing. |
-| `OB-20` | **Ownership** | Personal Effectiveness | Performance Management | Takes responsibility for outcomes, not just tasks. |
-| `OB-21` | **Guiding others** | Leadership | Team Management | Helps others contribute and move forward. |
-| `OB-22` | **Presence / authority** | Leadership | Leadership | Others look to them for direction. |
-| `OB-23` | **Learning speed** | Learning Agility | Continuous Learning | Picks up new concepts and tools quickly. |
-| `OB-24` | **Applies feedback** | Learning Agility | Continuous Learning | Visibly does things differently after feedback. |
-| `OB-25` | **Reflection quality** | Learning Agility | Analytical Thinking | Draws specific, honest lessons from what happened. |
+| `OB-01` | **Confidence / composure** | Personal Effectiveness | `LXSCN032` Presentation Delivery | Maintains a calm, credible, and steady presence when speaking or being challenged. |
+| `OB-02` | **Accountability / follow-through** | Personal Effectiveness | `LXSCN206` Performance Management | Owns actions, closes loops, and stays answerable for tasks and commitments. |
+| `OB-03` | **Emotional regulation** | Personal Effectiveness | `LXSCN037` Tolerance for Uncertainty | Remains composed and professional under pressure or disagreement. |
+| `OB-04` | **Openness to feedback** | Personal Effectiveness | `LXSCN039` Continuous Learning | Receives input constructively and adjusts behaviour accordingly. |
+| `OB-05` | **Clarity of message** | Communication | `LXSCN036` Communication | Communicates main point understandably and without confusion. |
+| `OB-06` | **Structure of message** | Communication | `LXSCN032` Presentation Delivery | Uses logical flow, framing, and closure. |
+| `OB-07` | **Active listening** | Communication | `LXSCN035` Relationship Building | Shows attention, paraphrases, and builds on what others say. |
+| `OB-08` | **Adaptation to audience** | Communication | `LXSCN055` Stakeholder Management | Adjusts language and level of detail to the audience. |
+| `OB-09` | **Conciseness** | Communication | `LXSCN036` Communication | Communicates efficiently without unnecessary detail. |
+| `OB-10` | **Participation** | Collaboration | `LXSCN001` Cross-Team Integration | Contributes appropriately and consistently in group work. |
+| `OB-11` | **Respectful interaction** | Collaboration | `LXSCN035` Relationship Building | Shows professionalism, respect, and constructive tone. |
+| `OB-12` | **Influence in group** | Collaboration | `LXSCN008` Strategic Influence | Shapes discussion positively without overpowering others. |
+| `OB-13` | **Conflict handling** | Collaboration | `LXSCN027` Team Management | Handles disagreement calmly and productively. |
+| `OB-14` | **Collaboration** | Collaboration | `LXSCN001` Cross-Team Integration | Works effectively toward shared outcomes with others. |
+| `OB-15` | **Problem definition** | Problem Solving | `LXSCN031` Problem Solving | Frames the actual issue before trying to solve it. |
+| `OB-16` | **Logical thinking** | Problem Solving | `LXSCN034` Analytical Thinking | Explains reasoning coherently and step by step. |
+| `OB-17` | **Idea generation** | Problem Solving | `LXSCN005` Strategic Thinking | Produces useful options and alternatives. |
+| `OB-18` | **Decision quality** | Problem Solving | `LXSCN019` Decision Making | Makes sensible choices and explains trade-offs. |
+| `OB-19` | **Initiative** | Leadership | `LXSCN020` Operational Effectiveness | Steps forward without waiting to be told. |
+| `OB-20` | **Ownership** | Leadership | `LXSCN206` Performance Management | Acts as if the outcome matters personally. |
+| `OB-21` | **Guiding others** | Leadership | `LXSCN027` Team Management | Helps organise, guide, or support peers effectively. |
+| `OB-22` | **Presence / authority** | Leadership | `LXSCN026` Leadership | Projects grounded, credible authority that others respond to. |
+| `OB-23` | **Learning speed** | Learning Agility | `LXSCN039` Continuous Learning | Improves quickly across activities and days. |
+| `OB-24` | **Applies feedback** | Learning Agility | `LXSCN039` Continuous Learning | Converts feedback into visible behavioural change. |
+| `OB-25` | **Reflection quality** | Learning Agility | `LXSCN034` Analytical Thinking | Can identify what worked, what did not, and what to change. |
+
+Interpretation when a behaviour is low: *Below required standard for current role level or batch expectation.* Action: *Targeted coaching, deliberate practice, feedback follow-up, and observation in next workshop.* When high: *Possible growth, stretch assignment, mentoring exposure, or leadership-readiness signal if consistent.*
+
+## Risk and opportunity rules
+
+Checked on every person page, on **Risks** and in the export (sheet Risk_Flags). The logic of each rule is fixed by its code; the threshold, severity and wording are read from Library → Risk rules and can be changed there. See [RISK_RULES.md](RISK_RULES.md) for how each rule is calculated.
+
+| Code | Rule | Severity | Panel | Condition | Threshold | Action | Owner |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `R01` | **Critical skill gap** | High | Skill Gap Risks | Any skill is this many levels or more below its required level | 2 levels | Prioritise the skill in the next development cycle and fund targeted training | Line Manager and Academy |
+| `R02` | **Critical gap on a priority skill** | High | Skill Gap Risks | A priority skill (Priority = 2, the higher priority) is this many levels or more below required | 2 levels | Escalate: assign a subject-matter mentor and a fast-track plan | Line Manager and Department Head |
+| `R03` | **Broad capability shortfall** | High | Skill Gap Risks | This share or more of assessed skills is below the required level | 0.4 share of skills | Agree a structured 6-month recovery plan with monthly line manager review | Line Manager |
+| `R04` | **Technical readiness below target** | Medium | Capability and Behaviour Risks | Average technical gap is this many levels or more | 1 levels (average) | Focus the plan on technical certification and hands-on labs | Academy |
+| `R05` | **Cross-functional readiness below target** | Medium | Capability and Behaviour Risks | Average cross-functional gap is this many levels or more | 0.5 levels (average) | Enrol in the cross-functional training programme | Academy |
+| `R06` | **High-potential talent** | Opportunity | Capability and Behaviour Risks | This many skills or more above required, with no critical gap | 5 skills | Consider for stretch assignments, mentoring others and the succession pool | Department Head and Human Resources |
+| `R07` | **No proficiency in a required skill** | High | Skill Gap Risks | Current level is 0 on a skill that requires level 1 or higher | 0 level | Start foundation training immediately and pair with an experienced colleague | Line Manager and Academy |
+| `R08` | **Gaps in both technical and cross-functional skills** | Medium | Capability and Behaviour Risks | Average gap is above zero in both frameworks | —  | Build a balanced plan covering both areas without overloading the employee | Line Manager |
+| `R09` | **Fully meets role requirements** | Opportunity | Capability and Behaviour Risks | No skill below its required level | —  | Recognise the achievement and set next-level targets for career progression | Line Manager and Human Resources |
+| `R10` | **Subject-matter expert** | Opportunity | Capability and Behaviour Risks | Level 4 (maximum) on this many skills or more | 3 skills | Use as an internal trainer or mentor and run knowledge-sharing sessions | Academy |
+| `R11` | **Behavioural category below expectation** | Medium | Capability and Behaviour Risks | Any Personal Efficiency Performance category averages below this score | 3 score (0 to 4) | Targeted coaching on that behavioural category | Coach |
+| `R12` | **Low behaviour rating** | Low | Capability and Behaviour Risks | Any single behaviour is scored at or below this score | 2 score (0 to 4) | Address with specific examples in the next coaching session | Coach |
+| `R13` | **Low programme attendance** | High | Capability and Behaviour Risks | Absent from this many Personal Efficiency Performance training days or more | 2 days (of 4) | Line manager to confirm commitment and reschedule missed days | Line Manager |
+| `R14` | **Leadership and agility below expectation** | Medium | Capability and Behaviour Risks | Leadership + Agility average is below this score | 3 score (0 to 4) | Leadership development programme or shadowing a senior leader | Line Manager and Academy |
+| `R15` | **Overall behavioural performance below expectation** | Medium | Capability and Behaviour Risks | Overall day average is below this score | 3 score (0 to 4) | Agree a behavioural development focus with the coach | Coach |
+| `R16` | **Declining behavioural trend** | Medium | Capability and Behaviour Risks | Overall score falls by this much or more from first to last training day | 0.3 score drop | Coach to review the cause and agree corrective support | Coach |
+| `R17` | **Improving behavioural trend** | Opportunity | Capability and Behaviour Risks | Overall score rises by this much or more from first to last training day | 0.3 score rise | Acknowledge the progress with the employee and line manager | Line Manager |
+| `R18` | **Strong behavioural performer** | Opportunity | Capability and Behaviour Risks | Average behaviour score is at or above this score | 3.5 score (0 to 4) | Nominate as a peer coach or for team lead opportunities | Department Head |
+| `R19` | **Hands-on labs not started** | High | Development Plan Risks | Labs are assigned but none has been completed | 0 labs completed | Set a monthly lab target and protected learning time | Line Manager |
+| `R20` | **Hands-on labs behind plan** | Medium | Development Plan Risks | Lab completion is above zero but below this share | 0.25 share completed | Agree catch-up milestones for the rest of the cycle | Line Manager |
+| `R21` | **Professional certification not defined** | Medium | Development Plan Risks | No professional certification is set in the plan | —  | Agree a role-aligned certification at the next plan review | Line Manager and Academy |
+| `R22` | **Artificial intelligence certification not defined** | Medium | Development Plan Risks | No artificial intelligence certification is set in the plan | —  | Assign the appropriate artificial intelligence certification track | Academy |
+| `R23` | **No coaching recorded** | High | Development Plan Risks | No coaching session recorded in the current cycle | —  | Schedule a coaching session within two weeks | Academy |
+| `R24` | **Training absence** | Medium | Development Plan Risks | Any training marked Absent or Partially Attended, or status Need to be rescheduled | —  | Re-enrol in the next session and confirm availability | Line Manager |
+| `R25` | **Cross-functional hours behind plan** | Low | Development Plan Risks | Attended cross-functional hours are below this share of the 35-hour plan | 0.5 share of plan | Book the remaining cross-functional courses for this cycle | Academy |
+| `R26` | **Artificial intelligence certification training not attended** | Medium | Development Plan Risks | An artificial intelligence certification is assigned but the 40-hour course has not been attended | —  | Schedule the artificial intelligence certification course this cycle | Academy |
+| `R27` | **Labs started but not completed** | Low | Development Plan Risks | Assigned lab content is started but not complete | —  | Set a completion date and check progress monthly | Line Manager |
+| `R28` | **Repeated training absence** | High | Development Plan Risks | Absent from this many training sessions or more | 2 sessions | Line manager conversation on commitment and workload | Line Manager |
+| `R29` | **No training attended this cycle** | High | Development Plan Risks | No training attended in the current cycle | —  | Agree a training schedule with the employee this month | Line Manager and Academy |
+| `R30` | **Limited coaching** | Low | Development Plan Risks | Only one coaching session recorded | 1 sessions | Book a follow-up coaching session to embed the learning | Academy |
+| `R31` | **Self-assessment outstanding** | Medium | Development Plan Risks | Self-Assessment is Not Done | —  | Employee to complete the self-assessment; line manager to follow up | Employee and Line Manager |
+| `R32` | **Validation interview outstanding** | Medium | Development Plan Risks | Validation Interview is Not Done | —  | Schedule the validation interview | Academy |
+| `R33` | **Validation report not issued** | Low | Development Plan Risks | Validation Interview Report is Not Started | —  | Issue the validation report to the employee and line manager | Academy |
+| `R34` | **Team at risk** | High | Skill Gap Risks | This share or more of a line manager's team (3+ people) has a critical skill gap | 0.5 share of team | Review the team's development plan with the line manager and consider team-wide training | Department Head |
+| `R35` | **Section at risk** | High | Skill Gap Risks | This share or more of a section (3+ people) has a critical skill gap | 0.5 share of section | Prioritise the section in the Academy training calendar | Division Head and Academy |
+| `R36` | **Organisation-wide skill gap** | High | Skill Gap Risks | This share or more of assessed employees is below required on the same skill | 0.5 share of employees | Commission a group-wide training programme for that skill | Academy and Vice President |
+
+## Starter library (demos only)
+
+`npm run db:demo` and `npm run db:coca-cola` also load the small starter library in `server/seed/starter-library.ts` (two frameworks, invented competencies with codes like `COM-01`, starter roles such as `SOC-T1`) because the demo people were built on it. A database for real client work only needs `npm run db:seed`.

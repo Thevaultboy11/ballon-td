@@ -1,0 +1,877 @@
+{
+ "_about": "Courses, the five-day observation programme, IDP segments, department boot camps, hands-on lab collections and the professional and AI certification catalogues (sections 5.9-5.13).",
+ "courses": [
+  {
+   "code": "AIC-01",
+   "name": "AI+ Security Practitioner",
+   "sourceType": "AI-CERT",
+   "type": "Certification Preparation",
+   "durationHours": 40.0,
+   "days": 5,
+   "deliveryMode": "In-person",
+   "observed": false,
+   "hoursProposed": false
+  },
+  {
+   "code": "CF-02",
+   "name": "Cognitive Agility, Decision Making and Behavioral Performance",
+   "sourceType": "Cross-Functional",
+   "type": "Workshop",
+   "durationHours": 6.0,
+   "days": 1,
+   "deliveryMode": "In-person",
+   "observed": true,
+   "hoursProposed": false
+  },
+  {
+   "code": "CF-03",
+   "name": "Communicating with Impact- Effective Presentation Skills",
+   "sourceType": "Cross-Functional",
+   "type": "Workshop",
+   "durationHours": 4.0,
+   "days": 1,
+   "deliveryMode": "In-person",
+   "observed": true,
+   "hoursProposed": false
+  },
+  {
+   "code": "CF-04",
+   "name": "Communicating with Influence-Storytelling for Engagement",
+   "sourceType": "Cross-Functional",
+   "type": "Workshop",
+   "durationHours": 4.0,
+   "days": 1,
+   "deliveryMode": "In-person",
+   "observed": true,
+   "hoursProposed": false
+  },
+  {
+   "code": "CF-05",
+   "name": "Communication Skills: Communicating with Clarity & Impact: Part 1",
+   "sourceType": "Cross-Functional",
+   "type": "Workshop",
+   "durationHours": 4.0,
+   "days": 1,
+   "deliveryMode": "In-person",
+   "observed": true,
+   "hoursProposed": false
+  },
+  {
+   "code": "CF-06",
+   "name": "Communication Skills: Communicating with Clarity & Impact: Part 2",
+   "sourceType": "Cross-Functional",
+   "type": "Workshop",
+   "durationHours": 4.0,
+   "days": 1,
+   "deliveryMode": "In-person",
+   "observed": true,
+   "hoursProposed": false
+  },
+  {
+   "code": "CF-07",
+   "name": "Communication in Meetings- Driving Clarity & Accountability with Minutes of the Meeting",
+   "sourceType": "Cross-Functional",
+   "type": "Workshop",
+   "durationHours": 4.0,
+   "days": 1,
+   "deliveryMode": "In-person",
+   "observed": true,
+   "hoursProposed": false
+  },
+  {
+   "code": "CF-08",
+   "name": "Communication with Effective Solutions with Design Thinking",
+   "sourceType": "Cross-Functional",
+   "type": "Workshop",
+   "durationHours": 4.0,
+   "days": 1,
+   "deliveryMode": "In-person",
+   "observed": true,
+   "hoursProposed": false
+  },
+  {
+   "code": "CF-09",
+   "name": "Reading People, Shaping Outcomes: Psychometrics, NLP & Conflict Intelligence",
+   "sourceType": "Cross-Functional",
+   "type": "Workshop",
+   "durationHours": 6.0,
+   "days": 1,
+   "deliveryMode": "In-person",
+   "observed": true,
+   "hoursProposed": false
+  },
+  {
+   "code": "CF-10",
+   "name": "Team Collaboration & Communication Excellence with Fish Philosophy",
+   "sourceType": "Cross-Functional",
+   "type": "Workshop",
+   "durationHours": 4.0,
+   "days": 1,
+   "deliveryMode": "In-person",
+   "observed": true,
+   "hoursProposed": false
+  },
+  {
+   "code": "CF-11",
+   "name": "The Human Side of Time Management and the Psychology of Prioritization",
+   "sourceType": "Cross-Functional",
+   "type": "Workshop",
+   "durationHours": 6.0,
+   "days": 1,
+   "deliveryMode": "In-person",
+   "observed": true,
+   "hoursProposed": false
+  },
+  {
+   "code": "PEP-01",
+   "name": "Cognitive Agility, Decision Making & Behavioral Performance",
+   "sourceType": "Cross-Functional (PEP batch)",
+   "type": "Leadership Programme",
+   "durationHours": 6.0,
+   "days": 1,
+   "deliveryMode": "In-person",
+   "observed": true,
+   "hoursProposed": true
+  },
+  {
+   "code": "PEP-02",
+   "name": "Communication Skills - Part 1",
+   "sourceType": "Cross-Functional (PEP batch)",
+   "type": "Leadership Programme",
+   "durationHours": 6.0,
+   "days": 1,
+   "deliveryMode": "In-person",
+   "observed": true,
+   "hoursProposed": true
+  },
+  {
+   "code": "PEP-03",
+   "name": "The Human Side of Time Management & Psychology of Prioritization",
+   "sourceType": "Cross-Functional (PEP batch)",
+   "type": "Leadership Programme",
+   "durationHours": 6.0,
+   "days": 1,
+   "deliveryMode": "In-person",
+   "observed": true,
+   "hoursProposed": true
+  },
+  {
+   "code": "PEP-04",
+   "name": "The Psychology of Persuasive Communication",
+   "sourceType": "Cross-Functional (PEP batch)",
+   "type": "Leadership Programme",
+   "durationHours": 6.0,
+   "days": 1,
+   "deliveryMode": "In-person",
+   "observed": true,
+   "hoursProposed": true
+  }
+ ],
+ "observationProgramme": [
+  {
+   "day": 1,
+   "workshop": "Day 1 - Team Collaboration with Fish Philosophy",
+   "module": "Team Collaboration",
+   "session": "S1 Team Collaboration"
+  },
+  {
+   "day": 2,
+   "workshop": "Day 2 - Driving Accountability & MOM",
+   "module": "Accountability & Meeting Documentation",
+   "session": "S2 Accountability & MOM"
+  },
+  {
+   "day": 3,
+   "workshop": "Day 3 - Communication with Influence - Storytelling",
+   "module": "Influencing Through Storytelling",
+   "session": "S3 Storytelling"
+  },
+  {
+   "day": 4,
+   "workshop": "Day 4 - Communication with Impact - Presentation Skills",
+   "module": "Presentation Skills",
+   "session": "S4 Presentation Skills"
+  },
+  {
+   "day": 5,
+   "workshop": "Day 5 - Effective Solutions: Problem Solving & Critical Thinking",
+   "module": "Problem Solving & Critical Thinking",
+   "session": "S5 Problem Solving"
+  }
+ ],
+ "idpSegments": [
+  {
+   "code": "S1",
+   "label": "PROFESSIONAL CERTIFICATIONS",
+   "name": "S1 Professional certification",
+   "hours": 40,
+   "maps": "Certification (track Professional)"
+  },
+  {
+   "code": "S2",
+   "label": "HANDS-ON COACHING",
+   "name": "S2 Hands-on labs (Immersive)",
+   "hours": null,
+   "maps": "Course (Immersive Lab collection)"
+  },
+  {
+   "code": "S3",
+   "label": "AI CERTIFICATION",
+   "name": "S3 AI certification",
+   "hours": 10,
+   "maps": "Certification (track AI)"
+  },
+  {
+   "code": "S4",
+   "label": "SAP SUCCESSFACTOR LEARNING",
+   "name": "S4 LMS learning (SAP SuccessFactors)",
+   "hours": 8,
+   "maps": "Course (Self Study)"
+  },
+  {
+   "code": "S5",
+   "label": "CROSS-FUNCTIONAL TRAINING",
+   "name": "S5 Cross-functional training",
+   "hours": 35,
+   "maps": "Courses (Workshop / Leadership Programme)"
+  },
+  {
+   "code": "DTN",
+   "label": "Department Training Needs",
+   "name": "DTN Department training need",
+   "hours": 20,
+   "maps": "Course (Boot camp)"
+  }
+ ],
+ "bootCamps": [
+  {
+   "name": "OT Fundamentals Boot Camp",
+   "plans": 19,
+   "hours": 20
+  },
+  {
+   "name": "Vulnerability and Infrastructure Security Boot Camp",
+   "plans": 18,
+   "hours": 20
+  },
+  {
+   "name": "AI SOC Boot Camp",
+   "plans": 11,
+   "hours": 20
+  },
+  {
+   "name": "OT & GRC Boot Camp",
+   "plans": 5,
+   "hours": 20
+  },
+  {
+   "name": "CAPM Preparation Boot Camp",
+   "plans": 4,
+   "hours": 20
+  },
+  {
+   "name": "OT & ICS Boot Camp",
+   "plans": 3,
+   "hours": 20
+  }
+ ],
+ "labCollections": [
+  {
+   "code": "AI-CHALLENGES",
+   "name": "AI Challenges",
+   "labs": 3,
+   "assignments": 1
+  },
+  {
+   "code": "ENG-CIA-1",
+   "name": "Cloud, Infra, & App Sec Phase 1",
+   "labs": 79,
+   "assignments": 15
+  },
+  {
+   "code": "BCMCTI-DBC-1",
+   "name": "DBC Phase 1",
+   "labs": 42,
+   "assignments": 2
+  },
+  {
+   "code": "RC-ITOT-1",
+   "name": "IT & OT Risk & Compliance Phase 1",
+   "labs": 31,
+   "assignments": 2
+  },
+  {
+   "code": "DIAM-1",
+   "name": "Identity & Access Phase 1",
+   "labs": 26,
+   "assignments": 4
+  },
+  {
+   "code": "SOC-M-1",
+   "name": "Monitoring Phase 1",
+   "labs": 74,
+   "assignments": 12
+  },
+  {
+   "code": "OSINT",
+   "name": "OSINT",
+   "labs": 15,
+   "assignments": 1
+  },
+  {
+   "code": "BCMCTI-RCTI-1",
+   "name": "Red & CTI Phase 1",
+   "labs": 68,
+   "assignments": 4
+  },
+  {
+   "code": "RC-RCPS-1",
+   "name": "Risk, Compliance, Policies, & Standards Phase 1",
+   "labs": 42,
+   "assignments": 25
+  },
+  {
+   "code": "SOC-TH-1",
+   "name": "Threat Hunting Phase 1",
+   "labs": 70,
+   "assignments": 1
+  },
+  {
+   "code": "OT-1",
+   "name": "Up & Down Stream Phase 1",
+   "labs": 37,
+   "assignments": 3
+  },
+  {
+   "code": "ENG-VP-1",
+   "name": "Vulnerability & Patch Management Phase 1",
+   "labs": 78,
+   "assignments": 7
+  }
+ ],
+ "certifications": [
+  {
+   "code": "CISSP",
+   "name": "Certified Information Systems Security Professional (CISSP)",
+   "provider": "ISC2",
+   "track": "Professional",
+   "timesAssigned": 2,
+   "aliases": [
+    "ISC 2 CISSP - Certified Information Systems Security Professional",
+    "ISC2 C IS SP : Certified Information Systems Security Pro fessional"
+   ],
+   "courseLength": null,
+   "description": "The ISC2 Certified Information Systems Security Professional (CISSP) certification validates advanced knowledge and expertise in designing, implementing, managing, and governing enterprise cybersecurity programs. The certification covers security and risk management, asset security, security architecture and engineering, communication and network security, identity and access management (IAM), security assessment and testing, security operations, and software development security. CISSP is designed for cybersecurity professionals responsible for developing and leading information security strategies, managing enterprise security architectures, implementing governance and risk management frameworks, and protecting organizational information assets across complex and hybrid environments.",
+   "descriptionShort": "The CISSP Software Development Security domain ensures applications are built, deployed, and maintained securely. It integrates robust security practices and secure coding principles directly into the software development lifecycle (SDLC). Finally, it enforces continuous protection through active patch management, web exploit mitigation, and secure API design."
+  },
+  {
+   "code": "CCSP",
+   "name": "Certified Cloud Security Professional (CCSP)",
+   "provider": "ISC2",
+   "track": "Professional",
+   "timesAssigned": 2,
+   "aliases": [
+    "CCSP - Certified Cloud Security Professional",
+    "ISC2 CCSP: Certified Cloud Security Professional"
+   ],
+   "courseLength": null,
+   "description": "The ISC2 Certified Cloud Security Professional (CCSP) certification validates advanced knowledge and expertise in designing, managing, and securing cloud environments. It covers cloud architecture and design, cloud infrastructure security, application security, security operations, risk, and compliance. The certification is designed for experienced cybersecurity professionals responsible for securing and managing cloud environments and is well aligned with advanced cloud security architecture and management responsibilities.",
+   "descriptionShort": "The CCSP (Certified Cloud Security Professional) is a globally recognized, practitioner - level certification designed to validate the ability to design, manage, and secure cloud environments across enterprise - scale architectures. It focuses on applying best practices for cloud governance, risk management, compliance, and security operations."
+  },
+  {
+   "code": "CSSLP",
+   "name": "Certified Secure Software Lifecycle Professional (CSSLP)",
+   "provider": "ISC2",
+   "track": "Professional",
+   "timesAssigned": 3,
+   "aliases": [
+    "ISC2 CSSLP (Certified Secure Software Lifecycle Professional)"
+   ],
+   "courseLength": null,
+   "description": "The ISC2 Certified Secure Software Lifecycle Professional (CSSLP) certification validates advanced knowledge and practical skills in integrating security throughout the Software Development Lifecycle (SDLC). The certification covers secure software concepts, requirements engineering, secure design principles, secure coding practices, software testing, deployment, operations, maintenance, software supply chain security, and application lifecycle governance. It is designed for professionals responsible for developing, assessing, and managing secure software and applications, ensuring that security controls are embedded throughout the entire software development process. CSSLP is ideal for application security engineers, software developers, DevSecOps engineers, software architects, and cybersecurity professionals responsible for secure application development and governance.",
+   "descriptionShort": "The ISC2 Certified Secure Software Lifecycle Professional (CSSLP) certification validates advanced knowledge and skills in integrating security throughout the Software Development Lifecycle (SDLC). The certification covers secure software concepts, secure requirements, secure design principles, secure implementation and coding practices, software testing, secure deployment, software supply chain security, and application lifecycle governance. CSSLP is designed for professionals responsible for developing, assessing, and managing secure software and applications, ensuring security is embedded throughout the entire development process. It is ideal for application security engineers, software developers, DevSecOps engineers, software architects, and cybersecurity professionals responsible for secure application development and governance."
+  },
+  {
+   "code": "CISM",
+   "name": "Certified Information Security Manager (CISM)",
+   "provider": "ISACA",
+   "track": "Professional",
+   "timesAssigned": 4,
+   "aliases": [
+    "ISACA CISM (Certified Information Security Manager)"
+   ],
+   "courseLength": null,
+   "description": "ISACA Certified Information Security Manager (CISM) is a globally recognized certification focused on information security governance, risk management, security program development, and incident management. The course covers information security governance, information risk management, security program design and management, and incident response management. Participants learn how to align information security initiatives with business objectives, manage enterprise security programs, support regulatory compliance, and enhance organizational resilience. It is ideal for information security managers, cybersecurity leaders, GRC professionals, risk managers, security consultants, and individuals pursuing leadership roles in information security and cybersecurity management.",
+   "descriptionShort": "ISACA Certified Information Security Manager (CISM) is a globally recognized certification focused on information security management, governance, and risk management. The course covers information security governance, risk management, security program development, incident management, and organizational resilience. Participants learn how to align security initiatives with business objectives and effectively manage enterprise security programs. It is ideal for information security managers, cybersecurity leaders, risk professionals, and individuals pursuing leadership roles in information security."
+  },
+  {
+   "code": "CISA",
+   "name": "Certified Information Systems Auditor (CISA)",
+   "provider": "ISACA",
+   "track": "Professional",
+   "timesAssigned": 2,
+   "aliases": [
+    "ISACA CISA (Certified Information Systems Auditor)",
+    "ISACA CIS A (Certified Information Systems Auditor )"
+   ],
+   "courseLength": null,
+   "description": "A globally recognized certification that equips professionals with the capability to audit, evaluate, and validate information systems controls, ensuring effective governance, risk management, and regulatory compliance. It focuses on developing expertise in internal controls evaluation, IT assurance, and risk-based auditing, supporting the identification of control weaknesses and the implementation of effective safeguards. This certification is directly aligned with strengthening organizational resilience, enhancing cybersecurity governance practices, and enabling professionals to contribute effectively to risk management and compliance functions within secure and regulated environments.",
+   "descriptionShort": "ISACA Certified Information Systems Auditor (CISA) is a globally recognized certification focused on information systems auditing, governance, risk management, and control assurance. The course covers the auditing process, governance and management of IT, information systems acquisition and implementation, operations and business resilience, and protection of information assets. Participants learn how to assess vulnerabilities, evaluate controls, ensure compliance, and provide assurance that information systems support business objectives. It is ideal for IT auditors, cybersecurity professionals, compliance specialists, risk managers, and individuals responsible for governance, risk, and control functions."
+  },
+  {
+   "code": "CRISC",
+   "name": "Certified in Risk and Information Systems Control (CRISC)",
+   "provider": "ISACA",
+   "track": "Professional",
+   "timesAssigned": 8,
+   "aliases": [
+    "ISACA CRISC (Certified in Risk and Information Systems Control)",
+    "CRISC (Certified in Risk and Information Systems Control)",
+    "ISACA CRISC – Certified in Risk and Information Systems Control",
+    "ISACA Certified in Risk and Information Systems Control (CRISC)"
+   ],
+   "courseLength": null,
+   "description": "ISACA Certified in Risk and Information Systems Control (CRISC) is a globally recognized certification focused on enterprise risk management, information systems controls, and risk-based decision-making. The course covers risk identification, risk assessment, risk response and mitigation, risk monitoring and reporting, and the design, implementation, and maintenance of information systems controls. Participants learn how to identify and manage IT and cybersecurity risks, align risk management activities with business objectives, and strengthen organizational resilience. It is ideal for risk managers, GRC professionals, information security managers, IT auditors, compliance professionals, and individuals responsible for enterprise risk and control functions.",
+   "descriptionShort": "The ISACA Certified in Risk and Information Systems Control (CRISC) certification validates advanced knowledge and skills in identifying, assessing, governing, and managing enterprise IT and cybersecurity risks. The certification covers governance, risk identification and assessment, risk response and mitigation, control design and monitoring, risk reporting, and alignment of cybersecurity risk management practices with business objectives. It is designed for cybersecurity, risk management, governance, and compliance professionals responsible for implementing enterprise risk management frameworks, evaluating controls, and enabling informed risk-based decision-making across organizations."
+  },
+  {
+   "code": "CGEIT",
+   "name": "Certified in the Governance of Enterprise IT (CGEIT)",
+   "provider": "ISACA",
+   "track": "Professional",
+   "timesAssigned": 1,
+   "aliases": [
+    "CGEIT (Certified in the Governance of Enterprise IT)"
+   ],
+   "courseLength": null,
+   "description": "The CGEIT course equips professionals with the knowledge and skills required to govern and manage enterprise information technology effectively. It focuses on aligning IT strategies with business objectives, optimizing investments in technology, managing risks, ensuring value delivery, and establishing governance frameworks that support organizational performance and compliance. The course prepares candidates to implement and oversee enterprise IT governance practices that drive business value and strategic outcomes.",
+   "descriptionShort": null
+  },
+  {
+   "code": "CDPSE",
+   "name": "Certified Data Privacy Solutions Engineer (CDPSE)",
+   "provider": "ISACA",
+   "track": "Professional",
+   "timesAssigned": 1,
+   "aliases": [
+    "ISACA CDPSE : Certified Data Privacy Solutions Engineer"
+   ],
+   "courseLength": null,
+   "description": "A globally recognized certification offered by ISACA that focuses on implementing privacy by design and embedding privacy requirements into technology solutions and business processes. The certification equips professionals with the knowledge and skills to translate privacy principles, regulatory requirements, and organizational policies into practical privacy controls, architectures, and data protection solutions. The program covers three key domains: Privacy Governance, Privacy Architecture, and Data Lifecycle Management. Participants learn how to integrate privacy requirements into system development, conduct privacy impact assessments, manage data protection risks, implement privacy-enhancing technologies, and ensure compliance with global privacy regulations.",
+   "descriptionShort": null
+  },
+  {
+   "code": "GCDA",
+   "name": "GIAC Certified Detection Analyst (GCDA)",
+   "provider": "SANS / GIAC",
+   "track": "Professional",
+   "timesAssigned": 5,
+   "aliases": [
+    "SANS GIAC Certified Detection Analyst (GCDA)"
+   ],
+   "courseLength": null,
+   "description": "Develops advanced skills in detection engineering, SIEM analytics, threat hunting, SOC automation, and the creation of high-fidelity detection content. It was selected because it addresses the widest range of the individual's priority skill gaps, strengthening detection capabilities, EDR/XDR operations, log management, and security monitoring across enterprise environments.",
+   "descriptionShort": "Develops advanced skills in detection engineering, SIEM analytics, threat hunting, and the creation of high-fidelity detection content. It was selected because it aligns closely with the individual's priority skill gaps in detection engineering, log management, EDR/XDR, and incident response, providing the greatest overall impact across multiple competency areas."
+  },
+  {
+   "code": "GCIH",
+   "name": "GIAC Certified Incident Handler (GCIH)",
+   "provider": "SANS / GIAC",
+   "track": "Professional",
+   "timesAssigned": 2,
+   "aliases": [
+    "GIAC Certified Incident Handler (GCIH)",
+    "SANS GIAC Certified Incident Handler ( GCIH )"
+   ],
+   "courseLength": null,
+   "description": "Develops practical skills in incident detection, analysis, containment, eradication, recovery, and handling modern cyber attacks . It was selected because it provides a strong foundation in incident response while complementing the individual's existing SOC automation and threat hunting capabilities, preparing them to manage complex security incidents effectively.",
+   "descriptionShort": "The GIAC Certified Incident Handler (GCIH) certification validates the knowledge and practical skills required to detect, respond to, and manage cybersecurity incidents and advanced cyber threats. The program covers incident handling and response processes, cyber kill chain analysis, attack techniques and tactics, malware fundamentals, network and host-based attacks, endpoint security, threat hunting, digital forensics fundamentals, log analysis, and containment, eradication, and recovery procedures. Participants learn how to identify indicators of compromise (IOCs), investigate security incidents, analyze attacker methodologies, and implement effective incident response strategies to minimize organizational impact."
+  },
+  {
+   "code": "GCTI",
+   "name": "GIAC Cyber Threat Intelligence (GCTI)",
+   "provider": "SANS / GIAC",
+   "track": "Professional",
+   "timesAssigned": 2,
+   "aliases": [
+    "GCTI – GIAC Cyber Threat Intelligence",
+    "SANS GIAC Cyber Threat Intelligence (GCTI)"
+   ],
+   "courseLength": null,
+   "description": "Develops advanced skills in cyber threat intelligence, adversary profiling, intelligence analysis, and the production of actionable threat intelligence to support security operations. It was selected because it directly addresses the individual's priority skill gaps in both enterprise and OT-focused threat intelligence, strengthening the ability to identify, analyse, and respond to emerging cyber threats.",
+   "descriptionShort": "professional certification focused on developing the knowledge and practical skills needed to produce actionable cyber threat intelligence across strategic, operational, and tactical levels. It covers threat intelligence fundamentals, intelligence collection and analysis, intrusion and malware analysis, open-source intelligence (OSINT), attribution, threat modeling frameworks such as the Kill Chain, Diamond Model, and MITRE ATT&CK, as well as the creation and sharing of high-fidelity intelligence outputs to support detection, response, and decision-making."
+  },
+  {
+   "code": "GOSI",
+   "name": "GIAC Open Source Intelligence (GOSI)",
+   "provider": "SANS / GIAC",
+   "track": "Professional",
+   "timesAssigned": 1,
+   "aliases": [
+    "GOSI – GIAC Open-Source Intelligence"
+   ],
+   "courseLength": null,
+   "description": "professional certification focused on developing the knowledge and practical skills needed to collect, analyze , and use publicly available information for intelligence and cybersecurity purposes. It covers core open-source intelligence (OSINT) methods, including data collection from online sources, research techniques, source validation, digital footprint analysis, and the production of actionable intelligence to support investigations, threat analysis, and informed decision-making.",
+   "descriptionShort": null
+  },
+  {
+   "code": "GRID",
+   "name": "GIAC Response and Industrial Defense (GRID)",
+   "provider": "SANS / GIAC",
+   "track": "Professional",
+   "timesAssigned": 1,
+   "aliases": [
+    "SANS GIAC Response and Industrial Defense (GRID)"
+   ],
+   "courseLength": null,
+   "description": "Develops advanced skills in detecting, analysing, and responding to cyber threats within OT and industrial control system (ICS) environments. It was selected because it aligns closely with the individual's priorities in OT threat detection, monitoring, endpoint security, and incident response, providing the strongest foundation for securing critical industrial infrastructure.",
+   "descriptionShort": null
+  },
+  {
+   "code": "ICS410",
+   "name": "ICS/SCADA Security Essentials (ICS410)",
+   "provider": "SANS",
+   "track": "Professional",
+   "timesAssigned": 3,
+   "aliases": [
+    "ICS/SCADA Security Essentials (ICS410)",
+    "ICS/SCADA Security Essentials ( ICS 410)"
+   ],
+   "courseLength": null,
+   "description": "An introductory course covering the fundamentals of Industrial Control Systems (ICS) and Supervisory Control and Data Acquisition (SCADA) security. Topics typically include ICS architecture, industrial protocols, threat landscape, vulnerabilities, risk management, security controls, incident response, and best practices for protecting critical infrastructure environments such as energy, oil & gas, utilities, manufacturing, and transportation.",
+   "descriptionShort": null
+  },
+  {
+   "code": "FOR509",
+   "name": "FOR509: Enterprise Cloud Forensics and Incident Response",
+   "provider": "SANS",
+   "track": "Professional",
+   "timesAssigned": 1,
+   "aliases": [
+    "SANS FOR509: Enterprise Cloud Forensics and Incident Response"
+   ],
+   "courseLength": null,
+   "description": "Directly supports Mohamed's stated cloud forensics priority and extends his GIAC Windows Forensics foundation to cloud evidence sources. Hours are included in the plan totals, pending final approval. Mac forensics is noted as a longer-term interest for a future cycle.",
+   "descriptionShort": null
+  },
+  {
+   "code": "CESE",
+   "name": "Certified Endpoint Security Engineer (CESE)",
+   "provider": "EC-Council",
+   "track": "Professional",
+   "timesAssigned": 2,
+   "aliases": [
+    "EC-Council Certified Endpoint Security Engineer (CESE)"
+   ],
+   "courseLength": null,
+   "description": "The EC-Council Certified Endpoint Security Engineer (CESE) certification validates practical knowledge and skills in designing, implementing, hardening, monitoring, and managing endpoint security across enterprise environments. The certification covers endpoint security architecture, endpoint protection platforms (EPP), endpoint detection and response (EDR), malware and ransomware protection, vulnerability and patch management, system hardening, endpoint monitoring, incident response, and security policy implementation. It is designed for cybersecurity professionals responsible for protecting workstations, servers, mobile devices, and other enterprise endpoints from modern cyber threats and ensuring effective endpoint security operations and resilience.",
+   "descriptionShort": "The EC-Council Certified Endpoint Security Engineer (CESE) certification validates practical knowledge and skills in securing, hardening, monitoring, and managing endpoint systems across enterprise environments. The certification covers endpoint security architecture, endpoint protection platforms (EPP), endpoint detection and response (EDR), malware and ransomware protection, system hardening, vulnerability management, patch management, endpoint monitoring, incident response, and security policy implementation. It is designed for cybersecurity professionals responsible for protecting workstations, servers, mobile devices, and other enterprise endpoints from modern cyber threats and ensuring effective endpoint security operations."
+  },
+  {
+   "code": "CASE",
+   "name": "Certified Application Security Engineer (CASE)",
+   "provider": "EC-Council",
+   "track": "Professional",
+   "timesAssigned": 1,
+   "aliases": [
+    "EC-Council: Certified Application Security Engineer (CASE)"
+   ],
+   "courseLength": null,
+   "description": "The Certified Application Security Engineer (CASE) certification is an advanced, hands-on program that equips professionals with the knowledge and practical skills required to design, develop, test, and maintain secure applications. The program covers secure software development lifecycle (SSDLC), secure coding principles, application security architecture, authentication and authorization mechanisms, session management, cryptography, secure API development, vulnerability assessment, code review, and mitigation of common application security weaknesses, including the OWASP Top 10. Participants learn how to integrate security throughout the application development process and implement secure coding practices to protect applications from modern cyber threats.",
+   "descriptionShort": null
+  },
+  {
+   "code": "SECPLUS",
+   "name": "CompTIA Security+",
+   "provider": "CompTIA",
+   "track": "Professional",
+   "timesAssigned": 1,
+   "aliases": [
+    "CompTIA Security+"
+   ],
+   "courseLength": null,
+   "description": "C ybersecurity certification that validates knowledge of network security, threat detection, risk management, identity and access management, cryptography, and security operations. It demonstrates the practical skills required to secure IT environments and respond to modern cyber threats.",
+   "descriptionShort": null
+  },
+  {
+   "code": "CYSA",
+   "name": "CompTIA CySA+",
+   "provider": "CompTIA",
+   "track": "Professional",
+   "timesAssigned": 2,
+   "aliases": [
+    "CompTIA CySA+",
+    "CompTIA CySA +"
+   ],
+   "courseLength": null,
+   "description": "Develops practical skills in security monitoring, threat detection, vulnerability management, incident response, and security analytics using real-world tools and techniques. It was selected because it provides a strong intermediate foundation across the individual's priority skill areas, preparing them for more advanced certifications in detection engineering, EDR/XDR, and OT security.",
+   "descriptionShort": "Develops practical skills in security monitoring, threat detection, log analysis, vulnerability management, and incident response using industry-standard tools and techniques. It was selected because it provides a strong foundation across the individual's priority skill areas, strengthening cloud and network security monitoring while preparing them for more advanced SOC and penetration testing certifications."
+  },
+  {
+   "code": "CCNA",
+   "name": "Cisco Certified Network Associate (CCNA)",
+   "provider": "Cisco",
+   "track": "Professional",
+   "timesAssigned": 1,
+   "aliases": [
+    "Cisco CCNA: Certified Computer Networks Associate"
+   ],
+   "courseLength": null,
+   "description": "The Cisco Certified Network Associate (CCNA) certification is a globally recognized foundational networking certification that validates the knowledge and skills required to install, configure, operate, secure, and troubleshoot modern enterprise networks. The program covers networking fundamentals, IP connectivity, network access, routing and switching, wireless networking, network security fundamentals, IP services, automation, programmability, and basic network troubleshooting. Participants learn how to configure network devices, implement secure network architectures, manage network operations, and apply best practices for maintaining reliable and secure enterprise networks.",
+   "descriptionShort": null
+  },
+  {
+   "code": "AZ-400",
+   "name": "Microsoft Certified: DevOps Engineer Expert (AZ-400)",
+   "provider": "Microsoft",
+   "track": "Professional",
+   "timesAssigned": 3,
+   "aliases": [
+    "Microsoft Certified: DevOps Engineer Expert (AZ-400)",
+    "Microsoft AZ-400 DevOps Engineer Expert",
+    "Microsoft Certified: DevOps Engineer Expert (AZ-400) or Pre- reqs , Azure DevOps Associate or Azure Administrator Associate, AZ-104 or AZ-204"
+   ],
+   "courseLength": null,
+   "description": "The Microsoft Certified: DevOps Engineer Expert (AZ-400) certification validates advanced knowledge and practical skills in implementing DevOps practices, cloud automation, and continuous delivery across Azure and hybrid environments. The certification covers source control management, Infrastructure as Code ( IaC ), continuous integration and continuous delivery (CI/CD), configuration management, containerization, cloud automation, monitoring and observability, security integration ( DevSecOps ), and collaboration between development and operations teams. It is designed for professionals responsible for automating cloud operations, managing deployment pipelines, implementing DevSecOps practices, and improving the reliability, scalability, and security of enterprise applications and cloud infrastructures.",
+   "descriptionShort": "The Microsoft Certified: DevOps Engineer Expert (AZ-400) certification validates advanced knowledge and practical skills in designing and implementing DevOps processes, automation, and continuous delivery practices across cloud and hybrid environments. The certification covers source control management, Infrastructure as Code ( IaC ), continuous integration and continuous delivery (CI/CD), configuration management, cloud automation, containerization, monitoring and observability, security integration ( DevSecOps ), and collaboration between development and operations teams. It is designed for professionals responsible for automating cloud operations, implementing DevOps pipelines, and improving the reliability, scalability, and security of modern applications and cloud infrastructures."
+  },
+  {
+   "code": "SC-300",
+   "name": "Microsoft Certified: Identity and Access Administrator Associate (SC-300)",
+   "provider": "Microsoft",
+   "track": "Professional",
+   "timesAssigned": 2,
+   "aliases": [
+    "Microsoft Certified: Identity and Access Administrator Associate (SC-300)"
+   ],
+   "courseLength": null,
+   "description": "Microsoft Certified: Identity and Access Administrator Associate (SC-300) validates the ability to manage identities, authentication, and access controls using Microsoft Entra ID. It covers identity governance, privileged access, and Zero Trust security for cloud and hybrid environments.",
+   "descriptionShort": null
+  },
+  {
+   "code": "SC-200",
+   "name": "Microsoft Certified: Security Operations Analyst Associate (SC-200)",
+   "provider": "Microsoft",
+   "track": "Professional",
+   "timesAssigned": 1,
+   "aliases": [
+    "Microsoft Certified: Security Operations Analyst Associate (SC-200)"
+   ],
+   "courseLength": null,
+   "description": "Builds advanced capability in cloud security operations across Microsoft Sentinel, Defender XDR, and Defender for Cloud, including KQL analytics, cloud alert investigation, and SOC automation. Selected as the flagship certification because cloud security is Mohamed's stated first technical priority for this cycle; it builds directly on his existing Sentinel and KQL experience . SANS FOR509: Enterprise Cloud Forensics and Incident Response (to be approved by manager ) 40 hrs Directly supports Mohamed's stated cloud forensics priority and extends his GIAC Windows Forensics foundation to cloud evidence sources. Hours are included in the plan totals, pending final approval. Mac forensics is noted as a longer-term interest for a future cycle.",
+   "descriptionShort": null
+  },
+  {
+   "code": "OSWA",
+   "name": "OffSec Web Assessor (OSWA) - WEB-200",
+   "provider": "OffSec",
+   "track": "Professional",
+   "timesAssigned": 1,
+   "aliases": [
+    "OffSec WEB-200 (OSWA) – Offensive Security Web Assessor"
+   ],
+   "courseLength": null,
+   "description": "The OffSec WEB-200 (OSWA) certification validates practical skills in web application security assessment and penetration testing. The course covers web application architecture, HTTP protocol fundamentals, authentication and session management, input validation weaknesses, SQL Injection, Cross-Site Scripting (XSS), file inclusion vulnerabilities, access control flaws, API security testing, and secure exploitation methodologies. The training emphasizes hands-on, lab-based learning and develops the ability to identify, exploit, and document web and API security vulnerabilities in real-world environments. It is designed for cybersecurity professionals responsible for web application security assessments, vulnerability assessments, and penetration testing activities.",
+   "descriptionShort": null
+  },
+  {
+   "code": "ISO27001-LI",
+   "name": "ISO/IEC 27001 Lead Implementer",
+   "provider": "PECB",
+   "track": "Professional",
+   "timesAssigned": 1,
+   "aliases": [
+    "PECB ISO/IEC 27001 Lead Implementer"
+   ],
+   "courseLength": null,
+   "description": "PECB ISO/IEC 27001 Lead Implementer is a professional certification that equips participants with the knowledge and skills required to establish, implement, manage, and continually improve an Information Security Management System (ISMS) based on ISO/IEC 27001. The course covers ISMS planning, risk management, security controls, compliance requirements, and implementation best practices. Participants learn how to lead ISO 27001 implementation projects and support organizational information security objectives. It is ideal for information security managers, consultants, compliance professionals, and individuals responsible for implementing and maintaining an ISMS.",
+   "descriptionShort": null
+  },
+  {
+   "code": "ISO31000-RM",
+   "name": "ISO 31000 Risk Manager",
+   "provider": "PECB",
+   "track": "Professional",
+   "timesAssigned": 2,
+   "aliases": [
+    "ISO 31000 Risk Manager",
+    "PECB ISO 31000 Risk Manager"
+   ],
+   "courseLength": null,
+   "description": "The ISO 31000 Risk Manager course provides participants with the knowledge and skills required to establish, implement, maintain, and continually improve a risk management framework based on the principles and guidelines of ISO 31000. The course enables professionals to identify, analyze , evaluate, treat, monitor, and communicate risks across the organization, supporting informed decision-making and enhancing organizational resilience.",
+   "descriptionShort": "The ISO 31000 Risk Manager course provides participants with the knowledge and skills required to establish, implement, maintain, and continually improve a risk management framework based on the principles and guidelines of ISO 31000. The course enables professionals to identify, analyze, evaluate, treat, monitor, and communicate risks across the organization, supporting informed decision-making and enhancing organizational resilience."
+  },
+  {
+   "code": "ISO22301-LI",
+   "name": "ISO/IEC 22301 Lead Implementer",
+   "provider": "PECB",
+   "track": "Professional",
+   "timesAssigned": 2,
+   "aliases": [
+    "ISO 22301 Lead Implementer",
+    "ISO/IEC 22301 Lead Implementer"
+   ],
+   "courseLength": null,
+   "description": "The ISO/IEC 22301 Lead Implementer certification develops the skills to implement and manage a Business Continuity Management System, including impact analysis, risk assessment, recovery planning, testing, and continual improvement.",
+   "descriptionShort": "Develops expertise in designing, implementing, and managing a Business Continuity Management System (BCMS) in accordance with ISO 22301. It was selected because it directly supports the individual's priority skill gaps in business impact analysis, resilience planning, risk treatment, and continuity governance, strengthening the organisation's ability to prepare for and recover from disruptive events."
+  },
+  {
+   "code": "ISO42001-LI",
+   "name": "ISO/IEC 42001 Lead Implementer - AI Management System",
+   "provider": "PECB",
+   "track": "Professional",
+   "timesAssigned": 2,
+   "aliases": [
+    "ISO/IEC 42001 Lead Implementer – AI Management System"
+   ],
+   "courseLength": null,
+   "description": "The ISO/IEC 42001 Lead Implementer certification equips professionals with the knowledge and skills required to establish, implement, manage, monitor, and continually improve an Artificial Intelligence Management System (AIMS) based on the ISO/IEC 42001 standard. The program covers AI governance, AI risk management, ethical AI principles, regulatory compliance, AI lifecycle management, performance evaluation, and continuous improvement of AI systems. Participants learn how to design and implement policies, processes, and controls that ensure the responsible, secure, transparent, and trustworthy use of AI technologies within an organization.",
+   "descriptionShort": null
+  },
+  {
+   "code": "CBCP",
+   "name": "Certified Business Continuity Professional (CBCP)",
+   "provider": "DRI International",
+   "track": "Professional",
+   "timesAssigned": 4,
+   "aliases": [
+    "Certified Business Continuity Professional (CBCP)"
+   ],
+   "courseLength": null,
+   "description": "professional certification focused on developing the knowledge and skills needed to plan, implement, and manage business continuity programs. It covers key areas such as business impact analysis, risk assessment, recovery strategies, crisis management, and continuity testing to help organizations maintain operations during disruptions.",
+   "descriptionShort": "P rofessional certification focused on developing the knowledge and skills needed to plan, implement, and manage business continuity programs. It covers key areas such as business impact analysis, risk assessment, recovery strategies, crisis management, and continuity testing to help organizations maintain operations during disruptions."
+  },
+  {
+   "code": "ISA62443-CFS",
+   "name": "ISA/IEC 62443 Cybersecurity Fundamentals Specialist",
+   "provider": "ISA",
+   "track": "Professional",
+   "timesAssigned": 2,
+   "aliases": [
+    "ISA/IEC 62443 Cybersecurity Fundamentals Specialist",
+    "ISA/IEC 62443 Fundamentals"
+   ],
+   "courseLength": null,
+   "description": "The ISA/IEC 62443 Fundamentals course provides a comprehensive introduction to the ISA/IEC 62443 series of standards for Industrial Automation and Control Systems (IACS) cybersecurity. Participants will learn the core concepts, terminology, security requirements, and best practices for securing Operational Technology (OT), Industrial Control Systems (ICS), and SCADA environments. The course focuses on establishing a foundational understanding of cybersecurity risks, defense-in-depth strategies, security zones and conduits, and the application of ISA/IEC 62443 standards to improve the security and resilience of industrial operations.",
+   "descriptionShort": "An entry-level OT cybersecurity certification that introduces the ISA/IEC 62443 standards and teaches fundamental concepts for securing industrial control systems (ICS) and OT environments, including risk assessment, defense-in-depth, zones and conduits, industrial networks, and cybersecurity controls."
+  },
+  {
+   "code": "COPSECP",
+   "name": "Certified Operational Security Professional (COPSECP)",
+   "provider": "OPSEC Professionals Society",
+   "track": "Professional",
+   "timesAssigned": 1,
+   "aliases": [
+    "Certified Operational Security Professional (COPSECP)"
+   ],
+   "courseLength": null,
+   "description": "Certified Operational Security Professional (COPSECP) is an intermediate-level OPSEC certification focused on helping professionals develop, implement, and assess operational security programs in security-sensitive environments. The Certified Operational Security (OPSEC) Professional (COPSECP) listing describes it as a credential that teaches learners how to develop effective OPSEC programs and strengthen protection of critical information.",
+   "descriptionShort": null
+  },
+  {
+   "code": "AIP-SEC-L1",
+   "name": "AI+ Security Level 1",
+   "provider": "AI CERTs",
+   "track": "AI",
+   "timesAssigned": 3,
+   "aliases": [
+    "AI+ Security Level 1"
+   ],
+   "courseLength": "40 hours, 5 days in-person (AI+ Security Practitioner session); plan estimates 8, 10 or 40 HR",
+   "description": "This certification validates foundational knowledge of AI-driven cybersecurity concepts and assesses understanding of security principles, threats, and controls. The exam evaluates competency in applying core cybersecurity knowledge within AI-enabled environments.",
+   "descriptionShort": null
+  },
+  {
+   "code": "AIP-SEC-L2",
+   "name": "AI+ Security Level 2",
+   "provider": "AI CERTs",
+   "track": "AI",
+   "timesAssigned": 5,
+   "aliases": [
+    "AI+ Security Level 2"
+   ],
+   "courseLength": "40 hours, 5 days in-person (AI+ Security Practitioner session); plan estimates 8, 10 or 40 HR",
+   "description": "AI+ Security Level 2 validates intermediate-level knowledge of AI-driven cybersecurity concepts and the ability to apply security controls, risk management practices, and AI-enabled threat detection techniques in modern security environments. It assesses understanding of advanced security principles within AI-augmented ecosystems, with a focus on protecting systems, identifying threats, and supporting secure AI adoption.",
+   "descriptionShort": "This certification validates intermediate-level knowledge of AI-driven cybersecurity concepts and assesses competency in applying security controls, risk management practices, and AI-enabled threat detection techniques. The exam evaluates understanding of advanced security principles within AI-augmented environments."
+  },
+  {
+   "code": "AIP-SEC-PRAC",
+   "name": "AI+ Security Practitioner",
+   "provider": "AI CERTs",
+   "track": "AI",
+   "timesAssigned": 10,
+   "aliases": [
+    "AI+ Security Practitioner"
+   ],
+   "courseLength": "40 hours, 5 days in-person (AI+ Security Practitioner session); plan estimates 8, 10 or 40 HR",
+   "description": "This certification validates foundational knowledge of AI-driven cybersecurity concepts and assesses understanding of security principles, threats, and controls. The exam evaluates competency in applying core cybersecurity knowledge within AI-enabled environments",
+   "descriptionShort": "This certification validates foundational knowledge of AI-driven cybersecurity concepts and assesses understanding of security principles, threats, and controls. The exam evaluates competency in applying core cybersecurity knowledge within AI-enabled environments."
+  },
+  {
+   "code": "AIP-SEC-EXP",
+   "name": "AI+ Security Expert",
+   "provider": "AI CERTs",
+   "track": "AI",
+   "timesAssigned": 15,
+   "aliases": [
+    "AI+ Security Expert"
+   ],
+   "courseLength": "40 hours, 5 days in-person (AI+ Security Practitioner session); plan estimates 8, 10 or 40 HR",
+   "description": "This certification validates intermediate-level knowledge of AI-driven cybersecurity concepts and assesses competency in applying security controls, risk management practices, and AI-enabled threat detection techniques. The exam evaluates understanding of advanced security principles within AI-augmented environments.",
+   "descriptionShort": null
+  },
+  {
+   "code": "AIP-SEC-COMP",
+   "name": "AI+ Security Compliance",
+   "provider": "AI CERTs",
+   "track": "AI",
+   "timesAssigned": 24,
+   "aliases": [
+    "AI+ Security Compliance"
+   ],
+   "courseLength": "40 hours, 5 days in-person (AI+ Security Practitioner session); plan estimates 8, 10 or 40 HR",
+   "description": "Combines core cybersecurity compliance principles with AI applications to enhance risk management, strengthen security posture, and ensure alignment with regulatory requirements, while validating the ability to apply AI in compliance functions.",
+   "descriptionShort": "The AI+ Security Compliance™ certification is an advanced program that combines cybersecurity compliance principles with practical AI applications. Based on key CISSP domains, it equips professionals to use AI for compliance automation, risk assessment, data protection, threat detection, incident response, identity management, security auditing, and regulatory alignment. The program also explores emerging trends such as AI agents and quantum computing, preparing learners to strengthen organizational security while meeting evolving legal, ethical, and industry requirements."
+  },
+  {
+   "code": "AIP-CLOUD",
+   "name": "AI+ Cloud Practitioner",
+   "provider": "AI CERTs",
+   "track": "AI",
+   "timesAssigned": 5,
+   "aliases": [
+    "AI+ Cloud Practitioner",
+    "AI+ Cloud Practitioner 4"
+   ],
+   "courseLength": "40 hours, 5 days in-person (AI+ Security Practitioner session); plan estimates 8, 10 or 40 HR",
+   "description": "Transform cloud computing by integrating cutting-edge AI capabilities into scalable environments through Cloud-AI fusion. This approach enables professionals to build and deploy advanced infrastructure using modern CI/CD pipelines, cloud-based AI models, and optimized deployment strategies. Through a hands-on capstone project, learners gain real-world experience in developing AI-powered cloud solutions, ultimately equipping them with future-ready skills to lead and innovate in AI-driven cloud ecosystems.",
+   "descriptionShort": "Builds expertise in integrating AI into scalable cloud environments, covering CI/CD pipelines, cloud-based AI models, and deployment strategies, with a hands-on capstone project to apply real-world solutions and prepare professionals to lead AI-driven cloud innovation."
+  },
+  {
+   "code": "AIP-ARCH",
+   "name": "AI+ Architect Practitioner",
+   "provider": "AI CERTs",
+   "track": "AI",
+   "timesAssigned": 1,
+   "aliases": [
+    "AI+ Architect Practitioner"
+   ],
+   "courseLength": "40 hours, 5 days in-person (AI+ Security Practitioner session); plan estimates 8, 10 or 40 HR",
+   "description": "Builds practical expertise in AI architecture, covering neural networks, NLP, and computer vision, with hands-on experience in designing, testing, and deploying scalable enterprise AI solutions.",
+   "descriptionShort": null
+  },
+  {
+   "code": "AIP-NET",
+   "name": "AI+ Network Practitioner",
+   "provider": "AI CERTs",
+   "track": "AI",
+   "timesAssigned": 1,
+   "aliases": [
+    "AI+ Network Practitioner"
+   ],
+   "courseLength": "40 hours, 5 days in-person (AI+ Security Practitioner session); plan estimates 8, 10 or 40 HR",
+   "description": "This certification validates professional knowledge and competency in the combination of artificial intelligence and current networking technologies. The exam assesses understanding of fundamental networking concepts, newer technologies such as SDN and NFV, and how AI can enhance network efficiency. Key focus areas include AI-powered network automation, orchestration, and security upgrades. The exam includes scenario-based questions covering emerging developments in AI-enhanced networking, validating candidate readiness for leadership roles in this rapidly evolving sector.",
+   "descriptionShort": null
+  }
+ ]
+}

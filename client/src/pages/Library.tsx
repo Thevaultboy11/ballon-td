@@ -9,11 +9,12 @@ const GROUPS: { label: string; keys: string[] }[] = [
   { label: 'Competency framework', keys: ['competencies', 'behaviors', 'categories', 'frameworks', 'parameters'] },
   { label: 'Job roles', keys: ['roles', 'requirements'] },
   { label: 'Catalogue', keys: ['courses', 'certifications'] },
+  { label: 'Risk & opportunity', keys: ['riskRules'] },
   { label: 'Dropdowns', keys: ['lookups'] },
 ]
 const FILTERS: Record<string, string[]> = {
   behaviors: ['competencyId'], requirements: ['jobRoleId', 'priority'], competencies: ['categoryId'], courses: ['type'],
-  certifications: ['track'], parameters: ['category'], programs: ['clientId'], roles: ['family'], categories: ['frameworkId'],
+  certifications: ['track'], parameters: ['category'], riskRules: ['severity', 'panel'], programs: ['clientId'], roles: ['family'], categories: ['frameworkId'],
 }
 
 export default function Library() {
@@ -26,7 +27,7 @@ export default function Library() {
       <section className="hero compact container">
         <div className="eyebrow">Library</div>
         <h1>The reference data everything links to.</h1>
-        <p className="sub">Competencies, level indicators, role profiles, courses, certifications, observed behaviours and every dropdown. Set up once and change rarely; everyone's forms use them.</p>
+        <p className="sub">Competencies, level indicators, role profiles, courses and lab collections, certifications, observed behaviours, risk rules and every dropdown. Set up once and change rarely; everyone's forms use them.</p>
       </section>
       <div className="container lib-layout">
         <nav className="lib-nav">

@@ -54,6 +54,8 @@ function coerce(f: Field, raw: unknown, lists: Map<string, Set<string>>): unknow
       const n = Number(String(raw).replace(',', '.').replace('%', ''))
       if (!Number.isFinite(n)) throw new HttpError(400, `${f.label} must be a number.`)
       if (f.type === 'percent' && (n < 0 || n > 100)) throw new HttpError(400, `${f.label} must be between 0 and 100.`)
+      if (f.min != null && n < f.min) throw new HttpError(400, `${f.label} must be at least ${f.min}.`)
+      if (f.max != null && n > f.max) throw new HttpError(400, `${f.label} must be at most ${f.max}.`)
       return n
     }
     case 'date': {

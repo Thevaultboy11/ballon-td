@@ -105,7 +105,7 @@ export function RatingsGrid({ assessmentId, onClose }: { assessmentId: string; o
                             <option value="">—</option>{(meta.lists.priority ?? []).map((p) => <option key={p.value}>{p.value}</option>)}
                           </select>
                         </td>
-                        <td className="num">{gap == null ? <span className="muted">–</span> : gap > 0 ? <span className="tag tag-bad">−{gap}</span> : gap < 0 ? <span className="tag tag-lime">+{-gap}</span> : <span className="muted">0</span>}</td>
+                        <td className="num">{gap == null ? <span className="muted">–</span> : gap > 0 ? <span className="tag tag-bad">−{gap}</span> : gap < 0 ? <span className="tag tag-good">+{-gap}</span> : <span className="muted">0</span>}</td>
                         <td><input className="input sm" style={{ minWidth: 160 }} value={r.comment ?? ''} onChange={(e) => set(r.competencyId, { comment: e.target.value })} /></td>
                       </tr>
                     )

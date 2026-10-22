@@ -24,7 +24,7 @@ export default function People() {
     const words = q.toLowerCase().split(/\s+/).filter(Boolean)
     const r = people.filter((p) => (!client || p.clientId === client) && (!dept || p.department === dept) && (!band || p.summary.readinessBand === band)
       && words.every((w) => `${p.name} ${p.email ?? ''} ${p.jobTitle ?? ''} ${p.department ?? ''} ${p.id} ${p.summary.coach ?? ''}`.toLowerCase().includes(w)))
-    const key = (p: any) => ({ name: p.name, role: p.jobTitle ?? '', ready: p.summary.roleReadiness ?? -1, gaps: p.summary.criticalGaps * 100 + p.summary.gaps, plan: p.summary.idpProgress ?? -1, train: p.summary.trainingCompletion ?? -1, coach: p.summary.lastCoaching ?? '', last: p.summary.lastActivity ?? '' } as any)[sort.k]
+    const key = (p: any) => ({ name: p.name, role: p.jobTitle ?? '', ready: p.summary.roleReadiness ?? -1, gaps: p.summary.criticalGaps * 100 + p.summary.gaps, risk: p.summary.risksHigh * 100 + p.summary.risksMedium, plan: p.summary.idpProgress ?? -1, train: p.summary.trainingCompletion ?? -1, coach: p.summary.lastCoaching ?? '', last: p.summary.lastActivity ?? '' } as any)[sort.k]
     return [...r].sort((a, b) => (key(a) < key(b) ? -1 : key(a) > key(b) ? 1 : 0) * sort.d)
   }, [people, q, client, dept, band, sort])
   const scope = people.filter((p) => (!client || p.clientId === client) && (!dept || p.department === dept))
@@ -82,7 +82,7 @@ export default function People() {
           <div className="table-wrap">
             <table className="table">
               <thead><tr>
-                {th('name', 'Person')}{th('role', 'Role · batch · coach')}<th>Assessment</th>{th('ready', 'Role readiness')}{th('gaps', 'Gaps', true)}
+                {th('name', 'Person')}{th('role', 'Role · batch · coach')}<th>Assessment</th>{th('ready', 'Role readiness')}{th('gaps', 'Gaps', true)}{th('risk', 'Risks', true)}
                 {th('plan', 'Plan', true)}{th('train', 'Training', true)}<th className="num">Certs</th>{th('coach', 'Last coaching')}{th('last', 'Changed')}
               </tr></thead>
               <tbody>
@@ -92,13 +92,14 @@ export default function People() {
                     <tr key={p.id} className="clickable" onClick={() => nav(`/people/${p.id}`)}>
                       <td><div className="person"><Avatar name={p.name} /><div style={{ minWidth: 0 }}><div className="person-name">{p.name}</div><div className="person-role">{p.department ?? p._ref.clientId}</div></div></div></td>
                       <td style={{ maxWidth: 220 }}><div className="clip" style={{ fontSize: 13.5 }} title={p.jobTitle ?? ''}>{p.jobTitle ?? '–'}</div><div className="person-role clip">{[s.batch, s.coach && `coach ${s.coach}`].filter(Boolean).join(' · ') || '–'}</div></td>
-                      <td>{s.report === 'Delivered' ? <Status v="Delivered" /> : s.validationInterview === 'Completed' ? <span className="tag">Validated</span> : s.selfAssessment === 'Completed' ? <span className="tag">Self-assessed</span> : <Status v={s.selfAssessment} />}</td>
+                      <td>{s.report === 'Delivered' ? <Status v="Delivered" /> : s.validationInterview === 'Completed' ? <span className="tag">Validated</span> : s.selfAssessment === 'Completed' ? <span className="tag">Self-assessed</span> : <Status v={s.selfAssessment} />}{s.potential && <div className="person-role clip" title="Leadership potential from the observed programme">{s.potential}</div>}</td>
                       <td className="next-cell">
                         <div className="next-top"><span className="next-role">{s.readinessBand}</span><span className="next-pct">{pct(s.roleReadiness)}</span></div>
                         <Pline value={s.roleReadiness} />
                       </td>
                       <td className="num">{s.competenciesRated ? <>{s.criticalGaps > 0 && <span className="tag tag-bad" title="High-priority gaps">{s.criticalGaps}</span>} <span className="muted">{s.gaps}</span></> : <span className="muted">–</span>}</td>
-                      <td className="num">{s.idpActions ? <>{pct(s.idpProgress == null ? null : s.idpProgress / 100)}{s.idpOverdue > 0 && <div className="warn-text" style={{ fontSize: 12 }}>{s.idpOverdue} overdue</div>}</> : <span className="muted">–</span>}</td>
+                      <td className="num nowrap" title={(s.riskCodes ?? []).join(', ')}>{s.risksHigh || s.risksMedium ? <>{s.risksHigh > 0 && <span className="tag tag-bad">{s.risksHigh}</span>} {s.risksMedium > 0 && <span className="tag tag-warn">{s.risksMedium}</span>}</> : <span className="muted">–</span>}</td>
+                      <td className="num nowrap">{s.idpActions ? <>{pct(s.idpProgress == null ? null : s.idpProgress / 100)}{s.idpOverdue > 0 && <div className="warn-text" style={{ fontSize: 12 }}>{s.idpOverdue} overdue</div>}</> : <span className="muted">–</span>}</td>
                       <td className="num">{s.trainingAssigned ? `${s.trainingCompleted}/${s.trainingAssigned}` : <span className="muted">–</span>}</td>
                       <td className="num">{s.certsTotal ? `${s.certsCompleted}/${s.certsTotal}` : <span className="muted">–</span>}</td>
                       <td className="muted nowrap" style={{ fontSize: 13 }}>{s.lastCoaching ? fmtDate(s.lastCoaching) : '–'}</td>

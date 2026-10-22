@@ -5,10 +5,12 @@ An internal web app for recording **every interaction** in an employee developme
 The client cannot use an app, so they only ever receive Excel. Our own team uses this app to enter the data consistently, person by person or session by session. Then we export.
 
 - **No logins, no roles.** It runs on a server inside the VPN. Anyone can open any person and enter anything. Each person types their name once ("Entering as …"). The name is saved with every change, and every change goes into a change log.
-- **Preloaded library.** 69 competencies with level indicators, 31 role profiles with required levels, 55 courses, 27 certifications, the 25 observed behaviours from the client's workbook, and every dropdown list. See [docs/LIBRARY.md](docs/LIBRARY.md).
-- **One-click export.** `Employee_Summary` (one row per person, all calculated), `Activity_Log` (one row per data point, everything in one sheet), `Data_Dictionary`, and one sheet per database table with stable IDs. See [docs/DATA_MODEL.md](docs/DATA_MODEL.md).
+- **Standard reference library.** 3 frameworks, 160 competencies with 3,244 behaviour descriptors, 41 role profiles with 620 required levels, 35 courses (workshops, the observed 5-day programme, boot camps, LMS learning and 12 hands-on lab collections), 39 certifications with their spelling variants, 25 observed behaviours, 36 risk and opportunity rules and 47 dropdown lists. See [docs/LIBRARY.md](docs/LIBRARY.md).
+- **Every field of the master data.** Baseline survey, IDP segments S1–S5 and department training needs, lab counts, coach validation per behaviour descriptor, segment progress on the coaching tracker, validated and target levels, external IDs of the source platform. See [docs/DATA_MODEL.md](docs/DATA_MODEL.md) and, for loading a client's own workbooks, [docs/MIGRATION.md](docs/MIGRATION.md).
+- **Risks and the observation summary, calculated.** 36 rules (critical gaps, behaviour below expectation, labs not started, no coaching …) are checked on every person page and on **Risks**; the observed programme gives evidence strength, leadership potential, readiness timeframe and classification. See [docs/RISK_RULES.md](docs/RISK_RULES.md).
+- **One-click export.** `Employee_Summary` (one row per person, all calculated), `Risk_Flags`, `Observation_Profile`, `Activity_Log` (one row per data point, everything in one sheet), `Data_Dictionary`, and one sheet per database table with stable IDs.
 
-React · Express · Prisma · SQLite. It works offline: no web fonts and no CDNs, and the database tables are created with Prisma's WebAssembly engine, so no engine download is needed.
+React · Express · Prisma · SQLite. It works offline: no web fonts and no CDNs, and the database tables are created with Prisma's WebAssembly engine, so no engine download is needed. The look (navy and royal blue, Arial, capitalised titles, keylines) is described in [docs/DESIGN.md](docs/DESIGN.md).
 
 ![People](docs/screenshots/people.png)
 
@@ -20,7 +22,7 @@ Needs **Node.js 20.19 or newer** (22 LTS recommended). Run `npm install` once wh
 git clone https://github.com/Thevaultboy11/ballon-td.git
 cd ballon-td
 npm install          # also generates the Prisma client
-npm run setup        # creates data/app.db and loads the library
+npm run setup        # creates data/app.db and loads the standard library
 npm run build        # builds the web app into dist/
 npm start            # http://<server>:3000
 ```
@@ -51,16 +53,19 @@ Settings go in a `.env` file next to `package.json` (see `.env.example`):
 
 **Back up** with `npm run db:backup` (safe while the app is running). Schedule it nightly, e.g. cron `0 2 * * * cd /srv/ballon-td && npm run db:backup`. The whole database is the one file in `data/`.
 
-**Updating**: `git pull && npm install && npm run db:push && npm run db:seed && npm run build`, then restart. `db:push` changes the tables to match the schema and refuses changes that would lose data unless you back up and pass `-- --force`. `db:seed` only adds library items that are missing; it never overwrites your edits (use `npm run db:seed -- --update` to reset them to the library text).
+**Updating**: `npm run db:backup && git pull && npm install && npm run db:push && npm run db:seed && npm run build`, then restart. `db:push` changes the tables to match the schema and refuses changes that would lose data unless you back up and pass `-- --force`. `db:seed` only adds library items that are missing; it never overwrites your edits (use `npm run db:seed -- --update` to reset them to the library text).
+
+Upgrading from a version before the standard library: the update above adds two tables (BaselineSurvey, RiskRule) and optional columns only, so no data is touched, and the seed adds the new library next to whatever you already have. Existing people keep their role profiles and ratings. If the Coca-Cola demo was loaded before the upgrade, its Lexonis categories already exist, so the library's cross-functional competencies are filed under the demo's framework (*LEXCF*) and the library's own *LEXCROSS* framework stays empty; this is cosmetic.
 
 ## Using it
 
 | Page | What you do there |
 | --- | --- |
-| **People** | Everyone in one table with readiness, gaps, plan progress, training, certifications and last coaching. Filter by client, department or readiness. **Add person**. |
-| **Person** | The work surface for one person. *Quick add* buttons for each record type. They pre-fill the coach, consultant, programme and line manager. Tabs list every record by type. **Assessments → Ratings** opens the grid: click a level per competency; required levels come from the role profile. **History** shows every change: who, when, old → new. |
-| **Sessions** | One run of a course. Add participants, then set status, attendance, score and hours for the **whole class at once**. For observed courses, **Observation scores** is a grid of participants × 25 behaviours per day. Type 1–5 and the cursor jumps on. |
-| **Library** | The reference data: clients, programmes, staff, competencies and level indicators, role profiles and requirements, courses, certifications, observed behaviours, and every dropdown list. Retire items by setting Active to No. |
+| **People** | Everyone in one table with readiness, gaps, risks (high · medium), leadership potential, plan progress, training, certifications and last coaching. Filter by client, department or readiness. **Add person**. |
+| **Person** | The work surface for one person. *Quick add* buttons for each record type (baseline survey, assessment, plan action, training, certification, coaching, validation, evidence). They pre-fill the coach, consultant, programme and line manager. The overview shows **Risks & opportunities**, **Programme progress** (baseline score, labs, S1–S5 and DTN) and the **Observation summary**, then every competency against the role. Tabs list every record by type. **Assessments → Ratings** opens the grid. **History** shows every change: who, when, old → new. |
+| **Sessions** | One run of a course. Add participants, then set status, attendance, score and hours for the **whole class at once**. For observed courses, **Observation scores** is a grid of participants × 25 behaviours per day, with the day's title. Type 1–5 and the cursor jumps on. |
+| **Risks** | Every risk and opportunity rule with the people and groups it fires for. Filter by client, severity and panel; click a rule to see who. |
+| **Library** | The reference data: clients, programmes, staff, competencies and behaviour descriptors, role profiles and requirements, courses and lab collections, certifications, observed behaviours, risk rules, and every dropdown list. Retire items by setting Active to No. |
 | **Export** | Everything, one client (for the client's copy) or one person. Untick the change log for files that leave the company. |
 
 Who typically enters what:
@@ -68,11 +73,13 @@ Who typically enters what:
 | Person | Enters |
 | --- | --- |
 | Consultant / admin | People, enrolments, assessments and ratings, development plan, manager validations (they arrive by email; set *Source* = "Email from client") |
-| Trainer | Sessions: participants, attendance, completion, scores, daily behaviour scores, potential/risk notes |
-| Coach | Coaching sessions, plan progress, evidence |
+| Trainer | Sessions: participants, attendance, completion, scores, daily behaviour scores, potential/risk notes; validated and target level per participant |
+| Coach | Baseline surveys, coaching sessions with segment progress, plan progress, coach validation of behaviour descriptors (Evidence) |
 | Anyone | Certification progress, evidence, corrections |
 
 ![Person](docs/screenshots/person.png)
+![Person overview: risks, programme progress, observation summary](docs/screenshots/person-overview.png)
+![Risks](docs/screenshots/risks.png)
 ![Ratings](docs/screenshots/ratings.png)
 ![Observation grid](docs/screenshots/observations.png)
 
@@ -85,21 +92,24 @@ npm run typecheck
 
 | Path | What |
 | --- | --- |
-| `prisma/schema.prisma` | The database schema (26 tables), with comments |
+| `prisma/schema.prisma` | The database schema (32 tables), with comments |
 | `shared/entities.ts` | Every table's fields, labels, dropdown lists and links. The server's validation, the app's forms and tables, and the Excel export all read it. Add a field here and in the schema, then run `npm run db:generate && npm run db:push`. |
 | `shared/lookups.ts` | The dropdown lists that get seeded |
-| `server/seed/library.ts` | The preloaded library (competencies, roles, courses, certifications, behaviours) |
-| `server/lib/metrics.ts` | All calculations (readiness, gaps, completion …) |
+| `server/seed/library/*.json` | The standard reference library (frameworks, competencies, descriptors, roles, requirements, catalogue, observed behaviours, risk rules) |
+| `server/seed/seed.ts` | Loads the library by business key (safe to run again) |
+| `server/seed/starter-library.ts`, `starter.ts` | The small starter library the two demos are built on |
+| `server/lib/metrics.ts` | All calculations (readiness, gaps, completion, baseline, labs, segments …) |
+| `server/lib/risks.ts` | The 36 risk rules and the observation summary |
 | `server/lib/export.ts` | The Excel workbook |
 | `server/lib/crud.ts`, `server/routes.ts` | API: generic create/read/update/delete for every table, plus people, ratings grid, session roster and observation grid |
-| `client/src` | React app (styles carried over from the Cyberpunk dashboard, light and dark) |
+| `client/src` | React app, light and dark themes ([docs/DESIGN.md](docs/DESIGN.md)) |
 | `scripts/` | Database push (offline WASM engine), generate, backup, reset, library doc |
 
 | Command | Does |
 | --- | --- |
 | `npm run db:generate` | Generates the Prisma client (runs automatically after `npm install`) |
 | `npm run db:push` | Creates or updates tables to match the schema |
-| `npm run db:seed` | Loads the library (adds what is missing) |
+| `npm run db:seed` | Loads the standard library (adds what is missing; `-- --update` overwrites the text) |
 | `npm run db:demo` | Adds the fictional demo client |
 | `npm run db:coca-cola` | Adds the Coca-Cola security team demo (Lexonis framework, IDP segments, coaching times, monthly validations) |
 | `npm run demo:coca-cola` | Setup + library + Coca-Cola team + its document, in one step |

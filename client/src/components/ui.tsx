@@ -5,7 +5,7 @@ const Svg = ({ d }: { d: string }) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" dangerouslySetInnerHTML={{ __html: d }} />
 )
 export const Icon = {
-  logo: () => <svg viewBox="0 0 24 24" fill="none" stroke="#141e12" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" /><path d="M9 12l2 2 4-4" /></svg>,
+  logo: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" /><path d="M9 12l2 2 4-4" /></svg>,
   users: () => <Svg d='<path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="7.5" r="3.5"/><path d="M21 19v-1a4 4 0 0 0-3-3.87M16 4.13a3.5 3.5 0 0 1 0 6.75"/>' />,
   target: () => <Svg d='<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".5"/>' />,
   alert: () => <Svg d='<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.5v.01"/>' />,
@@ -28,13 +28,15 @@ export const Icon = {
 export const Avatar = ({ name, lg }: { name: string; lg?: boolean }) => <span className={`avatar ${lg ? 'lg' : ''}`}>{initials(name)}</span>
 
 const STATUS_TONE: Record<string, string> = {
-  Completed: 'tag-lime', Delivered: 'tag-lime', Approved: 'tag-lime', Verified: 'tag-lime', Active: 'tag-lime', Present: 'tag-lime', Pass: 'tag-lime',
-  'Ready for next role': 'tag-lime', 'Ready in 6–12 months': 'tag-lime', 'High potential': 'tag-lime', Promising: 'tag-lime',
+  Completed: 'tag-good', Delivered: 'tag-good', Approved: 'tag-good', Verified: 'tag-good', Active: 'tag-good', Present: 'tag-good', Pass: 'tag-good',
+  'Ready for next role': 'tag-good', 'Ready in 6–12 months': 'tag-good', 'High potential': 'tag-good', Promising: 'tag-good', 'Emerging high-potential contributor': 'tag-good', 'Stretch Candidate': 'tag-good', 'Meets/exceeds current target': 'tag-good',
   'In Progress': '', Scheduled: '', 'Exam Scheduled': '', Registered: '', 'In Draft': '', 'In Review': '', Enrolled: '', Submitted: '', 'Under Review': '', 'Growing in role': '', Steady: '',
-  Planned: 'tag-muted', 'Not Started': 'tag-muted', Assigned: 'tag-muted', Pending: 'tag-muted', Invited: 'tag-muted', Nominated: 'tag-muted', 'Not assessed': 'tag-muted', Cancelled: 'tag-muted', 'Not Required': 'tag-muted', Excused: 'tag-muted',
-  Incomplete: 'tag-warn', Deferred: 'tag-warn', 'On Hold': 'tag-warn', Partial: 'tag-warn', 'Requires Further Evidence': 'tag-warn', 'Needs More Information': 'tag-warn', 'Needs support': 'tag-warn', Rescheduled: 'tag-warn', Postponed: 'tag-warn',
+  Planned: 'tag-muted', 'Not Started': 'tag-muted', Assigned: 'tag-muted', Pending: 'tag-muted', Invited: 'tag-muted', Nominated: 'tag-muted', 'Not assessed': 'tag-muted', Cancelled: 'tag-muted', 'Not Required': 'tag-muted', Excused: 'tag-muted', 'Limited evidence': 'tag-muted', 'Insufficient Evidence': 'tag-muted', Developing: 'tag-muted',
+  Incomplete: 'tag-warn', Deferred: 'tag-warn', 'On Hold': 'tag-warn', Partial: 'tag-warn', 'Requires Further Evidence': 'tag-warn', 'Needs More Information': 'tag-warn', 'Needs support': 'tag-warn', Rescheduled: 'tag-warn', Postponed: 'tag-warn', 'Near target - monitor': 'tag-warn', 'Coaching Need': 'tag-warn', 'Below target - development required': 'tag-bad',
   Failed: 'tag-bad', Rejected: 'tag-bad', Expired: 'tag-bad', 'No-show': 'tag-bad', Absent: 'tag-bad', Fail: 'tag-bad', 'At risk': 'tag-bad', Withdrawn: 'tag-bad', Overdue: 'tag-bad', 'Left Company': 'tag-muted',
 }
+const SEV_TONE: Record<string, string> = { High: 'tag-bad', Medium: 'tag-warn', Low: 'tag-muted', Opportunity: 'tag-good' }
+export const Severity = ({ v }: { v: string }) => <span className={`tag ${SEV_TONE[v] ?? ''}`}>{v}</span>
 export const Status = ({ v }: { v?: string | null }) => (v ? <span className={`tag ${STATUS_TONE[v] ?? ''}`}>{v}</span> : <span className="muted">–</span>)
 
 export function Pline({ value, tone }: { value: number | null | undefined; tone?: string }) {
@@ -151,7 +153,7 @@ export function MultiCombobox({ options, value, onChange, placeholder }: { optio
     <div>
       {value.length > 0 && (
         <div className="multi">
-          {value.map((id) => <span key={id} className="tag tag-lime">{map.get(id)?.label ?? id}<button type="button" aria-label="Remove" onClick={() => onChange(value.filter((x) => x !== id))}>×</button></span>)}
+          {value.map((id) => <span key={id} className="tag tag-good">{map.get(id)?.label ?? id}<button type="button" aria-label="Remove" onClick={() => onChange(value.filter((x) => x !== id))}>×</button></span>)}
         </div>
       )}
       <Combobox options={(options ?? []).filter((o) => !value.includes(o.id))} value={null} onChange={(v) => v && onChange([...value, v])} placeholder={placeholder ?? 'Add…'} allowEmpty={false} />

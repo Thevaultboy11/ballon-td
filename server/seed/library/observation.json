@@ -1,0 +1,210 @@
+{
+ "_about": "The 25 observed behaviours with domain, what to look for, the competency each is evidence for, and the interpretation texts (section 5.8).",
+ "parameters": [
+  {
+   "code": "OB-01",
+   "name": "Confidence / composure",
+   "domain": "Personal Effectiveness",
+   "category": "Personal Effectiveness",
+   "description": "Maintains a calm, credible, and steady presence when speaking or being challenged.",
+   "competency": "LXSCN032"
+  },
+  {
+   "code": "OB-02",
+   "name": "Accountability / follow-through",
+   "domain": "Personal Effectiveness",
+   "category": "Personal Effectiveness",
+   "description": "Owns actions, closes loops, and stays answerable for tasks and commitments.",
+   "competency": "LXSCN206"
+  },
+  {
+   "code": "OB-03",
+   "name": "Emotional regulation",
+   "domain": "Personal Effectiveness",
+   "category": "Personal Effectiveness",
+   "description": "Remains composed and professional under pressure or disagreement.",
+   "competency": "LXSCN037"
+  },
+  {
+   "code": "OB-04",
+   "name": "Openness to feedback",
+   "domain": "Personal Effectiveness",
+   "category": "Personal Effectiveness",
+   "description": "Receives input constructively and adjusts behaviour accordingly.",
+   "competency": "LXSCN039"
+  },
+  {
+   "code": "OB-05",
+   "name": "Clarity of message",
+   "domain": "Professional Communication Proficiency",
+   "category": "Communication",
+   "description": "Communicates main point understandably and without confusion.",
+   "competency": "LXSCN036"
+  },
+  {
+   "code": "OB-06",
+   "name": "Structure of message",
+   "domain": "Professional Communication Proficiency",
+   "category": "Communication",
+   "description": "Uses logical flow, framing, and closure.",
+   "competency": "LXSCN032"
+  },
+  {
+   "code": "OB-07",
+   "name": "Active listening",
+   "domain": "Professional Communication Proficiency",
+   "category": "Communication",
+   "description": "Shows attention, paraphrases, and builds on what others say.",
+   "competency": "LXSCN035"
+  },
+  {
+   "code": "OB-08",
+   "name": "Adaptation to audience",
+   "domain": "Professional Communication Proficiency",
+   "category": "Communication",
+   "description": "Adjusts language and level of detail to the audience.",
+   "competency": "LXSCN055"
+  },
+  {
+   "code": "OB-09",
+   "name": "Conciseness",
+   "domain": "Professional Communication Proficiency",
+   "category": "Communication",
+   "description": "Communicates efficiently without unnecessary detail.",
+   "competency": "LXSCN036"
+  },
+  {
+   "code": "OB-10",
+   "name": "Participation",
+   "domain": "Collaboration & Team Dynamics",
+   "category": "Collaboration",
+   "description": "Contributes appropriately and consistently in group work.",
+   "competency": "LXSCN001"
+  },
+  {
+   "code": "OB-11",
+   "name": "Respectful interaction",
+   "domain": "Collaboration & Team Dynamics",
+   "category": "Collaboration",
+   "description": "Shows professionalism, respect, and constructive tone.",
+   "competency": "LXSCN035"
+  },
+  {
+   "code": "OB-12",
+   "name": "Influence in group",
+   "domain": "Collaboration & Team Dynamics",
+   "category": "Collaboration",
+   "description": "Shapes discussion positively without overpowering others.",
+   "competency": "LXSCN008"
+  },
+  {
+   "code": "OB-13",
+   "name": "Conflict handling",
+   "domain": "Collaboration & Team Dynamics",
+   "category": "Collaboration",
+   "description": "Handles disagreement calmly and productively.",
+   "competency": "LXSCN027"
+  },
+  {
+   "code": "OB-14",
+   "name": "Collaboration",
+   "domain": "Collaboration & Team Dynamics",
+   "category": "Collaboration",
+   "description": "Works effectively toward shared outcomes with others.",
+   "competency": "LXSCN001"
+  },
+  {
+   "code": "OB-15",
+   "name": "Problem definition",
+   "domain": "Problem Solving & Decision Quality",
+   "category": "Problem Solving",
+   "description": "Frames the actual issue before trying to solve it.",
+   "competency": "LXSCN031"
+  },
+  {
+   "code": "OB-16",
+   "name": "Logical thinking",
+   "domain": "Problem Solving & Decision Quality",
+   "category": "Problem Solving",
+   "description": "Explains reasoning coherently and step by step.",
+   "competency": "LXSCN034"
+  },
+  {
+   "code": "OB-17",
+   "name": "Idea generation",
+   "domain": "Problem Solving & Decision Quality",
+   "category": "Problem Solving",
+   "description": "Produces useful options and alternatives.",
+   "competency": "LXSCN005"
+  },
+  {
+   "code": "OB-18",
+   "name": "Decision quality",
+   "domain": "Problem Solving & Decision Quality",
+   "category": "Problem Solving",
+   "description": "Makes sensible choices and explains trade-offs.",
+   "competency": "LXSCN019"
+  },
+  {
+   "code": "OB-19",
+   "name": "Initiative",
+   "domain": "Leadership Communication Potential",
+   "category": "Leadership",
+   "description": "Steps forward without waiting to be told.",
+   "competency": "LXSCN020"
+  },
+  {
+   "code": "OB-20",
+   "name": "Ownership",
+   "domain": "Leadership Communication Potential",
+   "category": "Leadership",
+   "description": "Acts as if the outcome matters personally.",
+   "competency": "LXSCN206"
+  },
+  {
+   "code": "OB-21",
+   "name": "Guiding others",
+   "domain": "Leadership Communication Potential",
+   "category": "Leadership",
+   "description": "Helps organise, guide, or support peers effectively.",
+   "competency": "LXSCN027"
+  },
+  {
+   "code": "OB-22",
+   "name": "Presence / authority",
+   "domain": "Leadership Communication Potential",
+   "category": "Leadership",
+   "description": "Projects grounded, credible authority that others respond to.",
+   "competency": "LXSCN026"
+  },
+  {
+   "code": "OB-23",
+   "name": "Learning speed",
+   "domain": "Learning Agility",
+   "category": "Learning Agility",
+   "description": "Improves quickly across activities and days.",
+   "competency": "LXSCN039"
+  },
+  {
+   "code": "OB-24",
+   "name": "Applies feedback",
+   "domain": "Learning Agility",
+   "category": "Learning Agility",
+   "description": "Converts feedback into visible behavioural change.",
+   "competency": "LXSCN039"
+  },
+  {
+   "code": "OB-25",
+   "name": "Reflection quality",
+   "domain": "Learning Agility",
+   "category": "Learning Agility",
+   "description": "Can identify what worked, what did not, and what to change.",
+   "competency": "LXSCN034"
+  }
+ ],
+ "parameterTexts": {
+  "interpretationLow": "Below required standard for current role level or batch expectation.",
+  "actionLow": "Targeted coaching, deliberate practice, feedback follow-up, and observation in next workshop.",
+  "signalHigh": "Possible growth, stretch assignment, mentoring exposure, or leadership-readiness signal if consistent."
+ }
+}

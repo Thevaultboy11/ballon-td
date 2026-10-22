@@ -138,7 +138,8 @@ for (const r of roles) {
 w()
 
 // ---------------------------------------------------------------- Lexonis
-const lex = await prisma.competency.findMany({ where: { category: { framework: { code: { in: ['LEXCF', 'LEXFN'] } } } }, include: { category: { include: { framework: true } } }, orderBy: { sortOrder: 'asc' } })
+// The demo's Lexonis competencies use 4-digit codes (LXSCN0055); the standard library's own copies use 3 digits (LXSCN055).
+const lex = (await prisma.competency.findMany({ where: { OR: [{ code: { startsWith: 'LXSCN' } }, { code: { startsWith: 'LEX-' } }] }, include: { category: { include: { framework: true } } }, orderBy: { sortOrder: 'asc' } })).filter((c) => /^(LXSCN\d{4}|LEX-.+)$/.test(c.code))
 w('## Lexonis competency framework')
 w()
 w('Codes, categories and definitions from the client\'s competency sheet. Level indicators (1 Foundation · 2 Developing · 3 Proficient · 4 Expert) are starter text.')

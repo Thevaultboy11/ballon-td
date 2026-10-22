@@ -1,0 +1,79 @@
+{
+ "_about": "Generalised organisational unit labels (section 5.7): a reusable template structure for Division / Department / Section suggestions. Replace per client.",
+ "orgUnits": {
+  "divisions": [
+   "Digital Cybersecurity Operations Division",
+   "Group Information Security"
+  ],
+  "departments": [
+   "Digital Business Continuity & Cyber Threat Intelligence Department",
+   "Digital Cybersecurity Engineering Department",
+   "Digital Identity & Access Management Department",
+   "Digital Risk Management & Compliance Department",
+   "Digital Security Operations Center Department",
+   "OT Cybersecurity Department"
+  ],
+  "sections": [
+   {
+    "section": "Digital Clouds & Applications Security Section",
+    "department": "Digital Cybersecurity Engineering Department",
+    "division": "Digital Cybersecurity Operations Division"
+   },
+   {
+    "section": "Digital Infrastructure Security Operations Section",
+    "department": "Digital Cybersecurity Engineering Department",
+    "division": "Digital Cybersecurity Operations Division"
+   },
+   {
+    "section": "Digital Vulnerability Management Section",
+    "department": "Digital Cybersecurity Engineering Department",
+    "division": "Digital Cybersecurity Operations Division"
+   },
+   {
+    "section": "Digital Cybersecurity Monitoring Section",
+    "department": "Digital Security Operations Center Department",
+    "division": "Digital Cybersecurity Operations Division"
+   },
+   {
+    "section": "Digital Threat Hunting Section",
+    "department": "Digital Security Operations Center Department",
+    "division": "Digital Cybersecurity Operations Division"
+   },
+   {
+    "section": "Downstream Industry, Marketing & Trading OT Cybersecurity Section",
+    "department": "OT Cybersecurity Department",
+    "division": "Digital Cybersecurity Operations Division"
+   },
+   {
+    "section": "Upstream OT Cybersecurity Section",
+    "department": "OT Cybersecurity Department",
+    "division": "Digital Cybersecurity Operations Division"
+   },
+   {
+    "section": "Cyber Threat Intelligence Section",
+    "department": "Digital Business Continuity & Cyber Threat Intelligence Department",
+    "division": "Group Information Security"
+   },
+   {
+    "section": "Digital Business Continuity Management Section",
+    "department": "Digital Business Continuity & Cyber Threat Intelligence Department",
+    "division": "Group Information Security"
+   },
+   {
+    "section": "Cyber Security Policies & Standards Section",
+    "department": "Digital Risk Management & Compliance Department",
+    "division": "Group Information Security"
+   },
+   {
+    "section": "IT Risk Management & Compliance Section",
+    "department": "Digital Risk Management & Compliance Department",
+    "division": "Group Information Security"
+   },
+   {
+    "section": "OT Risk Management & Compliance Section",
+    "department": "Digital Risk Management & Compliance Department",
+    "division": "Group Information Security"
+   }
+  ]
+ }
+}

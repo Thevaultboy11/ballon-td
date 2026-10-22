@@ -176,7 +176,7 @@ function Observations({ sessionId }: { sessionId: string }) {
       <div className="table-tools">
         <div className="toolbar">
           <span className="muted" style={{ fontSize: 13 }}>Day</span>
-          <div className="chips">{Array.from({ length: Math.max(data.days, 1) }, (_, i) => i + 1).map((d) => <button key={d} className={`chip-btn ${d === day ? 'active' : ''}`} onClick={() => switchDay(d)}>Day {d}</button>)}</div>
+          <div className="chips">{Array.from({ length: Math.max(data.days, 1) }, (_, i) => i + 1).map((d) => <button key={d} className={`chip-btn ${d === day ? 'active' : ''}`} onClick={() => switchDay(d)} title={data.dayTitles?.[d - 1] ?? undefined}>Day {d}{data.dayTitles?.[d - 1] && <span className="count">{data.dayTitles[d - 1]}</span>}</button>)}</div>
         </div>
         <span className="muted" style={{ fontSize: 12.5 }}>Type 1–5 in a cell; the cursor jumps to the next one. Leave empty if not observed.</span>
       </div>

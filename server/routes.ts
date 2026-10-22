@@ -7,7 +7,8 @@ import { LOOKUP_LISTS } from '../shared/lookups.ts'
 import { nextId, nextIds } from './lib/ids.ts'
 import { HttpError, toData, explainPrismaError } from './lib/validate.ts'
 import { decorate, logChange, userOf, afterWrite } from './lib/crud.ts'
-import { loadData, summarize } from './lib/metrics.ts'
+import { loadData, summarize, groupRisks } from './lib/metrics.ts'
+import { SEVERITY_ORDER } from './lib/risks.ts'
 import { buildWorkbook } from './lib/export.ts'
 
 export function appRouter() {
@@ -29,9 +30,20 @@ export function appRouter() {
     const today = new Date()
     const rows = await decorate(ENTITY.employees, d.employees.map(({ client, jobRole, lineManager, ...e }) => ({ ...e })))
     res.json(rows.map((e: any, i: number) => {
-      const { competencies, ...s } = summarize(d, d.employees[i], today)
-      return { ...e, summary: s }
+      const { competencies, observation, risks, ...s } = summarize(d, d.employees[i], today)
+      return { ...e, summary: { ...s, riskCodes: risks.map((r) => `${r.code}:${r.severity}`), potential: observation?.leadershipPotential ?? null } }
     }))
+  })
+
+  // ---------------------------------------------------------------- risks and opportunities (individual + group)
+  r.get('/risks', async (req, res) => {
+    const d = await loadData({ clientId: (req.query.clientId as string) || undefined })
+    const sums = d.employees.map((e) => ({ e, s: summarize(d, e) }))
+    const individual = sums.flatMap(({ e, s }) => s.risks.map((f) => ({ ...f, employeeId: e.id, employeeName: e.name, clientId: e.clientId, client: e.client.name, department: e.department, section: e.section, jobTitle: e.jobTitle })))
+    const group = groupRisks(d, sums)
+    const rules = [...d.riskRules].sort((a, b) => (SEVERITY_ORDER[a.severity] ?? 9) - (SEVERITY_ORDER[b.severity] ?? 9) || a.code.localeCompare(b.code))
+    const clients = [...new Map(d.employees.map((e) => [e.clientId, e.client.name])).entries()]
+    res.json({ rules, individual, group, people: sums.length, clients })
   })
 
   r.get('/people/:id', async (req, res) => {
@@ -169,6 +181,7 @@ export function appRouter() {
     const records = await prisma.trainingRecord.findMany({ where: { sessionId: s.id }, include: { employee: true, days: { where: { dayNumber: day }, include: { scores: true } } }, orderBy: { employee: { name: 'asc' } } })
     res.json({
       day, days: s.course.days ?? 1, observed: s.course.observed,
+      dayTitles: (s.course.dayTitles ?? '').split(/\r?\n/).map((x) => x.trim()).filter(Boolean),
       parameters: params.map((p) => ({ id: p.id, code: p.code, name: p.name, category: p.category, maxScore: p.maxScore, competency: p.competency?.name ?? null, description: p.description })),
       rows: records.map((t) => {
         const d = t.days[0]
@@ -207,10 +220,12 @@ export function appRouter() {
           await logChange(tx, user, 'update', ENTITY.observationDays, dayRow.id, dayRow, after, t.employeeId)
         }
         const existing = new Map<string, any>((await tx.observationScore.findMany({ where: { observationDayId: dayRow.id } })).map((x: any) => [x.parameterId, x]))
+        const maxOf = new Map<string, number>((await tx.observationParameter.findMany({ select: { id: true, maxScore: true } })).map((x: any) => [x.id, x.maxScore]))
         const changes: Record<string, [unknown, unknown]> = {}
         for (const [parameterId, raw] of Object.entries(input.scores ?? {})) {
           const score = raw === '' || raw == null ? null : Number(raw)
-          if (score != null && (!Number.isInteger(score) || score < 1 || score > 5)) throw new HttpError(400, `Scores must be whole numbers from 1 to 5 (${input.name ?? t.employeeId}).`)
+          const max = maxOf.get(parameterId) ?? 5
+          if (score != null && (!Number.isInteger(score) || score < (max === 5 ? 1 : 0) || score > max)) throw new HttpError(400, `Scores must be whole numbers from ${max === 5 ? 1 : 0} to ${max} (${input.name ?? t.employeeId}).`)
           const prev = existing.get(parameterId)
           if (prev) { if (prev.score !== score) { await tx.observationScore.update({ where: { id: prev.id }, data: { score } }); changes[parameterId] = [prev.score, score] } }
           else if (score != null) { await tx.observationScore.create({ data: { id: await nextId('OSC', tx), observationDayId: dayRow.id, parameterId, score } }); changes[parameterId] = [null, score] }

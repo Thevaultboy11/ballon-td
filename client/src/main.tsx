@@ -9,6 +9,7 @@ import Person from './pages/Person'
 import Sessions from './pages/Sessions'
 import Session from './pages/Session'
 import Library from './pages/Library'
+import Risks from './pages/Risks'
 import ExportPage from './pages/Export'
 
 function ThemeToggle() {
@@ -53,6 +54,7 @@ function Layout() {
         <nav className="nav">
           <NavLink to="/" className={() => active('/')}>People</NavLink>
           <NavLink to="/sessions" className={() => active('/sessions')}>Sessions</NavLink>
+          <NavLink to="/risks" className={() => active('/risks')}>Risks</NavLink>
           <NavLink to="/library" className={() => active('/library')}>Library</NavLink>
           <NavLink to="/export" className={() => active('/export')}>Export</NavLink>
         </nav>
@@ -69,13 +71,14 @@ function Layout() {
           <Route path="/people/:id" element={<Person />} />
           <Route path="/sessions" element={<Sessions />} />
           <Route path="/sessions/:id" element={<Session />} />
+          <Route path="/risks" element={<Risks />} />
           <Route path="/library" element={<Library />} />
           <Route path="/library/:key" element={<Library />} />
           <Route path="/export" element={<ExportPage />} />
-          <Route path="*" element={<div className="container page"><div className="hero compact"><h1>Page not found</h1><p className="sub"><Link to="/" className="lime-text">Back to people</Link></p></div></div>} />
+          <Route path="*" element={<div className="container page"><div className="hero compact"><h1>Page not found</h1><p className="sub"><Link to="/" className="accent-text">Back to people</Link></p></div></div>} />
         </Routes>
       </main>
-      <footer className="footer"><div className="container"><span>Ballon TD · internal use only · every change is logged with the name above</span><span>Data stays on this server</span></div></footer>
+      <footer className="footer"><div className="container"><span><span className="footer-name">Ballon TD</span>Internal use only · every change is logged with the name above</span><span>Data stays on this server</span></div></footer>
       {(!user || editUser) && <UserModal first={!user} onClose={() => setEditUser(false)} />}
       <Toasts />
     </>

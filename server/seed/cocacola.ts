@@ -14,6 +14,7 @@
 import { prisma, prepareDatabase } from '../db.ts'
 import { nextId, nextIds, syncCounters } from '../lib/ids.ts'
 import { seedLibrary } from './seed.ts'
+import { seedStarterLibrary } from './starter.ts'
 
 const CLIENT = 'Coca-Cola — Global Cyber Security (demo)'
 const MARK = 'Coca-Cola demo'
@@ -167,10 +168,13 @@ async function remove() {
 async function create() {
   if (await prisma.client.findUnique({ where: { name: CLIENT } })) return console.log('Already loaded. Remove it first: npm run db:coca-cola -- --remove')
   await seedLibrary()
+  await seedStarterLibrary() // the demo's technical role profiles use the starter library's codes
 
   // ---------------------------------------------------------------- library additions
-  const lexCF = await ensure('framework', 'FWK', { code: 'LEXCF' }, { name: 'Lexonis Cross-functional Competencies', scaleMin: 1, scaleMax: 4, description: 'Client competency framework (Lexonis). Scale 1–4.' })
-  const lexFN = await ensure('framework', 'FWK', { code: 'LEXFN' }, { name: 'Lexonis Functional Competencies', scaleMin: 1, scaleMax: 4, description: 'Client functional competencies (Lexonis). Scale 1–4.' })
+  // The standard library (npm run db:seed) already holds both Lexonis frameworks as LEXCROSS / LEXFUNCT: reuse them.
+  const libFw = async (code: string) => (await prisma.framework.findUnique({ where: { code } }))?.id
+  const lexCF = (await libFw('LEXCROSS')) ?? await ensure('framework', 'FWK', { code: 'LEXCF' }, { name: 'Lexonis Cross-functional Competencies', scaleMin: 1, scaleMax: 4, description: 'Client competency framework (Lexonis). Scale 1–4.' })
+  const lexFN = (await libFw('LEXFUNCT')) ?? await ensure('framework', 'FWK', { code: 'LEXFN' }, { name: 'Lexonis Functional Competencies', scaleMin: 1, scaleMax: 4, description: 'Client functional competencies (Lexonis). Scale 1–4.' })
   const cats: Record<string, string> = {
     LEX_CF: await ensure('competencyCategory', 'CAT', { code: 'LEX_CF' }, { name: 'Business', frameworkId: lexCF, sortOrder: 200 }),
     LEX_LM: await ensure('competencyCategory', 'CAT', { code: 'LEX_LM' }, { name: 'Leadership and Management', frameworkId: lexCF, sortOrder: 210 }),
