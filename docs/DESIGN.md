@@ -58,6 +58,11 @@ No gradients, glows or coloured shadows.
 | Programme progress card | Person → Overview | `.kv`, `.seg-list`, `.seg` |
 | Observation summary card | Person → Overview | `.kv`, `.seg-list`, `details` |
 | Risks page | Top navigation | existing `.table`, `.filters`, `.kpi` |
+| Stage rail | Person → Roadmap, Roadmaps | `StageRail` in `components/roadmap.tsx`: numbered nodes with a progress ring, joined by a line that turns royal blue as stages finish; *Now* badge on the current stage |
+| Stage detail, next steps | Person → Roadmap | `.todo-list` with done (filled) and open (hollow, red when overdue) markers |
+| Timeline | Person → Roadmap | `.tl` swimlanes by month, today line in sky blue |
+| Journey strip | Roadmaps | `MiniRail`: ten blocks per person in a table row |
+| Print layout | Roadmap pages | `@media print` hides navigation and prints cards and colours as shown |
 | Severity tag | Everywhere a rule is shown | `Severity` in `components/ui.tsx` |
 | Suggest input | Grade, division, department, section | `SuggestInput` in `components/entity.tsx` (`<datalist>`) |
 

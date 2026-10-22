@@ -6,6 +6,7 @@ const SHEETS: [string, string, boolean?][] = [
   ['README', 'What is in the file, row counts, ID prefixes.', true],
   ['Employee_Summary', 'One row per person, every calculated value: readiness, gaps, plan progress, training, labs, IDP segments, certifications, coaching, baseline, observation summary and risk counts. The manager view.', true],
   ['Risk_Flags', 'Every risk and opportunity rule that fires, per person and per group (team, section, skill), with action and owner.', true],
+  ['Roadmap', 'Each person\'s journey, stage by stage: status, progress, what is done and what is still open.', true],
   ['Observation_Profile', 'Each person\'s average per observed behaviour, with finding and action cue.', true],
   ['Activity_Log', 'Every interaction in one sheet, one row per data point: baseline surveys, ratings, validations, plan actions, training, each observation score, certifications, coaching, evidence.', true],
   ['Data_Dictionary', 'Every sheet and column: meaning, type, required, which list it uses and which sheet it links to.', true],
@@ -56,7 +57,7 @@ export default function ExportPage() {
             <h3>Building the database later</h3>
             <p className="card-sub" style={{ marginTop: 8, lineHeight: 1.55 }}>
               Each table sheet is one database table. The first column is the primary key (e.g. <span className="mono">EMP-0001</span>), and every column ending in <span className="mono">Id</span> is a foreign key to the sheet named in its header note and in Data_Dictionary.
-              Many-to-many links have their own sheets (<span className="mono">CourseCompetency</span>, <span className="mono">CertificationCompetency</span>). Calculated values are only in Employee_Summary, Risk_Flags, Observation_Profile and Activity_Log, never in the table sheets, so importing never duplicates data.
+              Many-to-many links have their own sheets (<span className="mono">CourseCompetency</span>, <span className="mono">CertificationCompetency</span>). Calculated values are only in Employee_Summary, Risk_Flags, Observation_Profile, Roadmap and Activity_Log, never in the table sheets, so importing never duplicates data.
             </p>
           </div>
         </div>

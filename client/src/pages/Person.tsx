@@ -4,10 +4,12 @@ import { ENTITY } from '@shared/entities'
 import { useApi, pct, dec, fmtDate, getUser } from '../api'
 import { Avatar, Icon, Kpi, Pline, Severity, Spark, Status } from '../components/ui'
 import { EntityForm, EntityList } from '../components/entity'
+import { NextSteps, StageDetail, StageRail, Timeline, STATUS_WORD } from '../components/roadmap'
 import { RatingsGrid } from '../components/ratings'
 
 const TABS: { key: string; label: string; entity?: string; hint?: string }[] = [
   { key: 'overview', label: 'Overview' },
+  { key: 'roadmap', label: 'Roadmap' },
   { key: 'baseline', label: 'Baseline', entity: 'baseline', hint: 'Short survey before day 1 of the observed programme: years of experience, six self-ratings (1–5) and personality type. The average of the six ratings is the self-assessed level in the observation summary.' },
   { key: 'assessments', label: 'Assessments', entity: 'assessments', hint: 'Each assessment keeps its own ratings, so progress over time is visible. Open "Ratings" to enter the level per competency.' },
   { key: 'idp', label: 'Development plan', entity: 'idp', hint: 'One row per planned action. Link it to the competency it should close, and to the course or certification when there is one.' },
@@ -92,6 +94,7 @@ export default function Person() {
         </div>
         <div className="tab-body">
           {tab === 'overview' && <Overview data={data} />}
+          {tab === 'roadmap' && <PersonRoadmap employeeId={e.id} />}
           {tab === 'history' && <History employeeId={e.id} />}
           {TABS.filter((t) => t.entity && t.key === tab).map((t) => (
             <div key={t.key}>
@@ -297,6 +300,45 @@ function ObservationCard({ o }: { o: any }) {
           </div>
         </details>
       )}
+    </div>
+  )
+}
+
+function PersonRoadmap({ employeeId }: { employeeId: string }) {
+  const { data } = useApi<any>(`/people/${employeeId}/roadmap`)
+  const [sel, setSel] = useState<string | null>(null)
+  if (!data) return <div className="loading">Loading…</div>
+  const stage = data.stages.find((x: any) => x.key === (sel ?? data.currentStage)) ?? data.stages[data.stages.length - 1]
+  const cur = data.stages.find((x: any) => x.key === data.currentStage)
+  const done = data.stages.filter((x: any) => x.status === 'done').length
+  return (
+    <div className="stack roadmap">
+      <div className="card">
+        <div className="card-head">
+          <div>
+            <h3>Journey</h3>
+            <div className="card-sub">{data.goal} · {done} of {data.stages.length} stages done{cur ? ` · now: ${cur.label} (${STATUS_WORD[cur.status as keyof typeof STATUS_WORD].toLowerCase()})` : ' · journey complete'}</div>
+          </div>
+          <div className="row" style={{ gap: 10 }}>
+            <div className="journey-pct"><b>{Math.round(data.progress * 100)}%</b><span>complete</span></div>
+            <button className="btn btn-secondary btn-sm no-print" onClick={() => window.print()}><Icon.download />Print</button>
+          </div>
+        </div>
+        <Pline value={data.progress} tone="" />
+        <div className="mt24"><StageRail stages={data.stages} current={data.currentStage} selected={stage.key} onSelect={setSel} /></div>
+        <p className="note no-print">Click a stage to see what is done and what is still open. The stages follow the programme from enrolment to role readiness; a red stage has a High risk rule firing.</p>
+      </div>
+      <div className="grid g-2-1">
+        <div className="card"><StageDetail stage={stage} /></div>
+        <div className="card">
+          <div className="card-head"><div><h3>Next steps</h3><div className="card-sub">Overdue first, then the next dates</div></div></div>
+          <NextSteps items={data.next} />
+        </div>
+      </div>
+      <div className="card">
+        <div className="card-head"><div><h3>Timeline</h3><div className="card-sub">Every dated record, month by month · hover a mark for details</div></div></div>
+        <Timeline events={data.events} window={data.window} />
+      </div>
     </div>
   )
 }

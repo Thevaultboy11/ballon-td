@@ -5,6 +5,7 @@
 //   Activity_Log      one row per data point, every type of interaction in one sheet
 //   Risk_Flags        every risk / opportunity rule that fires, per person and per group (team, section, skill)
 //   Observation_Profile  one row per person per observed behaviour: average, finding, action cue
+//   Roadmap           one row per person per journey stage: status, progress, what is done, what is still open
 //   Data_Dictionary   every sheet and column: meaning, type, links, list
 //   <Table> sheets    one per database table, column names = database columns, IDs intact
 //                     (this is what gets imported when the real database is built)
@@ -14,6 +15,7 @@ import { ENTITIES, ENTITY, type Entity, type Field } from '../../shared/entities
 import { LOOKUP_BY_KEY } from '../../shared/lookups.ts'
 import { loadData, summarize, groupRisks, type Scope } from './metrics.ts'
 import { SEVERITY_ORDER, baselineScore } from './risks.ts'
+import { buildRoadmap } from './roadmap.ts'
 
 // Palette: navy (headers), royal blue (accent), pale blue (header fill), steel gray (secondary text)
 const INK = 'FF1E3B6B', LIME = 'FFDCE7F5', ACCENT = 'FF1859A9', MUTED = 'FF4D5156', SOFT = 'FFF3F5F8'
@@ -80,6 +82,7 @@ export async function buildWorkbook(scope: Scope & { includeLog?: boolean; expor
   const logWs = wb.addWorksheet('Activity_Log', { properties: { tabColor: { argb: ACCENT } } })
   const riskWs = wb.addWorksheet('Risk_Flags', { properties: { tabColor: { argb: ACCENT } } })
   const profileWs = wb.addWorksheet('Observation_Profile', { properties: { tabColor: { argb: ACCENT } } })
+  const roadWs = wb.addWorksheet('Roadmap', { properties: { tabColor: { argb: ACCENT } } })
   const dictWs = wb.addWorksheet('Data_Dictionary', { properties: { tabColor: { argb: INK } } })
 
   // ------------------------------------------------------------------ Employee_Summary
@@ -134,6 +137,23 @@ export async function buildWorkbook(scope: Scope & { includeLog?: boolean; expor
   profileWs.getColumn(6).numFmt = '0.00'
   styleHeader(profileWs, true)
   widths(profileWs, 40)
+
+  // ------------------------------------------------------------------ Roadmap
+  roadWs.addRow(['Employee_ID', 'Employee_Name', 'Department', 'Section', 'Line_Manager', 'Journey_Progress', 'Current_Stage', 'Step', 'Stage', 'Status', 'Stage_Progress', 'Headline', 'Done_Count', 'Done', 'Open_Count', 'Still_Open', 'Next_Date'])
+  const WORD: Record<string, string> = { done: 'Done', active: 'In progress', risk: 'At risk', todo: 'Not started' }
+  for (const { e, s } of sums) {
+    if (['Out of Scope', 'Left Company'].includes(e.status ?? '')) continue
+    const m = buildRoadmap(d, e, s)
+    const cur = m.stages.find((x) => x.key === m.currentStage)?.label ?? 'Complete'
+    m.stages.forEach((st, i) => {
+      const nextDate = st.open.map((x) => x.date).filter(Boolean).sort((a, b) => a!.getTime() - b!.getTime())[0] ?? null
+      roadWs.addRow([e.id, e.name, e.department, e.section, m.lineManager, m.progress, cur, i + 1, st.label, WORD[st.status], st.status === 'done' ? 1 : st.progress,
+        st.headline, st.done.length, st.done.map((x) => x.text).join('\n') || null, st.open.length, st.open.map((x) => `${x.overdue ? '[overdue] ' : ''}${x.text}`).join('\n') || null, nextDate])
+    })
+  }
+  roadWs.getColumn(6).numFmt = PCT_FMT; roadWs.getColumn(11).numFmt = PCT_FMT; roadWs.getColumn(17).numFmt = DATE_FMT
+  styleHeader(roadWs, true)
+  widths(roadWs, 60)
 
   // ------------------------------------------------------------------ Activity_Log
   const L = ['Activity_ID', 'Activity_Type', 'Parent_ID', 'Employee_ID', 'Employee_Name', 'Client', 'Department', 'Date', 'Activity', 'Detail',
@@ -266,6 +286,7 @@ export async function buildWorkbook(scope: Scope & { includeLog?: boolean; expor
     ['Risks_* / Risk_Codes', 'Count of risk and opportunity rules that fire for the person (see Risk_Flags and the RiskRule sheet for the rule text, threshold and owner). People marked Out of Scope or Left Company are not evaluated.'],
     ['Risk_Flags', 'One row per rule that fires. Scope Individual = one person; Group = a team, section or skill where a share of people is affected (R34–R36, groups of 3 or more).'],
     ['Observation_Profile', 'One row per person per observed behaviour: average on the 1–5 scale, finding (Acceptable / strength ≥ 3.5, Developing / monitor ≥ 2.5, Development priority below) and the matching action cue.'],
+    ['Roadmap', 'The journey per person: ten stages in programme order (enrolment, baseline survey, assessment & report, development plan, training & labs, observed programme, certifications, coaching, manager validation, role readiness). Status Done / In progress / At risk (a High risk rule fires for the stage) / Not started. Journey_Progress = average of stage progress, a done stage counting 100%. Done and Still_Open list the records behind it.'],
     ['Activity_Log', 'One row per data point from every activity table. Activity_ID is the row ID in its own sheet (the prefix tells which). Parent_ID points to the record it belongs to (rating → assessment, observation score → observation day → training record).'],
   ]) dictWs.addRow(['(calculated)', k, '', '', '', '', '', desc])
   styleHeader(dictWs, true)
@@ -288,6 +309,7 @@ export async function buildWorkbook(scope: Scope & { includeLog?: boolean; expor
   line('Employee_Summary', '', 'One row per person with every calculated value (readiness, gaps, completion, coaching, certifications). Start here.')
   line('Risk_Flags', '', 'Every risk and opportunity rule that fires, for one person or for a group, with severity, the suggested action and its owner. Sorted by severity.')
   line('Observation_Profile', '', 'Each person\'s average per observed behaviour with the finding and action cue.')
+  line('Roadmap', '', 'Each person\'s journey stage by stage: what is done and what is still open. For one team, use the manager report on Roadmaps.')
   line('Activity_Log', '', 'Every interaction as one row: baseline surveys, ratings, validations, plan actions, training, each observation score, certifications, coaching, evidence. Filter Employee_Name to see one person\'s full history.')
   line('Data_Dictionary', '', 'What every column in every sheet means, its type, which list it uses and which sheet it links to.')
   line('Table sheets', '', 'One sheet per database table, with the exact column names and IDs. IDs are stable: EMP-0001 is always the same person. A column ending in "Id" holds the ID of a row in another sheet. These sheets can be imported straight into a database (one sheet = one table).')
@@ -297,6 +319,7 @@ export async function buildWorkbook(scope: Scope & { includeLog?: boolean; expor
   line('Employee_Summary', sums.length, 'Calculated, one row per person.')
   line('Risk_Flags', flagRows.length, 'Calculated, one row per rule that fires.')
   line('Observation_Profile', profileWs.rowCount - 1, 'Calculated, one row per person per behaviour.')
+  line('Roadmap', roadWs.rowCount - 1, 'Calculated, one row per person per stage.')
   line('Activity_Log', rows.length, 'Calculated, one row per data point.')
   for (const [t, n, desc] of tableCounts) line(t, n, desc)
   line()

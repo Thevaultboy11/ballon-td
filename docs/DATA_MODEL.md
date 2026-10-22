@@ -128,6 +128,7 @@ New dropdown lists: Grade, Division, Department, Section (suggestions), Plan seg
 | Classification | Insufficient Evidence · Stretch Candidate · Developing Potential · Coaching Need |
 | Alignment status | Observed overall − target level: ≥ 0 meets/exceeds, ≥ −0.25 near target, else below target |
 | Risk flags | The 36 rules in [RISK_RULES.md](RISK_RULES.md) |
+| Roadmap | Ten stages per person, journey % and current stage, as in [ROADMAP.md](ROADMAP.md) |
 
 The code is [`server/lib/metrics.ts`](../server/lib/metrics.ts).
 
@@ -140,6 +141,7 @@ One workbook, built by [`server/lib/export.ts`](../server/lib/export.ts):
 | `README` | — | What is in the file, row counts, ID prefixes |
 | `Employee_Summary` | one per person | Reading: every calculated value (the manager's "one row per person" view) |
 | `Risk_Flags` | one per rule that fires | Reading: individual and group flags with severity, action and owner, sorted by severity |
+| `Roadmap` | one per person per stage | Reading: the ten journey stages with status, progress, what is done and what is still open ([ROADMAP.md](ROADMAP.md)) |
 | `Observation_Profile` | one per person per behaviour | Reading: average, finding and action cue per observed behaviour |
 | `Activity_Log` | one per data point | Reading: every interaction of every type in one long sheet — baseline surveys, ratings, validations, plan actions, trainings, each observation day and score, certifications, coaching, evidence. Filter by person to get their whole history |
 | `Data_Dictionary` | one per column | Meaning, type, list and link of every column |

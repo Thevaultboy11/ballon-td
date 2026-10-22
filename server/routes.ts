@@ -10,6 +10,8 @@ import { decorate, logChange, userOf, afterWrite } from './lib/crud.ts'
 import { loadData, summarize, groupRisks } from './lib/metrics.ts'
 import { SEVERITY_ORDER } from './lib/risks.ts'
 import { buildWorkbook } from './lib/export.ts'
+import { buildRoadmap, groupKey, rollup, type GroupBy } from './lib/roadmap.ts'
+import { buildRoadmapReport, teamRoadmaps } from './lib/roadmap-report.ts'
 
 export function appRouter() {
   const r = Router()
@@ -264,6 +266,41 @@ export function appRouter() {
     if (req.query.recordId) where.recordId = req.query.recordId
     const rows = await prisma.changeLog.findMany({ where, orderBy: { at: 'desc' }, take: Math.min(Number(req.query.take) || 100, 1000) })
     res.json(rows)
+  })
+
+  // ---------------------------------------------------------------- roadmaps (person, team, manager report)
+  const GROUPS: GroupBy[] = ['department', 'section', 'manager', 'client']
+  const groupOf = (q: any): GroupBy => (GROUPS.includes(q) ? q : 'department')
+  r.get('/people/:id/roadmap', async (req, res) => {
+    const d = await loadData({ employeeId: req.params.id })
+    const emp = d.employees[0]
+    if (!emp) throw new HttpError(404, `Person ${req.params.id} not found.`)
+    res.json(buildRoadmap(d, emp, summarize(d, emp)))
+  })
+  r.get('/roadmaps', async (req, res) => {
+    const groupBy = groupOf(req.query.groupBy)
+    const { d, maps, people } = await teamRoadmaps({ clientId: (req.query.clientId as string) || undefined, groupBy })
+    const byKey = new Map<string, typeof maps>()
+    people.forEach((e, i) => { const k = groupKey(e, groupBy); (byKey.get(k) ?? byKey.set(k, []).get(k)!).push(maps[i]) })
+    const groups = [...byKey.entries()].map(([key, ms]) => { const { upcoming, ...x } = rollup(ms); return { key, ...x, overdue: upcoming.filter((u) => u.overdue).length } })
+      .sort((a, b) => a.key.localeCompare(b.key))
+    res.json({ groupBy, groups, total: rollup(maps).stages, people: maps.length, clients: [...new Map(d.employees.map((e) => [e.clientId, e.client.name])).entries()] })
+  })
+  r.get('/roadmaps/group', async (req, res) => {
+    const groupBy = groupOf(req.query.groupBy)
+    const key = req.query.key as string
+    const { maps } = await teamRoadmaps({ clientId: (req.query.clientId as string) || undefined, groupBy, key })
+    res.json({ groupBy, key, ...rollup(maps), members: maps.map(({ events, window, ...m }) => ({ ...m, stages: m.stages.map(({ done, ...st }) => ({ ...st, open: st.open.slice(0, 5), doneCount: done.length })) })) })
+  })
+  r.get('/roadmaps/report', async (req, res) => {
+    const { wb, name } = await buildRoadmapReport({
+      clientId: (req.query.clientId as string) || undefined, groupBy: groupOf(req.query.groupBy), key: (req.query.key as string) || undefined,
+      exportedBy: userOf(req) ?? ((req.query.user as string) || null),
+    })
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    res.setHeader('Content-Disposition', `attachment; filename="${name}"`)
+    await wb.xlsx.write(res)
+    res.end()
   })
 
   // ---------------------------------------------------------------- export
