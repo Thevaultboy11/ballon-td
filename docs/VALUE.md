@@ -4,6 +4,10 @@ The **Value** page shows executives what the programme cost, what it returned in
 
 ![Value & ROI](screenshots/value.png)
 
+![KPI scorecard](screenshots/value-kpis.png)
+
+![Dark theme](screenshots/value-dark.png)
+
 | Section | What it shows |
 | --- | --- |
 | Headline | Invested, monetised benefit (12 months), net value, ROI with benefit-cost ratio and payback. Switch between **Realised to date** and **Projected** (every planned action done) |

@@ -10,6 +10,10 @@ The manager dashboard that used to be a stand-alone page reading an Excel workbo
 
 ![Dashboard](screenshots/dashboard.png)
 
+![Critical positions and their bench](screenshots/dashboard-positions.png)
+
+![Competency heatmap on Teams](screenshots/teams-heatmap.png)
+
 ## Definitions
 
 | Term | Definition |

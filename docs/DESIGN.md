@@ -50,6 +50,22 @@ No gradients, glows or coloured shadows.
 | Frame | A 6 px white border around the whole window (navy-black in the dark theme) |
 | Table header | 2 px royal-blue rule under the header row |
 
+## Opening animation
+
+![Opening animation](screenshots/intro.gif)
+
+Plays once each time the app is opened in a browser tab (not on reloads or page changes), before the app has even loaded, and works offline. It is plain HTML, CSS and SVG inside [`client/index.html`](../client/index.html).
+
+| Time | What happens |
+| --- | --- |
+| 0 s | The screen is royal blue (`#1859A9`, the primary colour) |
+| 0.1–1.1 s | A navy tile pops in, the shield outline draws itself in white, three rings ripple out, the check mark draws in sky blue and turns white |
+| 0.7–1.1 s | The letters of BALLON TD rise one by one |
+| 1.35–1.9 s | The sky-blue keyline grows under the name and *Development records* fades in |
+| 2.1–3.0 s | The mark lifts and fades, and the blue background fades to transparent, revealing the app underneath |
+
+Click or press any key to skip. With *reduce motion* switched on in the operating system it shows the mark still and fades out after a moment. `?intro=0` in the address skips it (used for screenshots).
+
 ## Components that were added
 
 | Component | Where | Class names |

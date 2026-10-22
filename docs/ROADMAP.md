@@ -37,6 +37,8 @@ Below the stage detail, every dated record is placed on a month-by-month swimlan
 
 ## Team view
 
+![Roadmaps per department](screenshots/roadmap-overview.png)
+
 ![Team roadmap](screenshots/roadmap-team.png)
 
 A team stage counts how many people finished it, how many are on it now and how many are at risk. The person rows use a compact strip of ten blocks: solid = done, light = in progress (filled to its %), red = at risk, outlined = where they are now.

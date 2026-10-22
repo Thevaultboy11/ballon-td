@@ -8,8 +8,72 @@
     <script>
       try { const t = localStorage.getItem('btd-theme'); document.documentElement.dataset.theme = t || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') } catch { document.documentElement.dataset.theme = 'light' }
     </script>
+    <style>
+      /* Opening animation: once per browser session (each time the app is opened in a tab).
+         Royal-blue screen → the mark draws itself, the name rises in, a keyline grows → the blue fades to transparent
+         and reveals the app underneath. Click or press any key to skip. Inline so it shows before the app loads, offline. */
+      #intro { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; background: #1859a9; color: #fff;
+        font-family: Arial, 'Helvetica Neue', Helvetica, 'Liberation Sans', sans-serif; cursor: pointer;
+        animation: intro-bg 0.9s cubic-bezier(0.4, 0, 0.2, 1) 2.15s forwards; }
+      #intro.skip { animation: intro-bg 0.35s ease forwards; }
+      #intro.skip .intro-stage { animation: intro-out 0.3s ease forwards; }
+      .intro-stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: 18px; animation: intro-out 0.7s cubic-bezier(0.4, 0, 0.2, 1) 2.1s forwards; }
+      .intro-mark { position: relative; width: 108px; height: 108px; }
+      .intro-mark svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+      .intro-ring { fill: none; stroke: #ffffff; stroke-width: 1.2; opacity: 0; transform-origin: 50% 50%; animation: intro-ring 1.6s cubic-bezier(0.2, 0.7, 0.3, 1) forwards; }
+      .intro-ring.r2 { animation-delay: 0.25s; }
+      .intro-ring.r3 { animation-delay: 0.5s; }
+      .intro-tile { fill: #1e3b6b; transform-origin: 50% 50%; transform: scale(0.4); opacity: 0; animation: intro-pop 0.6s cubic-bezier(0.186, 0.964, 0.68, 1) 0.1s forwards; }
+      .intro-shield { fill: none; stroke: #ffffff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 60; stroke-dashoffset: 60; animation: intro-draw 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.35s forwards; }
+      .intro-check { fill: none; stroke: #0773d7; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 12; stroke-dashoffset: 12; animation: intro-draw 0.4s cubic-bezier(0.4, 0, 0.2, 1) 1.0s forwards, intro-check 0.3s ease 1.4s forwards; }
+      .intro-name { display: flex; gap: 0.06em; font-size: 40px; font-weight: 800; letter-spacing: 0.08em; line-height: 1; overflow: hidden; padding: 4px 2px; }
+      .intro-name span { display: inline-block; transform: translateY(110%); animation: intro-rise 0.55s cubic-bezier(0.186, 0.964, 0.68, 1) forwards; }
+      .intro-name .gap { width: 0.35em; }
+      .intro-line { height: 4px; width: 0; background: #0773d7; border-radius: 2px; animation: intro-grow 0.6s cubic-bezier(0.4, 0, 0.2, 1) 1.35s forwards; }
+      .intro-sub { font-size: 12px; font-weight: 700; letter-spacing: 0.32em; text-transform: uppercase; opacity: 0; color: #dce7f5; animation: intro-fade 0.5s ease 1.55s forwards; }
+      @keyframes intro-ring { 0% { opacity: 0.55; transform: scale(0.6); } 100% { opacity: 0; transform: scale(2.6); } }
+      @keyframes intro-pop { to { transform: scale(1); opacity: 1; } }
+      @keyframes intro-draw { to { stroke-dashoffset: 0; } }
+      @keyframes intro-check { to { stroke: #ffffff; } }
+      @keyframes intro-rise { to { transform: translateY(0); } }
+      @keyframes intro-grow { to { width: 220px; } }
+      @keyframes intro-fade { to { opacity: 1; } }
+      @keyframes intro-out { to { opacity: 0; transform: translateY(-14px) scale(0.97); } }
+      @keyframes intro-bg { to { background-color: rgba(24, 89, 169, 0); visibility: hidden; } }
+      @media (prefers-reduced-motion: reduce) {
+        #intro, .intro-stage { animation-duration: 0.4s; animation-delay: 0.6s; }
+        .intro-ring, .intro-tile, .intro-shield, .intro-check, .intro-name span, .intro-line, .intro-sub { animation: none; opacity: 1; transform: none; stroke-dashoffset: 0; }
+        .intro-ring { display: none; } .intro-line { width: 220px; }
+      }
+      @media (max-width: 480px) { .intro-name { font-size: 30px; } .intro-mark { width: 88px; height: 88px; } }
+    </style>
   </head>
   <body>
+    <div id="intro" aria-hidden="true">
+      <div class="intro-stage">
+        <div class="intro-mark">
+          <svg viewBox="0 0 100 100"><circle class="intro-ring" cx="50" cy="50" r="30" /><circle class="intro-ring r2" cx="50" cy="50" r="30" /><circle class="intro-ring r3" cx="50" cy="50" r="30" /></svg>
+          <svg viewBox="0 0 24 24"><rect class="intro-tile" x="1" y="1" width="22" height="22" rx="5" /><path class="intro-shield" d="M12 4.5l6 2.6v4.3c0 3.8-2.5 6.7-6 8.2-3.5-1.5-6-4.4-6-8.2V7.1z" /><path class="intro-check" d="M9.2 12l2 2 3.8-3.9" /></svg>
+        </div>
+        <div class="intro-name"><span style="animation-delay:.70s">B</span><span style="animation-delay:.74s">A</span><span style="animation-delay:.78s">L</span><span style="animation-delay:.82s">L</span><span style="animation-delay:.86s">O</span><span style="animation-delay:.90s">N</span><span class="gap"></span><span style="animation-delay:.98s">T</span><span style="animation-delay:1.02s">D</span></div>
+        <div class="intro-line"></div>
+        <div class="intro-sub">Development records</div>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var el = document.getElementById('intro')
+        var seen = false
+        try { seen = sessionStorage.getItem('btd-intro') === '1'; sessionStorage.setItem('btd-intro', '1') } catch (e) { /* storage blocked: show it */ }
+        if (seen || /[?&]intro=0\b/.test(location.search)) { el.remove(); return }
+        var done = function () { if (el.parentNode) el.remove() }
+        var skip = function () { el.classList.add('skip'); setTimeout(done, 380) }
+        el.addEventListener('click', skip)
+        window.addEventListener('keydown', skip, { once: true })
+        el.addEventListener('animationend', function (e) { if (e.target === el && e.animationName === 'intro-bg') done() })
+        setTimeout(done, 4000)
+      })()
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

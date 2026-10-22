@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import { useToasts, initials, type Option } from '../api'
 
 const Svg = ({ d }: { d: string }) => (
@@ -64,10 +65,14 @@ export function Drawer({ title, sub, onClose, children, foot, wide }: { title: R
   useEffect(() => {
     const k = (e: KeyboardEvent) => e.key === 'Escape' && !document.querySelector('.modal') && onClose()
     window.addEventListener('keydown', k)
+    // lock the page behind the drawer without letting it jump when the scrollbar disappears
+    const gap = window.innerWidth - document.documentElement.clientWidth
     document.body.style.overflow = 'hidden'
-    return () => { window.removeEventListener('keydown', k); document.body.style.overflow = '' }
+    if (gap > 0) document.body.style.paddingRight = `${gap}px`
+    return () => { window.removeEventListener('keydown', k); document.body.style.overflow = ''; document.body.style.paddingRight = '' }
   }, [onClose])
-  return (
+  // Rendered into <body>, outside the page, so the sticky header can never sit on top of the form.
+  return createPortal(
     <>
       <div className="backdrop" onClick={onClose} />
       <aside className={`drawer ${wide ? 'wide' : ''}`} role="dialog" aria-modal="true">
@@ -78,12 +83,13 @@ export function Drawer({ title, sub, onClose, children, foot, wide }: { title: R
         <div className="drawer-body">{children}</div>
         {foot && <div className="drawer-foot">{foot}</div>}
       </aside>
-    </>
+    </>,
+    document.body,
   )
 }
 
 export function Modal({ title, text, children, actions, onClose }: { title: string; text?: ReactNode; children?: ReactNode; actions: ReactNode; onClose?: () => void }) {
-  return (
+  return createPortal(
     <>
       <div className="backdrop top" onClick={onClose} />
       <div className="modal" role="dialog" aria-modal="true">
@@ -92,7 +98,8 @@ export function Modal({ title, text, children, actions, onClose }: { title: stri
         {children}
         <div className="actions">{actions}</div>
       </div>
-    </>
+    </>,
+    document.body,
   )
 }
 
