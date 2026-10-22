@@ -9,7 +9,7 @@
       try { const t = localStorage.getItem('btd-theme'); document.documentElement.dataset.theme = t || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') } catch { document.documentElement.dataset.theme = 'light' }
     </script>
     <style>
-      /* Opening animation: once per browser session (each time the app is opened in a tab).
+      /* Opening animation: plays on every page load.
          Royal-blue screen → the mark draws itself, the name rises in, a keyline grows → the blue fades to transparent
          and reveals the app underneath. Click or press any key to skip. Inline so it shows before the app loads, offline. */
       #intro { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; background: #1859a9; color: #fff;
@@ -18,6 +18,8 @@
       #intro.skip { animation: intro-bg 0.35s ease forwards; }
       #intro.skip .intro-stage { animation: intro-out 0.3s ease forwards; }
       .intro-stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: 18px; animation: intro-out 0.7s cubic-bezier(0.4, 0, 0.2, 1) 2.1s forwards; }
+      .intro-logo { max-width: 220px; max-height: 110px; object-fit: contain; opacity: 0; transform: scale(0.85); animation: intro-pop 0.7s cubic-bezier(0.186, 0.964, 0.68, 1) 0.15s forwards; }
+      .intro-stage.has-logo .intro-mark { display: none; }
       .intro-mark { position: relative; width: 108px; height: 108px; }
       .intro-mark svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
       .intro-ring { fill: none; stroke: #ffffff; stroke-width: 1.2; opacity: 0; transform-origin: 50% 50%; animation: intro-ring 1.6s cubic-bezier(0.2, 0.7, 0.3, 1) forwards; }
@@ -51,11 +53,12 @@
   <body>
     <div id="intro" aria-hidden="true">
       <div class="intro-stage">
+        <img class="intro-logo" src="/brand/logo.svg" alt="" onload="this.parentNode.classList.add('has-logo')" onerror="this.onerror=null; if (!/\.png$/.test(this.src)) this.src='/brand/logo.png'; else this.remove()" />
         <div class="intro-mark">
           <svg viewBox="0 0 100 100"><circle class="intro-ring" cx="50" cy="50" r="30" /><circle class="intro-ring r2" cx="50" cy="50" r="30" /><circle class="intro-ring r3" cx="50" cy="50" r="30" /></svg>
           <svg viewBox="0 0 24 24"><rect class="intro-tile" x="1" y="1" width="22" height="22" rx="5" /><path class="intro-shield" d="M12 4.5l6 2.6v4.3c0 3.8-2.5 6.7-6 8.2-3.5-1.5-6-4.4-6-8.2V7.1z" /><path class="intro-check" d="M9.2 12l2 2 3.8-3.9" /></svg>
         </div>
-        <div class="intro-name"><span style="animation-delay:.70s">B</span><span style="animation-delay:.74s">A</span><span style="animation-delay:.78s">L</span><span style="animation-delay:.82s">L</span><span style="animation-delay:.86s">O</span><span style="animation-delay:.90s">N</span><span class="gap"></span><span style="animation-delay:.98s">T</span><span style="animation-delay:1.02s">D</span></div>
+        <div class="intro-name"><span style="animation-delay:.70s">C</span><span style="animation-delay:.74s">Y</span><span style="animation-delay:.78s">B</span><span style="animation-delay:.82s">E</span><span style="animation-delay:.86s">R</span><span style="animation-delay:.90s">G</span><span style="animation-delay:.94s">A</span><span style="animation-delay:.98s">T</span><span style="animation-delay:1.02s">E</span></div>
         <div class="intro-line"></div>
         <div class="intro-sub">Development records</div>
       </div>
@@ -63,9 +66,7 @@
     <script>
       (function () {
         var el = document.getElementById('intro')
-        var seen = false
-        try { seen = sessionStorage.getItem('btd-intro') === '1'; sessionStorage.setItem('btd-intro', '1') } catch (e) { /* storage blocked: show it */ }
-        if (seen || /[?&]intro=0\b/.test(location.search)) { el.remove(); return }
+        if (/[?&]intro=0\b/.test(location.search)) { el.remove(); return }
         var done = function () { if (el.parentNode) el.remove() }
         var skip = function () { el.classList.add('skip'); setTimeout(done, 380) }
         el.addEventListener('click', skip)

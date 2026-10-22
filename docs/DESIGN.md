@@ -54,7 +54,7 @@ No gradients, glows or coloured shadows.
 
 ![Opening animation](screenshots/intro.gif)
 
-Plays once each time the app is opened in a browser tab (not on reloads or page changes), before the app has even loaded, and works offline. It is plain HTML, CSS and SVG inside [`client/index.html`](../client/index.html).
+Plays on every page load (not when moving between pages inside the app), before the app has even loaded, and works offline. The company logo is read from `client/public/brand/logo.svg` (or `logo.png`); without a file the shield mark is drawn instead. It is plain HTML, CSS and SVG inside [`client/index.html`](../client/index.html).
 
 | Time | What happens |
 | --- | --- |

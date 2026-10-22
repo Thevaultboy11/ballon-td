@@ -124,7 +124,7 @@ You will see `Ballon TD running on http://localhost:3000`. Leave this terminal w
 
 ### Step 9 — Open it in the browser
 
-Open Firefox or Chrome on the same computer and go to **http://localhost:3000**. The opening animation plays once each time you open the app in a new tab (click or press any key to skip it). Then type your name: it is stored with everything you enter.
+Open Firefox or Chrome on the same computer and go to **http://localhost:3000**. The opening animation plays each time the page loads (click or press any key to skip it). To show the company logo in it, put `logo.svg` or `logo.png` in `client/public/brand/` and run `npm run build`. Then type your name: it is stored with everything you enter.
 
 ![First start: type your name](docs/screenshots/first-run.png)
 
@@ -403,5 +403,5 @@ npm run typecheck
 | The page is blank or old after an update | Run `npm run build` and restart the app, then reload the page with `Ctrl + Shift + R` |
 | "… is not in the … list" when saving | The value is not a dropdown value. Add it on Library → Lists first |
 | "Someone changed this … after you opened it" | Two people edited the same record. Close the form, reopen it to see their version, then make your change again |
-| I want to skip the opening animation | Click it or press any key. It plays once when the app is opened in a new tab, not on reloads or page changes. Adding `?intro=0` to the address skips it |
+| I want to skip the opening animation | Click it or press any key. It plays on every page load, not when you move between pages inside the app. Adding `?intro=0` to the address skips it |
 | Prisma tries to download an engine | Use the npm scripts (`db:generate`, `db:push`); they work offline. `npx prisma studio` and `migrate` need the internet the first time |
