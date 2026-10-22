@@ -141,6 +141,8 @@ export const LOOKUP_LISTS: LookupList[] = [
   { key: 'riskSeverity', label: 'Risk severity', description: 'Sort order: High 1, Medium 2, Low 3, Opportunity 4.', values: ['High', 'Medium', 'Low', 'Opportunity'] },
   { key: 'riskPanel', label: 'Risk panel', description: 'Where a rule is shown on the dashboard.', values: ['Skill Gap Risks', 'Capability and Behaviour Risks', 'Development Plan Risks'] },
   { key: 'riskArea', label: 'Risk area', description: '', values: ['Capability', 'Behaviour', 'Development Plan', 'Assessment', 'Group View'] },
+  { key: 'valueGroup', label: 'Value assumption group', description: 'Where an assumption is used on the Value & ROI page.', values: ['Cost rate', 'Benefit model', 'Adjustment', 'Display'] },
+  { key: 'valueBasis', label: 'Value assumption basis', description: 'How solid a value is.', values: [['Fact', 'Sourced figure'], ['Estimate', 'Derived from sourced figures'], ['Assumption', 'Placeholder: replace with the client figure'], ['Client data', 'Supplied by the client']] },
   { key: 'riskAppliesTo', label: 'Risk applies to', description: '', values: ['Individual and Group', 'Group'] },
 
   // ---------------------------------------------------------------- audit

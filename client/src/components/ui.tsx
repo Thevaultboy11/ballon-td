@@ -22,6 +22,11 @@ export const Icon = {
   x: () => <Svg d='<path d="M6 6l12 12M18 6L6 18"/>' />,
   user: () => <Svg d='<circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>' />,
   grid: () => <Svg d='<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>' />,
+  up: () => <Svg d='<path d="M7 17L17 7M9 7h8v8"/>' />,
+  key: () => <Svg d='<circle cx="8" cy="14" r="4"/><path d="M11 11l8-8M16 6l2 2M14 8l2 2"/>' />,
+  crown: () => <Svg d='<path d="M4 18h16M5 15l-1-9 5 4 3-6 3 6 5-4-1 9z"/>' />,
+  coin: () => <Svg d='<circle cx="12" cy="12" r="9"/><path d="M14.8 9.2c-.5-.8-1.5-1.2-2.8-1.2-1.7 0-2.8.8-2.8 2s1.1 1.7 2.8 2 2.8.8 2.8 2-1.1 2-2.8 2c-1.3 0-2.4-.5-2.9-1.3M12 6.5v11"/>' />,
+  chart: () => <Svg d='<path d="M4 20V4M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/>' />,
   chat: () => <Svg d='<path d="M5 18l-1 3 4-2h9a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v9"/>' />,
 }
 

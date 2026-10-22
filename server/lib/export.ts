@@ -6,6 +6,8 @@
 //   Risk_Flags        every risk / opportunity rule that fires, per person and per group (team, section, skill)
 //   Observation_Profile  one row per person per observed behaviour: average, finding, action cue
 //   Roadmap           one row per person per journey stage: status, progress, what is done, what is still open
+//   Value_ROI         investment, monetised benefits, net value and ROI (realised and projected) with every assumption
+//   KPI_Scorecard     every catalogue KPI measured from the data, by audience
 //   Data_Dictionary   every sheet and column: meaning, type, links, list
 //   <Table> sheets    one per database table, column names = database columns, IDs intact
 //                     (this is what gets imported when the real database is built)
@@ -16,6 +18,7 @@ import { LOOKUP_BY_KEY } from '../../shared/lookups.ts'
 import { loadData, summarize, groupRisks, type Scope } from './metrics.ts'
 import { SEVERITY_ORDER, baselineScore } from './risks.ts'
 import { buildRoadmap } from './roadmap.ts'
+import { computeValue } from './value.ts'
 
 // Palette: navy (headers), royal blue (accent), pale blue (header fill), steel gray (secondary text)
 const INK = 'FF1E3B6B', LIME = 'FFDCE7F5', ACCENT = 'FF1859A9', MUTED = 'FF4D5156', SOFT = 'FFF3F5F8'
@@ -83,6 +86,8 @@ export async function buildWorkbook(scope: Scope & { includeLog?: boolean; expor
   const riskWs = wb.addWorksheet('Risk_Flags', { properties: { tabColor: { argb: ACCENT } } })
   const profileWs = wb.addWorksheet('Observation_Profile', { properties: { tabColor: { argb: ACCENT } } })
   const roadWs = wb.addWorksheet('Roadmap', { properties: { tabColor: { argb: ACCENT } } })
+  const valueWs = scope.employeeId ? null : wb.addWorksheet('Value_ROI', { properties: { tabColor: { argb: ACCENT } } })
+  const kpiWs = scope.employeeId ? null : wb.addWorksheet('KPI_Scorecard', { properties: { tabColor: { argb: ACCENT } } })
   const dictWs = wb.addWorksheet('Data_Dictionary', { properties: { tabColor: { argb: INK } } })
 
   // ------------------------------------------------------------------ Employee_Summary
@@ -154,6 +159,31 @@ export async function buildWorkbook(scope: Scope & { includeLog?: boolean; expor
   roadWs.getColumn(6).numFmt = PCT_FMT; roadWs.getColumn(11).numFmt = PCT_FMT; roadWs.getColumn(17).numFmt = DATE_FMT
   styleHeader(roadWs, true)
   widths(roadWs, 60)
+
+  // ------------------------------------------------------------------ Value_ROI and KPI_Scorecard (not for a one-person export)
+  if (valueWs && kpiWs) {
+    const v = await computeValue(scope.clientId)
+    valueWs.addRow(['Section', 'Line', 'Quantity', 'Unit', 'Rate (US$)', 'Rate_Unit', 'Realised (US$)', 'Projected (US$)', 'Basis', 'How it is calculated'])
+    for (const b of v.benefits) valueWs.addRow(['Benefit', b.label, b.quantity, b.unit, null, null, b.amount, b.projected, b.basis, `${b.formula}${b.detail ? `. ${b.detail}` : ''}`])
+    for (const c of v.costs) valueWs.addRow(['Cost', c.label, c.quantity, c.unit, c.rate, c.rateUnit, c.amount, c.projected, c.basis, c.formula])
+    valueWs.addRow(['Total', 'Total benefit', null, null, null, null, v.realised.benefit, v.projected.benefit, null, null])
+    valueWs.addRow(['Total', 'Total cost', null, null, null, null, v.realised.cost, v.projected.cost, null, null])
+    valueWs.addRow(['Total', 'Net value', null, null, null, null, v.realised.net, v.projected.net, null, 'Benefit − cost'])
+    valueWs.addRow(['Total', 'ROI', null, null, null, null, v.realised.roi, v.projected.roi, null, '(Benefit − cost) ÷ cost'])
+    valueWs.addRow(['Total', 'Payback (months)', null, null, null, null, v.realised.paybackMonths, v.projected.paybackMonths, null, 'Cost ÷ monthly benefit'])
+    for (const y of v.years) valueWs.addRow(['Horizon', `${y.years} year${y.years > 1 ? 's' : ''}`, null, null, null, null, y.net, null, null, `Cost ${Math.round(y.cost)}, benefit ${Math.round(y.benefit)}, ROI ${y.roi == null ? '–' : `${Math.round(y.roi * 100)}%`}`])
+    for (const a of v.assumptions) valueWs.addRow(['Assumption', a.name, a.value, a.unit, null, null, null, null, a.basis, `${a.code}: ${a.source ?? ''}`])
+    for (const c of [7, 8]) valueWs.getColumn(c).numFmt = '#,##0;[Red]-#,##0'
+    valueWs.getColumn(3).numFmt = '#,##0.##'; valueWs.getColumn(5).numFmt = '#,##0.##'
+    for (let r = 2; r <= valueWs.rowCount; r++) if (valueWs.getRow(r).getCell(2).value === 'ROI') { valueWs.getRow(r).getCell(7).numFmt = PCT_FMT; valueWs.getRow(r).getCell(8).numFmt = PCT_FMT }
+    styleHeader(valueWs, true)
+    widths(valueWs, 70)
+    kpiWs.addRow(['KPI_ID', 'KPI', 'Audience', 'Value', 'Shown_As', 'Unit', 'Note', 'Formula', 'Benchmark (source)', 'Leading_Lagging', 'Question'])
+    for (const k of v.kpis) kpiWs.addRow([k.id, k.name, k.audience, k.value, k.display, k.unit, k.note ?? null, k.formula, k.benchmark, k.leadingLagging, k.question])
+    for (const k of v.catalogue.notMeasured.filter((x) => !v.kpis.some((y) => y.id === x.id))) kpiWs.addRow([k.id, k.name, k.audience, null, 'Not measured yet', null, k.available, null, null, null, null])
+    styleHeader(kpiWs, true)
+    widths(kpiWs, 60)
+  }
 
   // ------------------------------------------------------------------ Activity_Log
   const L = ['Activity_ID', 'Activity_Type', 'Parent_ID', 'Employee_ID', 'Employee_Name', 'Client', 'Department', 'Date', 'Activity', 'Detail',
@@ -286,6 +316,8 @@ export async function buildWorkbook(scope: Scope & { includeLog?: boolean; expor
     ['Risks_* / Risk_Codes', 'Count of risk and opportunity rules that fire for the person (see Risk_Flags and the RiskRule sheet for the rule text, threshold and owner). People marked Out of Scope or Left Company are not evaluated.'],
     ['Risk_Flags', 'One row per rule that fires. Scope Individual = one person; Group = a team, section or skill where a share of people is affected (R34–R36, groups of 3 or more).'],
     ['Observation_Profile', 'One row per person per observed behaviour: average on the 1–5 scale, finding (Acceptable / strength ≥ 3.5, Developing / monitor ≥ 2.5, Development priority below) and the matching action cue.'],
+    ['Value_ROI', 'Phillips ROI. Benefits: capability gained (readiness points × loaded cost × value of competence × attribution × confidence), internal fills and retention. Costs: training hours, coaching hours, exams, lab seats, assessment, platform and participants\' time. Rates are in the ValueAssumption sheet and Library → Value assumptions.'],
+    ['KPI_Scorecard', 'KPIs from the KPI catalogue (205). Measured ones have a value; the others list the data they need.'],
     ['Roadmap', 'The journey per person: ten stages in programme order (enrolment, baseline survey, assessment & report, development plan, training & labs, observed programme, certifications, coaching, manager validation, role readiness). Status Done / In progress / At risk (a High risk rule fires for the stage) / Not started. Journey_Progress = average of stage progress, a done stage counting 100%. Done and Still_Open list the records behind it.'],
     ['Activity_Log', 'One row per data point from every activity table. Activity_ID is the row ID in its own sheet (the prefix tells which). Parent_ID points to the record it belongs to (rating → assessment, observation score → observation day → training record).'],
   ]) dictWs.addRow(['(calculated)', k, '', '', '', '', '', desc])
@@ -309,6 +341,8 @@ export async function buildWorkbook(scope: Scope & { includeLog?: boolean; expor
   line('Employee_Summary', '', 'One row per person with every calculated value (readiness, gaps, completion, coaching, certifications). Start here.')
   line('Risk_Flags', '', 'Every risk and opportunity rule that fires, for one person or for a group, with severity, the suggested action and its owner. Sorted by severity.')
   line('Observation_Profile', '', 'Each person\'s average per observed behaviour with the finding and action cue.')
+  if (valueWs) line('Value_ROI', '', 'What the programme cost and returned (realised and projected), line by line, with every rate and its source. Same as the Value page in the app.')
+  if (kpiWs) line('KPI_Scorecard', '', 'Every KPI of the catalogue that the data can measure, with its formula and benchmark; the rest are listed with the data they need.')
   line('Roadmap', '', 'Each person\'s journey stage by stage: what is done and what is still open. For one team, use the manager report on Roadmaps.')
   line('Activity_Log', '', 'Every interaction as one row: baseline surveys, ratings, validations, plan actions, training, each observation score, certifications, coaching, evidence. Filter Employee_Name to see one person\'s full history.')
   line('Data_Dictionary', '', 'What every column in every sheet means, its type, which list it uses and which sheet it links to.')
@@ -319,6 +353,8 @@ export async function buildWorkbook(scope: Scope & { includeLog?: boolean; expor
   line('Employee_Summary', sums.length, 'Calculated, one row per person.')
   line('Risk_Flags', flagRows.length, 'Calculated, one row per rule that fires.')
   line('Observation_Profile', profileWs.rowCount - 1, 'Calculated, one row per person per behaviour.')
+  if (valueWs) line('Value_ROI', valueWs.rowCount - 1, 'Calculated, one row per cost, benefit, total and assumption.')
+  if (kpiWs) line('KPI_Scorecard', kpiWs.rowCount - 1, 'Calculated, one row per catalogue KPI.')
   line('Roadmap', roadWs.rowCount - 1, 'Calculated, one row per person per stage.')
   line('Activity_Log', rows.length, 'Calculated, one row per data point.')
   for (const [t, n, desc] of tableCounts) line(t, n, desc)

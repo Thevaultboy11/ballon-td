@@ -1,12 +1,12 @@
 # Data model
 
-The system is a **competency management system**: everything hangs off an **Employee** and a **Competency**. There are 32 tables. The full definition is [`prisma/schema.prisma`](../prisma/schema.prisma); field labels, lists and links are in [`shared/entities.ts`](../shared/entities.ts).
+The system is a **competency management system**: everything hangs off an **Employee** and a **Competency**. There are 33 tables. The full definition is [`prisma/schema.prisma`](../prisma/schema.prisma); field labels, lists and links are in [`shared/entities.ts`](../shared/entities.ts).
 
 ## The three kinds of data
 
 | Kind | Who touches it | Tables |
 | --- | --- | --- |
-| **Reference** (~70%) | Set up once on Library, changed rarely | LookupValue, Client, Program, Staff, Framework, CompetencyCategory, Competency, CompetencyBehavior, JobRole, RoleRequirement, Course, CourseCompetency, Certification, CertificationCompetency, ObservationParameter, RiskRule |
+| **Reference** (~70%) | Set up once on Library, changed rarely | LookupValue, Client, Program, Staff, Framework, CompetencyCategory, Competency, CompetencyBehavior, JobRole, RoleRequirement, Course, CourseCompetency, Certification, CertificationCompetency, ObservationParameter, RiskRule, ValueAssumption |
 | **Activity** (~20%) | Entered by the team, person by person or session by session | Employee, Enrollment, BaselineSurvey, Assessment, AssessmentRating, ManagerValidation, IdpAction, CourseSession, TrainingRecord, ObservationDay, ObservationScore, CertificationRecord, CoachingSession, Evidence |
 | **Calculated** (~10%) | Never typed, never stored | Gap, role readiness, next-role readiness, readiness band, plan progress, overdue, completion %, averages, baseline score, lab completion, segment progress, the observation summary (evidence strength, potential, timeframe, classification) and risk flags. Worked out on the fly and written to `Employee_Summary`, `Risk_Flags` and `Observation_Profile` in the export |
 
@@ -60,7 +60,7 @@ erDiagram
   Enrollment |o--o{ BaselineSurvey : ""
 ```
 
-`RiskRule` stands alone: it is configuration read by the rules engine ([RISK_RULES.md](RISK_RULES.md)).
+`RiskRule` and `ValueAssumption` stand alone: configuration read by the rules engine ([RISK_RULES.md](RISK_RULES.md)) and by the Value & ROI calculation ([VALUE.md](VALUE.md)).
 
 ## Fields added for the standard library
 
@@ -70,6 +70,7 @@ Added so every field of the client's master data, field inventory and reference 
 | --- | --- | --- | --- |
 | Framework, CompetencyCategory, Competency, CompetencyBehavior | `externalId` | External ID | Keeps the source platform's ID (e.g. the cross-functional framework's `CBPI…` codes) so data can be matched back |
 | **BaselineSurvey** (new) | `date`, `yearsWithOrganisation`, `totalYearsExperience`, `confidence`, `emotionalRegulation`, `communication`, `accountability`, `productivity`, `organisation`, `mbti`, `notes` | Baseline tab on the person page | The survey taken before day 1 of the observed programme. The six ratings are "1 - …" to "5 - …" list values; their average is the *baseline score* |
+| **ValueAssumption** (new) | `code`, `name`, `group`, `value`, `unit`, `basis`, `source`, `note`, `sortOrder` | Library → Value assumptions, Value page | Rates and assumptions behind the ROI, each with its basis (Fact / Estimate / Assumption / Client data) and source |
 | **RiskRule** (new) | `code`, `name`, `panel`, `area`, `appliesTo`, `rule`, `threshold`, `thresholdUnit`, `severity`, `executiveAction`, `owner`, `dataSource`, `active`, `sortOrder` | Library → Risk rules | The 36 rules, editable |
 | Course | `dayTitles` | Day titles | One per line; shown on the observation grid's day buttons |
 | Course | `labsTotal` | Labs in collection | For hands-on lab collections |
@@ -128,6 +129,8 @@ New dropdown lists: Grade, Division, Department, Section (suggestions), Plan seg
 | Classification | Insufficient Evidence · Stretch Candidate · Developing Potential · Coaching Need |
 | Alignment status | Observed overall − target level: ≥ 0 meets/exceeds, ≥ −0.25 near target, else below target |
 | Risk flags | The 36 rules in [RISK_RULES.md](RISK_RULES.md) |
+| Value & ROI | Phillips ROI from the records and the ValueAssumption rates, as in [VALUE.md](VALUE.md) |
+| Dashboard terms | Critical position, successor, key person, potential, as in [DASHBOARD.md](DASHBOARD.md) |
 | Roadmap | Ten stages per person, journey % and current stage, as in [ROADMAP.md](ROADMAP.md) |
 
 The code is [`server/lib/metrics.ts`](../server/lib/metrics.ts).
@@ -141,6 +144,8 @@ One workbook, built by [`server/lib/export.ts`](../server/lib/export.ts):
 | `README` | — | What is in the file, row counts, ID prefixes |
 | `Employee_Summary` | one per person | Reading: every calculated value (the manager's "one row per person" view) |
 | `Risk_Flags` | one per rule that fires | Reading: individual and group flags with severity, action and owner, sorted by severity |
+| `Value_ROI` | one per cost, benefit, total and assumption | Reading: investment, monetised benefits, net value, ROI and payback, realised and projected ([VALUE.md](VALUE.md)) |
+| `KPI_Scorecard` | one per catalogue KPI | Reading: measured KPIs with formula and benchmark; the rest with the data they need |
 | `Roadmap` | one per person per stage | Reading: the ten journey stages with status, progress, what is done and what is still open ([ROADMAP.md](ROADMAP.md)) |
 | `Observation_Profile` | one per person per behaviour | Reading: average, finding and action cue per observed behaviour |
 | `Activity_Log` | one per data point | Reading: every interaction of every type in one long sheet — baseline surveys, ratings, validations, plan actions, trainings, each observation day and score, certifications, coaching, evidence. Filter by person to get their whole history |

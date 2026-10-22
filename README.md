@@ -5,15 +5,17 @@ An internal web app for recording **every interaction** in an employee developme
 The client cannot use an app, so they only ever receive Excel. Our own team uses this app to enter the data consistently, person by person or session by session. Then we export.
 
 - **No logins, no roles.** It runs on a server inside the VPN. Anyone can open any person and enter anything. Each person types their name once ("Entering as …"). The name is saved with every change, and every change goes into a change log.
-- **Standard reference library.** 3 frameworks, 160 competencies with 3,244 behaviour descriptors, 41 role profiles with 620 required levels, 35 courses (workshops, the observed 5-day programme, boot camps, LMS learning and 12 hands-on lab collections), 39 certifications with their spelling variants, 25 observed behaviours, 36 risk and opportunity rules and 47 dropdown lists. See [docs/LIBRARY.md](docs/LIBRARY.md).
+- **Standard reference library.** 3 frameworks, 160 competencies with 3,244 behaviour descriptors, 41 role profiles with 620 required levels, 35 courses (workshops, the observed 5-day programme, boot camps, LMS learning and 12 hands-on lab collections), 39 certifications with their spelling variants, 25 observed behaviours, 36 risk and opportunity rules, 17 sourced value assumptions, the 205-KPI catalogue and 49 dropdown lists. See [docs/LIBRARY.md](docs/LIBRARY.md).
 - **Every field of the master data.** Baseline survey, IDP segments S1–S5 and department training needs, lab counts, coach validation per behaviour descriptor, segment progress on the coaching tracker, validated and target levels, external IDs of the source platform. See [docs/DATA_MODEL.md](docs/DATA_MODEL.md) and, for loading a client's own workbooks, [docs/MIGRATION.md](docs/MIGRATION.md).
 - **Risks and the observation summary, calculated.** 36 rules (critical gaps, behaviour below expectation, labs not started, no coaching …) are checked on every person page and on **Risks**; the observed programme gives evidence strength, leadership potential, readiness timeframe and classification. See [docs/RISK_RULES.md](docs/RISK_RULES.md).
+- **Manager dashboard.** The skills dashboard now runs on the database: **Dashboard** (organisation overview, departments, critical positions and successors), **Teams** (gaps, promotion overview, key-person risk, 9-box, competency and behaviour heatmaps, employee list) and an **Analysis** tab on every person (radar, next-role gaps, behaviours day by day, training, certifications, learning plan). See [docs/DASHBOARD.md](docs/DASHBOARD.md).
+- **Value & ROI for executives.** Investment, monetised benefit, net value, ROI and payback (realised and projected), break-even, value by department, and a scorecard of every measurable KPI from the 205-KPI catalogue. Every rate has a source and can be replaced with the client's figures. See [docs/VALUE.md](docs/VALUE.md).
 - **Roadmaps.** Every person's journey after their data is reported, as a horizontal roadmap of ten stages (enrolment → baseline → assessment → plan → training & labs → observed programme → certifications → coaching → manager validation → role readiness): what is done, what is still open, next steps and a dated timeline. Rolled up per department, section and line manager's team, with a manager report (.xlsx or print). See [docs/ROADMAP.md](docs/ROADMAP.md).
-- **One-click export.** `Employee_Summary` (one row per person, all calculated), `Risk_Flags`, `Observation_Profile`, `Roadmap`, `Activity_Log` (one row per data point, everything in one sheet), `Data_Dictionary`, and one sheet per database table with stable IDs.
+- **One-click export.** `Employee_Summary` (one row per person, all calculated), `Risk_Flags`, `Observation_Profile`, `Roadmap`, `Value_ROI`, `KPI_Scorecard`, `Activity_Log` (one row per data point, everything in one sheet), `Data_Dictionary`, and one sheet per database table with stable IDs.
 
 React · Express · Prisma · SQLite. It works offline: no web fonts and no CDNs, and the database tables are created with Prisma's WebAssembly engine, so no engine download is needed. The look (navy and royal blue, Arial, capitalised titles, keylines) is described in [docs/DESIGN.md](docs/DESIGN.md).
 
-![People](docs/screenshots/people.png)
+![Dashboard](docs/screenshots/dashboard.png)
 
 ## Install on the server
 
@@ -62,11 +64,15 @@ Upgrading from a version before the standard library: the update above adds two 
 
 | Page | What you do there |
 | --- | --- |
+| **Dashboard** | The organisation at a glance: assessment progress, promotion readiness, departments, critical positions and their bench. Filter by client. |
+| **Teams** | One department or section (or everyone): most common gaps, promotion overview, training by band and stage, key-person risk, 9-box, heatmaps and the employee list. |
 | **People** | Everyone in one table with readiness, gaps, risks (high · medium), leadership potential, plan progress, training, certifications and last coaching. Filter by client, department or readiness. **Add person**. |
 | **Person** | The work surface for one person. *Quick add* buttons for each record type (baseline survey, assessment, plan action, training, certification, coaching, validation, evidence). They pre-fill the coach, consultant, programme and line manager. The overview shows **Risks & opportunities**, **Programme progress** (baseline score, labs, S1–S5 and DTN) and the **Observation summary**, then every competency against the role. Tabs list every record by type. **Assessments → Ratings** opens the grid. **History** shows every change: who, when, old → new. |
 | **Sessions** | One run of a course. Add participants, then set status, attendance, score and hours for the **whole class at once**. For observed courses, **Observation scores** is a grid of participants × 25 behaviours per day, with the day's title. Type 1–5 and the cursor jumps on. |
+| **Person → Analysis** | The person's competency radar, what to grow for the next role, behaviours day by day, training, certifications and the learning plan. |
 | **Person → Roadmap** | The person's journey left to right: click a stage to see what is done and what is still to do, with next steps and a month-by-month timeline. **Print** for a one-page copy. |
 | **Roadmaps** | The roadmap per department, section, line manager's team or client. Open a group to see every person's ten stages side by side and what is overdue or due in the next 60 days; **Manager report (.xlsx)** and **Print / PDF** give the manager their copy. |
+| **Value** | For executives: what was invested, what came back, ROI and payback, value delivered, the KPI scorecard, and the assumptions with their sources (click to change). |
 | **Risks** | Every risk and opportunity rule with the people and groups it fires for. Filter by client, severity and panel; click a rule to see who. |
 | **Library** | The reference data: clients, programmes, staff, competencies and behaviour descriptors, role profiles and requirements, courses and lab collections, certifications, observed behaviours, risk rules, and every dropdown list. Retire items by setting Active to No. |
 | **Export** | Everything, one client (for the client's copy) or one person. Untick the change log for files that leave the company. |
@@ -84,6 +90,8 @@ Who typically enters what:
 ![Person overview: risks, programme progress, observation summary](docs/screenshots/person-overview.png)
 ![Person roadmap](docs/screenshots/roadmap-person.png)
 ![Team roadmap](docs/screenshots/roadmap-team.png)
+![Value & ROI](docs/screenshots/value.png)
+![Teams](docs/screenshots/teams.png)
 ![Risks](docs/screenshots/risks.png)
 ![Ratings](docs/screenshots/ratings.png)
 ![Observation grid](docs/screenshots/observations.png)
@@ -97,7 +105,7 @@ npm run typecheck
 
 | Path | What |
 | --- | --- |
-| `prisma/schema.prisma` | The database schema (32 tables), with comments |
+| `prisma/schema.prisma` | The database schema (33 tables), with comments |
 | `shared/entities.ts` | Every table's fields, labels, dropdown lists and links. The server's validation, the app's forms and tables, and the Excel export all read it. Add a field here and in the schema, then run `npm run db:generate && npm run db:push`. |
 | `shared/lookups.ts` | The dropdown lists that get seeded |
 | `server/seed/library/*.json` | The standard reference library (frameworks, competencies, descriptors, roles, requirements, catalogue, observed behaviours, risk rules) |
@@ -105,6 +113,8 @@ npm run typecheck
 | `server/seed/starter-library.ts`, `starter.ts` | The small starter library the two demos are built on |
 | `server/lib/metrics.ts` | All calculations (readiness, gaps, completion, baseline, labs, segments …) |
 | `server/lib/risks.ts` | The 36 risk rules and the observation summary |
+| `server/lib/dashboard.ts` | Dashboard, teams and person analysis (critical positions, successors, key people, heatmaps) |
+| `server/lib/value.ts` | Value & ROI and the KPI scorecard; rates from the ValueAssumption table, KPIs from `server/seed/library/kpiCatalogue.json` |
 | `server/lib/roadmap.ts`, `roadmap-report.ts` | The ten-stage roadmap per person, team roll-ups and the manager report |
 | `server/lib/export.ts` | The Excel workbook |
 | `server/lib/crud.ts`, `server/routes.ts` | API: generic create/read/update/delete for every table, plus people, ratings grid, session roster and observation grid |

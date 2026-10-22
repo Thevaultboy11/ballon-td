@@ -853,3 +853,59 @@ details > summary { list-style-position: inside; }
 .journey-table th.journey-col span { text-align: center; font-size: 11px; }
 .stage-key { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 8px; padding-left: 11px; font-size: 11.5px; color: var(--muted); }
 .stage-key b { color: var(--fg); font-weight: 800; }
+
+/* ================================================================= dashboard, teams, analysis (ported from the skills dashboard) */
+.card-link-wrap { display: block; color: inherit; }
+.card-link-wrap > .card { height: 100%; transition: transform 0.15s var(--ease), background-color 0.15s var(--ease); }
+@media (hover: hover) { .card-link-wrap:hover > .card { transform: translateY(-3px); background: var(--highlight); } }
+.bad-on-dark { color: #ffb3b6; }
+.dark-band h2 { color: #fff; }
+.dark-band .table th { border-bottom-color: #ffffff40; }
+.dark-band a:not(.tag) { color: #fff; text-decoration: underline; text-decoration-color: #ffffff55; text-underline-offset: 3px; }
+.dept-card .dept-name { font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; font-size: 13.5px; color: var(--fg); }
+.ring.tone-accent .ring-value { stroke: var(--accent); }
+.nb-cell .nb-count { font-weight: 800; color: var(--fg); }
+.nb-cell .nb-title { font-weight: 700; }
+.gap-item .gi-name { font-weight: 700; color: var(--fg); }
+.yesno { font-weight: 800; color: var(--fg); }
+.kpi.compact .kpi-value small { font-size: 13px; }
+
+/* ================================================================= value & ROI */
+.good-text { color: var(--royal); font-weight: 700; }
+:root[data-theme='dark'] .good-text { color: var(--success); }
+.bad-text { color: var(--bad); font-weight: 700; }
+.value-table .group-row td { background: var(--subtle); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: var(--fg); padding-top: 8px; padding-bottom: 8px; }
+.value-table .total-row td { font-weight: 800; color: var(--fg); border-top: 2px solid var(--border-mid); }
+.value-table .total-row.net td { font-size: 15px; border-top: 2px solid var(--royal); }
+.value-table td .small { margin-top: 2px; max-width: 560px; }
+.be-bar { position: relative; height: 14px; border-radius: 4px; background: var(--track); }
+.be-bar i { position: absolute; inset: 0 auto 0 0; border-radius: 4px; }
+.be-proj { background: var(--band-soon); }
+.be-now { background: var(--royal); z-index: 1; }
+.be-mark { position: absolute; top: -5px; bottom: -5px; width: 3px; margin-left: -1px; background: var(--fg); border-radius: 2px; z-index: 2; }
+.kpi-card { display: flex; flex-direction: column; gap: 2px; border-top: 3px solid var(--royal); }
+.kpi-card.warn { border-top-color: var(--band-support); }
+.kpi-card.bad { border-top-color: var(--bad); }
+.kpi-card-name { margin-top: 8px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--fg); }
+.kpi-card-value { font-size: 26px; font-weight: 800; color: var(--fg); letter-spacing: -0.5px; line-height: 1.2; margin-top: 4px; font-variant-numeric: tabular-nums; word-break: break-word; }
+.kpi-card-unit { font-size: 12.5px; color: var(--muted); }
+.kpi-card-formula { margin-top: auto; padding-top: 10px; font-size: 11.5px; color: var(--muted); font-family: var(--mono); border-top: 1px solid var(--border-low); }
+.details-summary { cursor: pointer; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; font-size: 12.5px; color: var(--fg); }
+.wf-scroll { overflow-x: auto; }
+.waterfall { width: 100%; min-width: 560px; height: auto; display: block; }
+.wf-bar.benefit { fill: var(--royal); }
+.wf-bar.cost { fill: var(--band-support); }
+.wf-bar.net { fill: var(--navy); }
+.wf-bar.net.neg { fill: var(--bad); }
+:root[data-theme='dark'] .wf-bar.benefit { fill: var(--accent); }
+:root[data-theme='dark'] .wf-bar.net { fill: #8ec0f5; }
+.wf-link { stroke: var(--border-mid); stroke-dasharray: 3 3; }
+.wf-val { font-size: 11px; fill: var(--fg); font-weight: 700; font-variant-numeric: tabular-nums; }
+.wf-val.strong { font-size: 13px; font-weight: 800; }
+.wf-label { font-size: 10.5px; line-height: 1.25; color: var(--muted); text-align: center; overflow: hidden; }
+.header .nav { gap: 0; }
+.header .nav a { padding: 6px 9px; font-size: 12px; }
+.dark-band .stat-value { color: #ffffff; }
+.dark-band .table td .muted, .dark-band .table td.muted { color: var(--dark-muted); }
+.header .status-pill { white-space: nowrap; }
+@media (max-width: 1500px) { .header .brand-sub { display: none; } .header .user-pill .label { display: none; } }

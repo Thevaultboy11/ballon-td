@@ -6,9 +6,11 @@ import { Avatar, Icon, Kpi, Pline, Severity, Spark, Status } from '../components
 import { EntityForm, EntityList } from '../components/entity'
 import { NextSteps, StageDetail, StageRail, Timeline, STATUS_WORD } from '../components/roadmap'
 import { RatingsGrid } from '../components/ratings'
+import { Analysis } from '../components/analysis'
 
 const TABS: { key: string; label: string; entity?: string; hint?: string }[] = [
   { key: 'overview', label: 'Overview' },
+  { key: 'analysis', label: 'Analysis' },
   { key: 'roadmap', label: 'Roadmap' },
   { key: 'baseline', label: 'Baseline', entity: 'baseline', hint: 'Short survey before day 1 of the observed programme: years of experience, six self-ratings (1–5) and personality type. The average of the six ratings is the self-assessed level in the observation summary.' },
   { key: 'assessments', label: 'Assessments', entity: 'assessments', hint: 'Each assessment keeps its own ratings, so progress over time is visible. Open "Ratings" to enter the level per competency.' },
@@ -94,6 +96,7 @@ export default function Person() {
         </div>
         <div className="tab-body">
           {tab === 'overview' && <Overview data={data} />}
+          {tab === 'analysis' && <Analysis employeeId={e.id} />}
           {tab === 'roadmap' && <PersonRoadmap employeeId={e.id} />}
           {tab === 'history' && <History employeeId={e.id} />}
           {TABS.filter((t) => t.entity && t.key === tab).map((t) => (

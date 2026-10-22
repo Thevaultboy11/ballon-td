@@ -26,6 +26,7 @@ export const LIBRARY = {
   catalogue: read('catalogue.json'),
   observation: read('observation.json'),
   riskRules: read('riskRules.json').riskRules as any[],
+  valueAssumptions: read('valueAssumptions.json').assumptions as any[],
 }
 
 const counts: Record<string, { added: number; updated: number }> = {}
@@ -140,6 +141,10 @@ export async function seedLibrary() {
   await bulk('riskRule', 'RSK', (r) => r.code, LIBRARY.riskRules.map((r: any, i: number) => ({
     code: r.code, name: r.name, panel: r.panel, area: r.area, appliesTo: r.appliesTo, rule: r.rule, threshold: r.threshold, thresholdUnit: r.thresholdUnit,
     severity: r.severity, executiveAction: r.executiveAction, owner: r.owner, dataSource: r.dataSource, sortOrder: (i + 1) * 10 })))
+
+  // ---------------------------------------------------------------- value & ROI assumptions
+  await bulk('valueAssumption', 'VAL', (r) => r.code, LIBRARY.valueAssumptions.map((v: any, i: number) => ({
+    code: v.code, name: v.name, group: v.group, value: v.value, unit: v.unit ?? null, basis: v.basis, source: v.source || null, note: v.note || null, sortOrder: (i + 1) * 10 })))
 
   void nextId
   return counts

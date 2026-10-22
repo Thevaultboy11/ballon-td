@@ -17,13 +17,15 @@ Generated from `server/seed/library/*.json` and `shared/lookups.ts` by `npm run 
 - [Certifications](#certifications)
 - [Observed behaviours](#observed-behaviours)
 - [Risk and opportunity rules](#risk-and-opportunity-rules)
+- [Value assumptions](#value-assumptions)
+- [KPI catalogue](#kpi-catalogue)
 - [Starter library (demos only)](#starter-library-demos-only)
 
 ## Totals
 
 | What | Rows | Where in the app |
 | --- | ---: | --- |
-| Dropdown lists | 47 lists, 298 values | Library → Dropdowns |
+| Dropdown lists | 49 lists, 306 values | Library → Dropdowns |
 | Frameworks | 3 | Library → Frameworks |
 | Competency categories | 5 | Library → Categories |
 | Competencies | 160 | Library → Competencies |
@@ -34,6 +36,8 @@ Generated from `server/seed/library/*.json` and `shared/lookups.ts` by `npm run 
 | Certifications | 39 | Library → Certifications |
 | Observed behaviours | 25 | Library → Observed behaviours |
 | Risk and opportunity rules | 36 | Library → Risk rules |
+| Value assumptions | 17 | Library → Value assumptions, Value page |
+| KPI catalogue | 205 KPIs (read-only reference) | Value → KPI scorecard |
 
 ## Dropdown lists
 
@@ -86,6 +90,8 @@ Lists marked *suggest* are offered as suggestions on free-text fields (organisat
 | **Risk severity** `riskSeverity` | Sort order: High 1, Medium 2, Low 3, Opportunity 4. | High · Medium · Low · Opportunity |
 | **Risk panel** `riskPanel` | Where a rule is shown on the dashboard. | Skill Gap Risks · Capability and Behaviour Risks · Development Plan Risks |
 | **Risk area** `riskArea` |  | Capability · Behaviour · Development Plan · Assessment · Group View |
+| **Value assumption group** `valueGroup` | Where an assumption is used on the Value & ROI page. | Cost rate · Benefit model · Adjustment · Display |
+| **Value assumption basis** `valueBasis` | How solid a value is. | Fact · Estimate · Assumption · Client data |
 | **Risk applies to** `riskAppliesTo` |  | Individual and Group · Group |
 | **Source** `source` | Where a record came from. The client cannot use the app, so most of their input arrives by email or Excel and is typed in by us. | Direct entry · Email from client · Excel from client · Meeting / interview · Phone call · LMS / platform export · Trainer sheet · Imported |
 
@@ -1542,6 +1548,284 @@ Checked on every person page, on **Risks** and in the export (sheet Risk_Flags).
 | `R34` | **Team at risk** | High | Skill Gap Risks | This share or more of a line manager's team (3+ people) has a critical skill gap | 0.5 share of team | Review the team's development plan with the line manager and consider team-wide training | Department Head |
 | `R35` | **Section at risk** | High | Skill Gap Risks | This share or more of a section (3+ people) has a critical skill gap | 0.5 share of section | Prioritise the section in the Academy training calendar | Division Head and Academy |
 | `R36` | **Organisation-wide skill gap** | High | Skill Gap Risks | This share or more of assessed employees is below required on the same skill | 0.5 share of employees | Commission a group-wide training programme for that skill | Academy and Vice President |
+
+## Value assumptions
+
+Rates behind the Value & ROI page ([VALUE.md](VALUE.md)). *Basis*: Fact = sourced figure, Estimate = derived from sourced figures, Assumption = placeholder to replace with the client figure.
+
+| Code | Assumption | Value | Unit | Basis | Source |
+| --- | --- | ---: | --- | --- | --- |
+| `CURRENCY` | **Display currency (units per US$)** | 1 | USD | Assumption | Amounts are entered in US$. Set the rate and the currency code (e.g. 3.6725 and AED) to show every figure in another currency. |
+| `COST_LEARNING_HOUR` | **Training cost per learning hour** | 165 | US$ per hour | Fact | ATD State of the Industry 2025 (2024 data): cost per learning hour used US$165 (td.org) |
+| `COACH_RATE` | **Coaching cost per hour (preparation, session and reporting)** | 150 | US$ per hour | Estimate | Coaching at about US$1,800–4,500 per employee per year (BetterUp, third-party estimate, low confidence) over roughly 12–30 coaching hours |
+| `CERT_EXAM` | **Certification exam fee** | 999 | US$ per exam | Fact | GIAC exam price 2025 (giac.org/pricing) |
+| `LAB_SEAT` | **Hands-on lab seat** | 2500 | US$ per person per year | Fact | Hack The Box Enterprise listed tier US$2,500 per seat per year (hackthebox.com/pricing) |
+| `ASSESS_PER_PERSON` | **Assessment and readiness reporting** | 450 | US$ per person per cycle | Estimate | Quarterly Readiness Report package US$12k–20k per year for a 36-person team (research, part 6.2) |
+| `PLATFORM_FEE` | **Platform and executive dashboard** | 35000 | US$ per client per year | Estimate | Executive Cyber Workforce Dashboard package US$25k–45k per year (research, part 6.2); Immersive median US$44,250 (Vendr) |
+| `INCLUDE_TIME` | **Count participants' time as a cost** | 1 | 1 = yes, 0 = no | Assumption | Phillips ROI methodology counts participants' time away from work as a programme cost |
+| `LOADED_SALARY` | **Loaded annual cost per employee** | 95000 | US$ per year | Assumption | Placeholder: replace with the client's average salary plus benefits for the people in scope (research, part 7 #3: salary band is not in the data model yet) |
+| `WORK_HOURS` | **Working hours per year** | 1720 | hours | Assumption | Standard full-time year net of leave |
+| `COMPETENCE_VALUE` | **Value of full role competence (share of loaded cost)** | 1 | share (1 = 100%) | Assumption | Competency-based utility analysis (Phillips): one percentage point of role readiness is worth one percent of the role's loaded cost per year |
+| `HIRE_COST` | **External hire or replacement cost per role** | 28500 | US$ per hire | Assumption | Placeholder: about 30% of the loaded cost (agency fee, vacancy and ramp-up). Replace with the client's cost per hire (research, part 7 #11) |
+| `INTERNAL_FILL` | **Share of ready people who fill a role internally within 12 months** | 0.5 | share | Assumption | Placeholder: confirm with the client's succession plan |
+| `ATTRITION` | **Baseline annual attrition** | 0.15 | share per year | Assumption | Placeholder: replace with the client's attrition for these roles (HRIS) |
+| `ATTRITION_CUT` | **Attrition reduction for programme participants** | 0.2 | relative share | Assumption | LinkedIn Workplace Learning Report 2025: learning is the #1 retention strategy (qualitative); no published effect size. Replace with measured retention once 12 months of data exist (KPI K032) |
+| `ATTRIBUTION` | **Share of improvement attributed to the programme** | 0.5 | share | Assumption | Phillips ROI isolation step: credit the programme with only part of the measured change |
+| `CONFIDENCE` | **Confidence in the estimates** | 0.8 | share | Assumption | Phillips ROI confidence adjustment |
+
+## KPI catalogue
+
+205 KPIs from the market research, stored in `server/seed/library/kpiCatalogue.json`. *Available* is the research's own assessment of the data model; the Value page calculates every one it can.
+
+| Audience | KPIs | Available today | Partly | Not yet |
+| --- | ---: | ---: | ---: | ---: |
+| Board/CEO | 11 | 5 | 4 | 2 |
+| CISO | 17 | 3 | 2 | 12 |
+| CHRO | 12 | 6 | 3 | 3 |
+| L&D | 20 | 15 | 1 | 4 |
+| CFO | 8 | 0 | 1 | 7 |
+| Compliance | 16 | 5 | 11 | 0 |
+| Line manager | 9 | 9 | 0 | 0 |
+| Individual | 8 | 8 | 0 | 0 |
+| Coach/consultant (internal) | 10 | 7 | 1 | 2 |
+| Programme/account | 8 | 6 | 1 | 1 |
+| Assessment quality | 7 | 6 | 1 | 0 |
+| Predictive | 10 | 6 | 3 | 1 |
+| Department - SOC | 3 | 0 | 3 | 0 |
+| Department - Threat intelligence | 3 | 0 | 3 | 0 |
+| Department - Incident response | 3 | 0 | 3 | 0 |
+| Department - AppSec/DevSecOps | 3 | 0 | 3 | 0 |
+| Department - Red team/Offensive | 3 | 0 | 3 | 0 |
+| Department - Cloud & infra security | 3 | 0 | 3 | 0 |
+| Department - OT/ICS security | 3 | 0 | 3 | 0 |
+| Department - IAM | 3 | 0 | 3 | 0 |
+| Department - GRC | 3 | 0 | 3 | 0 |
+| Department - Business continuity | 3 | 0 | 3 | 0 |
+| Department - Security architecture | 3 | 0 | 3 | 0 |
+| Department - Security awareness | 3 | 0 | 3 | 0 |
+| Department - Security leadership | 3 | 0 | 3 | 0 |
+| Department - IT operations | 3 | 0 | 3 | 0 |
+| Department - Engineering | 3 | 0 | 3 | 0 |
+| Department - Data | 3 | 0 | 3 | 0 |
+| Department - Finance | 3 | 0 | 3 | 0 |
+| Department - HR | 3 | 0 | 3 | 0 |
+| Department - Sales | 3 | 0 | 3 | 0 |
+| Department - Customer service | 3 | 0 | 3 | 0 |
+| Department - Supply chain | 3 | 0 | 3 | 0 |
+| Department - Manufacturing | 3 | 0 | 3 | 0 |
+| Department - Legal | 3 | 0 | 3 | 0 |
+
+<details><summary>All KPIs</summary>
+
+| ID | KPI | Audience | Formula | Available |
+| --- | --- | --- | --- | --- |
+| K001 | Overall role readiness % | Board/CEO | weighted avg role readiness % (H3/M2/L1) across employees | Yes |
+| K002 | Critical gap exposure | Board/CEO | count(ratings where priority=H and level<required) | Yes |
+| K003 | Bench strength ratio | Board/CEO | ready-now+ready-6-12m successors / critical roles | Partly |
+| K004 | Succession coverage % | Board/CEO | critical roles with >=1 successor readiness>=80% / critical roles | Partly |
+| K005 | Key-person risk count | Board/CEO | count(competencies where #employees at >=required level <=1) | Yes |
+| K006 | Return on development spend | Board/CEO | (monetised benefit - cost)/cost (Phillips) | No |
+| K007 | Compliance training status | Board/CEO | mandatory completions in-date / required | Partly |
+| K008 | Net readiness change per cycle | Board/CEO | readiness_end - readiness_baseline | Yes |
+| K009 | Capability vs threat alignment | Board/CEO | share of threat-mapped competencies at required level | No |
+| K010 | Workforce risk index | Board/CEO | weighted(critical gaps, SPOF, expiry, attrition risk) | Partly |
+| K011 | NICE work-role coverage % | CISO | work roles with >=1 qualified person / roles needed | No |
+| K012 | ECSF profile coverage % | CISO | profiles with qualified person / profiles needed | No |
+| K013 | Critical-skill coverage per shift | CISO | shifts with >=1 qualified per critical skill / shifts | No |
+| K014 | SPOF competencies (cyber) | CISO | as Key-person risk, scoped to security | Yes |
+| K015 | IR readiness score | CISO | avg readiness of IR roles on IR competencies x exercise pass | Partly |
+| K016 | Certification coverage % | CISO | valid required certs / required certs | Partly |
+| K017 | Certification expiry risk (90d) | CISO | count(expiry within 90 days) | Yes |
+| K018 | Skills uplift vs MTTD | CISO | corr(readiness change, MTTD change) | No |
+| K019 | Skills uplift vs MTTR | CISO | corr(readiness change, MTTR change) | No |
+| K020 | Escalation accuracy uplift | CISO | false-escalation rate before vs after | No |
+| K021 | Phishing click rate vs training | CISO | clicks/simulated emails | No |
+| K022 | Audit findings related to competence | CISO | count(findings tagged competence) | No |
+| K023 | Vuln remediation time vs AppSec skill | CISO | corr(AppSec readiness, mean remediation days) | No |
+| K024 | MSSP dependency index | CISO | MSSP-covered competencies / required competencies | No |
+| K025 | Hire vs upskill cost ratio | CISO | cost to upskill to ready / cost to hire | No |
+| K026 | Exercise pass rate | CISO | passed exercises / exercises | No |
+| K027 | Internal mobility rate | CHRO | internal moves / headcount | No |
+| K028 | Promotion readiness count | CHRO | count(next-role readiness>=80%) | Yes |
+| K029 | Time-to-readiness (actual) | CHRO | median(date ready - enrol date) | Yes |
+| K030 | HiPo share (observation) | CHRO | count(potential=high)/observed | Yes |
+| K031 | Retention risk flag | CHRO | rule: at-risk notes + overdue plan + low progress | Partly |
+| K032 | Retention of programme participants | CHRO | participants still employed 12m / participants | No |
+| K033 | Development access equity | CHRO | training hours per head by group / overall | No |
+| K034 | Succession pipeline depth | CHRO | count(successors by band) | Partly |
+| K035 | Flight risk among key persons | CHRO | SPOF persons with retention flag | Partly |
+| K036 | Engagement proxy | CHRO | weighted(attendance%, plan progress, coaching attendance) | Yes |
+| K037 | Career path clarity % | CHRO | employees with next role + IDP / employees | Yes |
+| K038 | 9-box distribution | CHRO | count by readiness x potential | Yes |
+| K039 | Kirkpatrick L1 reaction score | L&D | avg post-course rating | No |
+| K040 | Kirkpatrick L2 learning gain | L&D | post score - pre score | Partly |
+| K041 | Kirkpatrick L3 behaviour change | L&D | obs score trend + manager validation trend after course | Yes |
+| K042 | Kirkpatrick L4 results | L&D | ops KPI delta for trained teams | No |
+| K043 | Phillips ROI % | L&D | (benefit-cost)/cost*100 | No |
+| K044 | Competency lift per training hour | L&D | Δlevel / training hours | Yes |
+| K045 | Cost per competency point | L&D | cost / Σ level gained | No |
+| K046 | Training completion rate | L&D | completed/enrolled | Yes |
+| K047 | Attendance rate | L&D | avg attendance % | Yes |
+| K048 | No-show rate | L&D | no-shows/registered | Yes |
+| K049 | Course effectiveness index | L&D | avg Δlevel on linked competencies for attendees vs non-attendees | Yes |
+| K050 | Trainer effectiveness | L&D | avg Δlevel by trainer | Yes |
+| K051 | Observation trajectory slope | L&D | slope of obs score vs day | Yes |
+| K052 | Training hours per employee | L&D | Σ hours / headcount | Yes |
+| K053 | Plan adherence % | L&D | actions completed by planned date / due actions | Yes |
+| K054 | Overdue action count | L&D | count(status<>done and planned<today) | Yes |
+| K055 | Blended mix ratio | L&D | hours by action type / total | Yes |
+| K056 | Learning plan segment progress S1-S5 | L&D | segments completed / 5 | Yes |
+| K057 | Cost per participant | CFO | total cost / participants | No |
+| K058 | Cost per readiness point | CFO | cost / Σ readiness pp gained | No |
+| K059 | Cost avoided via internal fill | CFO | internal fills * (external hire cost - upskill cost) | No |
+| K060 | Contractor/MSSP spend avoided | CFO | Σ replaced external days * rate | No |
+| K061 | Budget utilisation % | CFO | spent / budget | No |
+| K062 | Spend per employee vs benchmark | CFO | spend per head / benchmark | No |
+| K063 | Cost per learning hour | CFO | cost / hours | Partly |
+| K064 | Certification spend per pass | CFO | cert cost / passes | No |
+| K065 | Audit evidence pack completeness - ISO 27001 cl.7.2 | Compliance | in-scope persons with complete verified evidence / in-scope persons | Partly |
+| K066 | Audit evidence pack completeness - NIS2 Art.20/21 | Compliance | in-scope persons with complete verified evidence / in-scope persons | Partly |
+| K067 | Audit evidence pack completeness - DORA Art.13(6) | Compliance | in-scope persons with complete verified evidence / in-scope persons | Partly |
+| K068 | Audit evidence pack completeness - PCI DSS 12.6 | Compliance | in-scope persons with complete verified evidence / in-scope persons | Partly |
+| K069 | Audit evidence pack completeness - SOC 2 CC1.4 | Compliance | in-scope persons with complete verified evidence / in-scope persons | Partly |
+| K070 | Audit evidence pack completeness - NERC CIP-004 | Compliance | in-scope persons with complete verified evidence / in-scope persons | Partly |
+| K071 | Audit evidence pack completeness - HIPAA 164.308(a)(5) | Compliance | in-scope persons with complete verified evidence / in-scope persons | Partly |
+| K072 | Audit evidence pack completeness - GDPR Art.39 | Compliance | in-scope persons with complete verified evidence / in-scope persons | Partly |
+| K073 | Audit evidence pack completeness - EU AI Act Art.4 | Compliance | in-scope persons with complete verified evidence / in-scope persons | Partly |
+| K074 | Audit evidence pack completeness - UAE IA / NCA ECC | Compliance | in-scope persons with complete verified evidence / in-scope persons | Partly |
+| K075 | Evidence completeness % | Compliance | ratings with >=1 evidence / ratings | Yes |
+| K076 | Evidence verified % | Compliance | verified/total evidence | Yes |
+| K077 | Mandatory training in-date % | Compliance | in-date/required | Partly |
+| K078 | Cert validity % | Compliance | valid/held | Yes |
+| K079 | Audit trail coverage | Compliance | rows with audit trail / rows | Yes |
+| K080 | Evidence age | Compliance | median days since evidence date | Yes |
+| K081 | Team gap heatmap | Line manager | matrix person x competency of (required-level) | Yes |
+| K082 | Stretch candidates | Line manager | readiness>=90% current role and next-role >=60% | Yes |
+| K083 | Validation workload | Line manager | count(pending manager validations) | Yes |
+| K084 | Monthly validated progress | Line manager | avg validation score per month | Yes |
+| K085 | Manager vs assessor agreement | Line manager | % ratings within ±0 levels manager vs consultant | Yes |
+| K086 | Rejected / needs-evidence rate | Line manager | rejected+needs evidence / validations | Yes |
+| K087 | Team readiness trend | Line manager | team avg readiness over time | Yes |
+| K088 | Coaching participation | Line manager | sessions held/planned | Yes |
+| K089 | My role readiness % | Individual | weighted readiness | Yes |
+| K090 | My next-role readiness % | Individual | next-role readiness | Yes |
+| K091 | My development velocity | Individual | Δlevels per month | Yes |
+| K092 | My plan progress | Individual | avg progress % | Yes |
+| K093 | My certifications timeline | Individual | list | Yes |
+| K094 | My coaching history | Individual | sessions, actions | Yes |
+| K095 | My top strengths | Individual | competencies level>required | Yes |
+| K096 | My self vs validated calibration | Individual | avg(self-validated) | Yes |
+| K097 | Coach effort hours | Coach/consultant (internal) | Σ prep+session+report minutes/60 | Yes |
+| K098 | Minutes per competency point | Coach/consultant (internal) | coaching minutes / Δlevels of coachees | Yes |
+| K099 | Coaching cost per point | Coach/consultant (internal) | minutes*rate / Δlevels | No |
+| K100 | Coach effectiveness | Coach/consultant (internal) | avg readiness Δ of coachees | Yes |
+| K101 | Coaching cadence adherence | Coach/consultant (internal) | sessions within planned interval / sessions | Yes |
+| K102 | Prep/report to session ratio | Coach/consultant (internal) | (prep+report)/session minutes | Yes |
+| K103 | Staff utilisation | Coach/consultant (internal) | billable hours / available | No |
+| K104 | Data quality score | Coach/consultant (internal) | non-null required fields / required | Yes |
+| K105 | Data timeliness | Coach/consultant (internal) | median days event->entry | Yes |
+| K106 | Enrolment funnel | Programme/account | nominated>enrolled>assessed>plan>active>completed | Yes |
+| K107 | Programme progress vs plan | Programme/account | actual milestones / planned | Yes |
+| K108 | Cohort comparison | Programme/account | readiness Δ by batch | Yes |
+| K109 | Baseline vs re-assessment uplift | Programme/account | avg(level_re - level_base) | Yes |
+| K110 | % moving up a readiness band | Programme/account | persons with band up / persons | Yes |
+| K111 | Renewal health score | Programme/account | weighted(uplift, engagement, exec views, NPS) | Partly |
+| K112 | Sponsor report engagement | Programme/account | report views by sponsor | No |
+| K113 | Gap closure rate | Programme/account | gaps closed / baseline gaps | Yes |
+| K114 | Over/under-confidence index | Assessment quality | avg(self - validated) per person/competency | Yes |
+| K115 | Inter-rater reliability | Assessment quality | Cohen's kappa / ICC between raters | Yes |
+| K116 | Rating distribution | Assessment quality | histogram of levels | Yes |
+| K117 | Assessment coverage % | Assessment quality | rated required / required | Yes |
+| K118 | Assessment recency | Assessment quality | median days since last rating | Yes |
+| K119 | 360 response rate | Assessment quality | responses/invites | Partly |
+| K120 | Technical test vs rating gap | Assessment quality | avg(test-derived level - rated level) | Yes |
+| K121 | Time-to-ready forecast | Predictive | extrapolate velocity to target | Yes |
+| K122 | Probability of target by date | Predictive | survival/logistic model | Yes |
+| K123 | At-risk learners | Predictive | rule/model: low velocity + overdue + at-risk notes | Yes |
+| K124 | Next best development action | Predictive | rank actions by expected Δ on largest weighted gap | Yes |
+| K125 | Skills supply vs demand forecast | Predictive | projected qualified headcount vs demand | No |
+| K126 | Scenario: attrition of key persons | Predictive | recompute coverage without person | Yes |
+| K127 | Skills half-life tracker | Predictive | time until competency rating drops/obsolete | Partly |
+| K128 | Peer benchmark percentile | Predictive | client score percentile among anonymised clients | Partly |
+| K129 | AI-skill readiness | Predictive | readiness on AI competencies | Partly |
+| K130 | Cloud-security readiness | Predictive | readiness on cloud competencies | Yes |
+| K131 | SOC: Alert triage accuracy | Department - SOC | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K132 | SOC: Detection engineering coverage | Department - SOC | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K133 | SOC: Shift skill coverage | Department - SOC | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K134 | Threat intelligence: Intel requirement coverage | Department - Threat intelligence | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K135 | Threat intelligence: Analytic writing quality | Department - Threat intelligence | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K136 | Threat intelligence: ATT&CK mapping proficiency | Department - Threat intelligence | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K137 | Incident response: IR playbook proficiency | Department - Incident response | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K138 | Incident response: Tabletop pass rate | Department - Incident response | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K139 | Incident response: Forensics coverage | Department - Incident response | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K140 | AppSec/DevSecOps: Secure coding proficiency | Department - AppSec/DevSecOps | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K141 | AppSec/DevSecOps: Developer AppSec training coverage | Department - AppSec/DevSecOps | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K142 | AppSec/DevSecOps: Vuln reintroduction rate | Department - AppSec/DevSecOps | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K143 | Red team/Offensive: Offensive skill depth | Department - Red team/Offensive | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K144 | Red team/Offensive: Exercise objective success | Department - Red team/Offensive | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K145 | Red team/Offensive: Cert coverage (OSCP/GPEN) | Department - Red team/Offensive | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K146 | Cloud & infra security: Cloud platform coverage | Department - Cloud & infra security | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K147 | Cloud & infra security: IaC security proficiency | Department - Cloud & infra security | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K148 | Cloud & infra security: Misconfig remediation time | Department - Cloud & infra security | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K149 | OT/ICS security: OT protocol proficiency | Department - OT/ICS security | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K150 | OT/ICS security: IEC 62443 competence coverage | Department - OT/ICS security | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K151 | OT/ICS security: OT incident drill readiness | Department - OT/ICS security | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K152 | IAM: IAM platform proficiency | Department - IAM | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K153 | IAM: Access review quality | Department - IAM | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K154 | IAM: PAM skill coverage | Department - IAM | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K155 | GRC: Framework expertise coverage | Department - GRC | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K156 | GRC: Audit finding closure | Department - GRC | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K157 | GRC: Risk assessment proficiency | Department - GRC | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K158 | Business continuity: BCP exercise participation | Department - Business continuity | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K159 | Business continuity: Crisis role coverage | Department - Business continuity | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K160 | Business continuity: BIA proficiency | Department - Business continuity | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K161 | Security architecture: Architecture review proficiency | Department - Security architecture | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K162 | Security architecture: Zero-trust skill coverage | Department - Security architecture | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K163 | Security architecture: Design review throughput | Department - Security architecture | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K164 | Security awareness: Phish-prone % trend | Department - Security awareness | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K165 | Security awareness: Awareness completion | Department - Security awareness | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K166 | Security awareness: Report rate of simulations | Department - Security awareness | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K167 | Security leadership: Leadership competency readiness | Department - Security leadership | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K168 | Security leadership: Board communication skill | Department - Security leadership | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K169 | Security leadership: Successor readiness CISO | Department - Security leadership | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K170 | IT operations: Platform certification coverage | Department - IT operations | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K171 | IT operations: Change success vs skill | Department - IT operations | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K172 | IT operations: On-call skill coverage | Department - IT operations | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K173 | Engineering: Tech stack proficiency | Department - Engineering | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K174 | Engineering: Code review skill coverage | Department - Engineering | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K175 | Engineering: Onboarding time-to-productivity | Department - Engineering | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K176 | Data: Data tool proficiency | Department - Data | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K177 | Data: Data governance competence | Department - Data | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K178 | Data: ML ops coverage | Department - Data | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K179 | Finance: Regulatory finance competence | Department - Finance | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K180 | Finance: Systems proficiency (ERP) | Department - Finance | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K181 | Finance: Controls training in-date | Department - Finance | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K182 | HR: HR analytics competence | Department - HR | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K183 | HR: Employment law training in-date | Department - HR | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K184 | HR: HRIS proficiency | Department - HR | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K185 | Sales: Product knowledge certification | Department - Sales | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K186 | Sales: Sales methodology proficiency | Department - Sales | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K187 | Sales: Ramp time | Department - Sales | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K188 | Customer service: Product knowledge score | Department - Customer service | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K189 | Customer service: QA score vs competence | Department - Customer service | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K190 | Customer service: Time to proficiency new agents | Department - Customer service | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K191 | Supply chain: Planning tool proficiency | Department - Supply chain | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K192 | Supply chain: Supplier risk competence | Department - Supply chain | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K193 | Supply chain: Cross-skilling ratio | Department - Supply chain | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K194 | Manufacturing: Skills matrix coverage per line | Department - Manufacturing | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K195 | Manufacturing: Operator qualification in-date | Department - Manufacturing | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K196 | Manufacturing: Cross-training index | Department - Manufacturing | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K197 | Legal: Regulatory knowledge coverage | Department - Legal | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K198 | Legal: Contract tool proficiency | Department - Legal | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K199 | Legal: Privacy law training in-date | Department - Legal | share of people/roles at required level for the relevant competencies (or metric delta where operational) | Partly |
+| K200 | Readiness band distribution | Board/CEO | count by band (Ready/6-12m/Growing/Needs support) | Yes |
+| K201 | Exceeds-role competency count | Line manager | count(level>required) | Yes |
+| K202 | Training-to-need match % | L&D | training hours on gap competencies / total hours | Yes |
+| K203 | Certification pass rate | CISO | first-attempt passes / attempts | Yes |
+| K204 | Coaching action completion | Coach/consultant (internal) | action items closed / raised | Partly |
+| K205 | Observed behaviour average by competency | L&D | avg obs score per behaviour | Yes |
+
+</details>
 
 ## Starter library (demos only)
 

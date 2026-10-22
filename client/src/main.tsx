@@ -11,6 +11,9 @@ import Session from './pages/Session'
 import Library from './pages/Library'
 import Risks from './pages/Risks'
 import Roadmaps from './pages/Roadmaps'
+import Dashboard from './pages/Dashboard'
+import Teams from './pages/Teams'
+import Value from './pages/Value'
 import ExportPage from './pages/Export'
 
 function ThemeToggle() {
@@ -53,16 +56,19 @@ function Layout() {
       <header className="header"><div className="container">
         <Link className="brand" to="/"><span className="brand-mark"><Icon.logo /></span><span className="brand-name">Ballon TD</span><span className="brand-sub">Development records</span></Link>
         <nav className="nav">
+          <NavLink to="/dashboard" className={() => active('/dashboard')}>Dashboard</NavLink>
+          <NavLink to="/teams" className={() => active('/teams')}>Teams</NavLink>
           <NavLink to="/" className={() => active('/')}>People</NavLink>
           <NavLink to="/sessions" className={() => active('/sessions')}>Sessions</NavLink>
           <NavLink to="/roadmaps" className={() => active('/roadmaps')}>Roadmaps</NavLink>
           <NavLink to="/risks" className={() => active('/risks')}>Risks</NavLink>
+          <NavLink to="/value" className={() => active('/value')}>Value</NavLink>
           <NavLink to="/library" className={() => active('/library')}>Library</NavLink>
           <NavLink to="/export" className={() => active('/export')}>Export</NavLink>
         </nav>
         <div className="header-right">
           <button className="status-pill user-pill" onClick={() => setEditUser(true)} title="Change who is entering data">
-            <span className="status-dot" /><span>Entering as <span className="who">{user || '—'}</span></span>
+            <span className="status-dot" /><span><span className="label">Entering as </span><span className="who">{user || '—'}</span></span>
           </button>
           <ThemeToggle />
         </div>
@@ -74,6 +80,9 @@ function Layout() {
           <Route path="/sessions" element={<Sessions />} />
           <Route path="/sessions/:id" element={<Session />} />
           <Route path="/roadmaps" element={<Roadmaps />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/teams" element={<Teams />} />
+          <Route path="/value" element={<Value />} />
           <Route path="/risks" element={<Risks />} />
           <Route path="/library" element={<Library />} />
           <Route path="/library/:key" element={<Library />} />

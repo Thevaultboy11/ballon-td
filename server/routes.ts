@@ -12,6 +12,8 @@ import { SEVERITY_ORDER } from './lib/risks.ts'
 import { buildWorkbook } from './lib/export.ts'
 import { buildRoadmap, groupKey, rollup, type GroupBy } from './lib/roadmap.ts'
 import { buildRoadmapReport, teamRoadmaps } from './lib/roadmap-report.ts'
+import { dashboardView, personAnalysis } from './lib/dashboard.ts'
+import { computeValue } from './lib/value.ts'
 
 export function appRouter() {
   const r = Router()
@@ -266,6 +268,20 @@ export function appRouter() {
     if (req.query.recordId) where.recordId = req.query.recordId
     const rows = await prisma.changeLog.findMany({ where, orderBy: { at: 'desc' }, take: Math.min(Number(req.query.take) || 100, 1000) })
     res.json(rows)
+  })
+
+  // ---------------------------------------------------------------- manager dashboard (organisation, department, section, person)
+  r.get('/dashboard', async (req, res) => {
+    const q = (k: string) => (req.query[k] as string) || undefined
+    res.json(await dashboardView({ clientId: q('clientId'), department: q('department'), section: q('section') }))
+  })
+  r.get('/value', async (req, res) => {
+    res.json(await computeValue((req.query.clientId as string) || undefined))
+  })
+  r.get('/people/:id/analysis', async (req, res) => {
+    const a = await personAnalysis(req.params.id)
+    if (!a) throw new HttpError(404, `Person ${req.params.id} not found.`)
+    res.json(a)
   })
 
   // ---------------------------------------------------------------- roadmaps (person, team, manager report)

@@ -63,6 +63,8 @@ No gradients, glows or coloured shadows.
 | Timeline | Person → Roadmap | `.tl` swimlanes by month, today line in sky blue |
 | Journey strip | Roadmaps | `MiniRail`: ten blocks per person in a table row |
 | Print layout | Roadmap pages | `@media print` hides navigation and prints cards and colours as shown |
+| Dashboard, Teams, Analysis | Top navigation, Person → Analysis | `components/charts.tsx` (ring, donut, bar list, stacked bar, radar, line chart) and the heatmap, 9-box, department-card and critical-positions styles carried over from the stand-alone dashboard, recoloured to the palette |
+| Waterfall, break-even bar, KPI cards | Value | `.waterfall`, `.be-bar`, `.kpi-card` (top rule royal blue, orange or red by status) |
 | Severity tag | Everywhere a rule is shown | `Severity` in `components/ui.tsx` |
 | Suggest input | Grade, division, department, section | `SuggestInput` in `components/entity.tsx` (`<datalist>`) |
 

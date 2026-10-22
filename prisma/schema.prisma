@@ -338,6 +338,21 @@ model RiskRule {
   sortOrder       Int      @default(0)
 }
 
+/// Rates and assumptions behind the Value & ROI page (cost per learning hour, coaching rate, loaded salary …).
+/// Defaults come from server/seed/library/valueAssumptions.json with their source; edit per client.
+model ValueAssumption {
+  id        String  @id // VAL-0001
+  code      String  @unique // COST_LEARNING_HOUR, LOADED_SALARY …
+  name      String
+  group     String // lookup: valueGroup (Cost rate / Benefit model / Adjustment / Display)
+  value     Float
+  unit      String? // for CURRENCY: the currency code
+  basis     String // lookup: valueBasis (Fact / Estimate / Assumption / Client data)
+  source    String?
+  note      String?
+  sortOrder Int     @default(0)
+}
+
 // =====================================================================================
 //  ACTIVITY DATA
 // =====================================================================================

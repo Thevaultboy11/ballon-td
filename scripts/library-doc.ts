@@ -9,13 +9,14 @@ const DIR = path.join(ROOT, 'server', 'seed', 'library')
 const read = (f: string) => JSON.parse(fs.readFileSync(path.join(DIR, f), 'utf8'))
 const F = read('frameworks.json'), C = read('competencies.json').competencies as any[], B = read('behaviors.json').behaviors as any[]
 const R = read('roles.json'), K = read('catalogue.json'), O = read('observation.json'), RR = read('riskRules.json').riskRules as any[]
+const VA = read('valueAssumptions.json').assumptions as any[], KPI = read('kpiCatalogue.json').kpis as any[]
 
 const esc = (s: unknown) => String(s ?? '').replace(/\|/g, '\\|').replace(/\r?\n/g, ' ')
 const cut = (s: unknown, n = 160) => { const t = esc(s); return t.length > n ? `${t.slice(0, n - 1).trimEnd()}…` : t }
 const out: string[] = []
 const w = (s = '') => out.push(s)
 const compName = new Map<string, string>(C.map((c) => [c.code, c.name]))
-const SECTIONS = ['Totals', 'Dropdown lists', 'Frameworks and categories', 'Competencies', 'Level indicators', 'Role profiles', 'Role requirements', 'Courses and programmes', 'Lab collections', 'Certifications', 'Observed behaviours', 'Risk and opportunity rules', 'Starter library (demos only)']
+const SECTIONS = ['Totals', 'Dropdown lists', 'Frameworks and categories', 'Competencies', 'Level indicators', 'Role profiles', 'Role requirements', 'Courses and programmes', 'Lab collections', 'Certifications', 'Observed behaviours', 'Risk and opportunity rules', 'Value assumptions', 'KPI catalogue', 'Starter library (demos only)']
 const anchor = (h: string) => h.toLowerCase().replace(/[^a-z0-9 -]/g, '').replace(/ /g, '-')
 
 w('# Reference library')
@@ -45,6 +46,8 @@ w(`| Courses | ${K.courses.length + extraCourses} (${K.courses.length} catalogue
 w(`| Certifications | ${K.certifications.length} | Library → Certifications |`)
 w(`| Observed behaviours | ${O.parameters.length} | Library → Observed behaviours |`)
 w(`| Risk and opportunity rules | ${RR.length} | Library → Risk rules |`)
+w(`| Value assumptions | ${VA.length} | Library → Value assumptions, Value page |`)
+w(`| KPI catalogue | ${KPI.length} KPIs (read-only reference) | Value → KPI scorecard |`)
 w()
 
 // ------------------------------------------------------------------ lists
@@ -192,6 +195,33 @@ w()
 w('| Code | Rule | Severity | Panel | Condition | Threshold | Action | Owner |')
 w('| --- | --- | --- | --- | --- | --- | --- | --- |')
 for (const r of RR) w(`| \`${r.code}\` | **${esc(r.name)}** | ${r.severity} | ${esc(r.panel)} | ${esc(r.rule)} | ${r.threshold ?? '—'} ${esc(r.thresholdUnit ?? '')} | ${esc(r.executiveAction)} | ${esc(r.owner)} |`)
+w()
+
+w('## Value assumptions')
+w()
+w('Rates behind the Value & ROI page ([VALUE.md](VALUE.md)). *Basis*: Fact = sourced figure, Estimate = derived from sourced figures, Assumption = placeholder to replace with the client figure.')
+w()
+w('| Code | Assumption | Value | Unit | Basis | Source |')
+w('| --- | --- | ---: | --- | --- | --- |')
+for (const a of VA) w(`| \`${a.code}\` | **${esc(a.name)}** | ${a.value} | ${esc(a.unit)} | ${a.basis} | ${esc(a.source)} |`)
+w()
+
+w('## KPI catalogue')
+w()
+w(`${KPI.length} KPIs from the market research, stored in \`server/seed/library/kpiCatalogue.json\`. *Available* is the research's own assessment of the data model; the Value page calculates every one it can.`)
+w()
+const audiences = [...new Set(KPI.map((k) => k.audience))]
+w('| Audience | KPIs | Available today | Partly | Not yet |')
+w('| --- | ---: | ---: | ---: | ---: |')
+for (const a of audiences) { const ks = KPI.filter((k) => k.audience === a); w(`| ${esc(a)} | ${ks.length} | ${ks.filter((k) => k.availability === 'Yes').length} | ${ks.filter((k) => k.availability === 'Partly').length} | ${ks.filter((k) => k.availability === 'No').length} |`) }
+w()
+w('<details><summary>All KPIs</summary>')
+w()
+w('| ID | KPI | Audience | Formula | Available |')
+w('| --- | --- | --- | --- | --- |')
+for (const k of KPI) w(`| ${k.id} | ${esc(k.name)} | ${esc(k.audience)} | ${esc(k.formula)} | ${k.availability} |`)
+w()
+w('</details>')
 w()
 
 w('## Starter library (demos only)')

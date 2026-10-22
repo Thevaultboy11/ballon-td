@@ -9,12 +9,12 @@ const GROUPS: { label: string; keys: string[] }[] = [
   { label: 'Competency framework', keys: ['competencies', 'behaviors', 'categories', 'frameworks', 'parameters'] },
   { label: 'Job roles', keys: ['roles', 'requirements'] },
   { label: 'Catalogue', keys: ['courses', 'certifications'] },
-  { label: 'Risk & opportunity', keys: ['riskRules'] },
+  { label: 'Risk & value', keys: ['riskRules', 'valueAssumptions'] },
   { label: 'Dropdowns', keys: ['lookups'] },
 ]
 const FILTERS: Record<string, string[]> = {
   behaviors: ['competencyId'], requirements: ['jobRoleId', 'priority'], competencies: ['categoryId'], courses: ['type'],
-  certifications: ['track'], parameters: ['category'], riskRules: ['severity', 'panel'], programs: ['clientId'], roles: ['family'], categories: ['frameworkId'],
+  certifications: ['track'], parameters: ['category'], riskRules: ['severity', 'panel'], valueAssumptions: ['group', 'basis'], programs: ['clientId'], roles: ['family'], categories: ['frameworkId'],
 }
 
 export default function Library() {

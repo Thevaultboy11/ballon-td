@@ -293,6 +293,24 @@ export const ENTITIES: Entity[] = [
     orderBy: [{ sortOrder: 'asc' }], naturalKey: ['code'],
   },
 
+  {
+    key: 'valueAssumptions', model: 'valueAssumption', table: 'ValueAssumption', prefix: 'VAL', pad: 4,
+    label: 'Value assumption', plural: 'Value assumptions', kind: 'reference', title: '{name}', subtitle: '{value} {unit} · {basis}',
+    description: 'Rates and assumptions behind the Value & ROI page. Replace the ones marked Assumption with the client\'s own figures and set Basis to "Client data".',
+    fields: [
+      { name: 'code', label: 'Code', type: 'text', required: true, createOnly: true, help: 'The calculation reads the value by this code.' },
+      { name: 'name', label: 'Assumption', type: 'text', required: true },
+      { name: 'value', label: 'Value', type: 'number', required: true },
+      { name: 'unit', label: 'Unit', type: 'text', help: 'For CURRENCY, the currency code shown on the page (e.g. AED).' },
+      { name: 'group', label: 'Group', type: 'lookup', list: 'valueGroup', required: true },
+      { name: 'basis', label: 'Basis', type: 'lookup', list: 'valueBasis', required: true },
+      { name: 'source', label: 'Source', type: 'longtext', hideInTable: true },
+      { name: 'note', label: 'Note', type: 'longtext', hideInTable: true },
+      { name: 'sortOrder', label: 'Order', type: 'int', default: 0, hideInTable: true },
+    ],
+    orderBy: [{ sortOrder: 'asc' }], naturalKey: ['code'],
+  },
+
   // ================================================================== activity
   {
     key: 'employees', model: 'employee', table: 'Employee', prefix: 'EMP', pad: 4,
